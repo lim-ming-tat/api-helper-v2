@@ -1,0 +1,86 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "targetSessionVariable": "some data or value",
+
+        "responseBody" : {
+            "test": {
+                "case1": {
+                    "expected": "Source:\n{\n    \"description\": \"set sessionData to invalid\",\n    \"sessionName\": \"targetSessionVariable\",\n    \"dataType\": \"invalid\"\n}\n\nError Message:\n.saveMap\n  .dataType not supported"
+                },
+                "case2": {
+                    "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"sessionName\": \"targetSessionVariable\",\n    \"dataType\": \"object\",\n    \"dataValue\": \"object field value\"\n}\n\nError Message:\n.saveMap\n  required .objectPropertyName is missing"
+                },
+                "case3": {
+                    "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"sessionName\": \"targetSessionVariable\",\n    \"propertyName\": \"responseBody.sourceProperty\",\n    \"dataType\": \"object\"\n}\n\nError Message:\n.saveMap\n  required .objectPropertyName is missing"
+                },
+                "case4": {
+                    "expected": "Source:\n{\n    \"sessionName\": \"responseBodyIgnore\",\n    \"propertyName\": \"responseBodyIgnore\",\n    \"ignoreWhenNotExist\": false\n}\n\nError Message:\n.saveMap\n  .ignoreWhenNotExist set to false and property not found"
+                }
+            }
+        }
+    },
+
+    "apiParams": [
+        {
+            "description": "Test Case",
+        
+            "parametersMaps": [
+            ],
+
+            "parameters": { },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg",
+    
+            "saveMaps": [
+                {
+                    "description": "invalid dataType test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case1.expected"
+                },
+                {
+                    "description": "set sessionData to invalid",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "invalid"
+                },
+
+                {
+                    "description": "objectPropertyName not provided test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case2.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "object",
+                    "dataValue": "object field value"
+                },
+
+                {
+                    "description": "objectPropertyName not provided test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case3.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "propertyName": "responseBody.sourceProperty",
+                    "dataType": "object"
+                },
+
+                {
+                    "description": "ignoreWhenNotExist test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case4.expected"
+                },
+                {
+                    "sessionName": "responseBodyIgnore",
+                    "propertyName": "responseBodyIgnore",
+                    "ignoreWhenNotExist": false
+                }
+            ]
+        }
+    ]
+}

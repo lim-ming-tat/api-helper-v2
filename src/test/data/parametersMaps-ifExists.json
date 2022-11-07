@@ -1,0 +1,136 @@
+{
+    "description": "ifExists & ifNotExists",
+
+    "sessionData": {
+        "test": {
+            "case1a": {
+                "expected": true
+            },
+            "case1b": {
+                "expected": false
+            },
+            "case2a": {
+                "expected": false
+            },
+            "case2b": {
+                "expected": true
+            },
+            "case3a": {
+                "expected": true
+            },
+            "case3b": {
+                "expected": false
+            },
+            "case4a": {
+                "expected": false
+            },
+            "case4b": {
+                "expected": true
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "ifExists & ifNotExists Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "ifExists true test",
+                    "parameter": "sessionData.test.case1a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifExists:apiParam.parameters.addVersion:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifExists true expect false test",
+                    "parameter": "sessionData.test.case1b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifExists:apiParam.parameters.addVersion:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifExists false test",
+                    "parameter": "sessionData.test.case2a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifExists:apiParam.parameters.notExists:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifExists false expect false test",
+                    "parameter": "sessionData.test.case2b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifExists:apiParam.parameters.notExists:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+
+                {
+                    "description": "ifNotExists true test",
+                    "parameter": "sessionData.test.case3a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifNotExists:apiParam.parameters.notExists:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifNotExists true expect false test",
+                    "parameter": "sessionData.test.case3b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifNotExists:apiParam.parameters.notExists:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifNotExists false test",
+                    "parameter": "sessionData.test.case4a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifNotExists:apiParam.parameters.addVersion:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifNotExists false expect false test",
+                    "parameter": "sessionData.test.case4b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifNotExists:apiParam.parameters.addVersion:false:true}}",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+    
+            "parameters": {
+                "addVersion": true
+            },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

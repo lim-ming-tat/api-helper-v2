@@ -1,0 +1,246 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "responseBody": {
+            "sourceProperty": "some data",
+            "rawToken": "prefix_gateway=token_value;other_data;"
+        },
+
+        "test": {
+            "case1": {
+                "expected": "some value"
+            },
+            "case2": {
+                "expected": 123
+            },
+            "case3": {
+                "expected": 321
+            },
+            "case4": {
+                "expected": false
+            },
+            "case5": {
+                "expected": true
+            },
+            "case6": {
+                "expected": true
+            },
+            "case7": {
+                "expected": { "field1": "object field value" }
+            },
+            "case8": {
+                "expected": [ "array item" ]
+            },
+            "case9": {
+                "expected": { "field1": "some data" }
+            },
+            "case10": {
+                "expected": [ "some data" ]
+            },
+            "case11": {
+                "expected": "prefix_gateway=token_value;"
+            }
+        }
+    },
+
+    "apiParams": [
+        {
+            "description": "initialize variable through saveMap",
+        
+            "parametersMaps": [
+            ],
+
+            "parameters": { },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg",
+    
+            "saveMaps": [
+                {
+                    "description": "set string sessionData to string dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "string"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case1.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": "some value"
+                },
+
+                {
+                    "description": "set number sessionData to number dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "number"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case2.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": 123
+                },
+
+                {
+                    "description": "set sessionData to bigint",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "bigint"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case3.expected"
+                },
+                {
+                    "description": "set bigint sessionData to number dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": 321
+                },
+
+                {
+                    "description": "set boolean sessionData to boolean dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "booleanTrue"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case4.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": false
+                },
+
+                {
+                    "description": "set boolean sessionData to boolean dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "booleanFalse"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case5.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": true
+                },
+
+                {
+                    "description": "set undefined sessionData to boolean dataValue",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "undefined"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case6.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataValue": true
+                },
+
+                {
+                    "description": "add dataValue as object property",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "object"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case7.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "objectPropertyName": "field1",
+                    "dataType": "object",
+                    "dataValue": "object field value"
+                },
+
+                {
+                    "description": "push dataValue to array",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "array"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case8.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "array",
+                    "dataValue": "array item"
+                },
+
+
+
+                {
+                    "description": "add property as object property",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "object"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case9.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "propertyName": "responseBody.sourceProperty",
+                    "objectPropertyName": "field1",
+                    "dataType": "object"
+                },
+
+                {
+                    "description": "add property to array",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "array"
+                },
+                {
+                    "description": "set expected value",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case10.expected"
+                },
+                {
+                    "description": "execute test",
+                    "sessionName": "targetSessionVariable",
+                    "propertyName": "responseBody.sourceProperty",
+                    "dataType": "array"
+                },
+
+                {
+                    "description": "perfrom match on sourceData before assignment",
+                    "sessionName": "expected",
+                    "propertyName": "sessionData.test.case11.expected"
+                },
+                {
+                    "sessionName": "atmoToken",
+                    "propertyName": "responseBody.rawToken",
+                    "match": "^((prefix_.*?)=(.*?));"
+                },
+                {
+                    "description": "perfrom match on sourceData before assignment",
+                    "sessionName": "targetSessionVariable",
+                    "propertyName": "sessionData.atmoToken[0]"
+                }
+            ]
+        }
+    ]
+}

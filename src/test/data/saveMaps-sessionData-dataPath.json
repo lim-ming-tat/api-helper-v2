@@ -1,0 +1,184 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "targetSessionVariable": "some data or value",
+
+        "data": [
+            {
+                "session1": "session r1"
+            },
+            {
+                "session1": "session r2"
+            },
+            {
+                "session1": "session r3"
+            }
+        ],
+
+        "dataShort": [
+            {
+                "session1": "session r1"
+            }
+        ],
+
+        "responseBody" : {
+            "test": {
+                "case1": {
+                    "expected": {
+                        "arrayLength": 3,
+                        "fields": [ {"field2": true}, {"field2": false}, {"field2": false} ]
+                    }
+                },
+                "case2": {
+                    "expected": {
+                        "arrayLength": 3,
+                        "fields": [ {"fromParam": "param r1"}, {"fromParam": "param r2"}, {"fromParam": "param r3"} ]
+                    }
+                },
+                "case3": {
+                    "expected": {
+                        "arrayLength": 3,
+                        "fields": [ {"fromSession": "session r1"}, {"fromSession": "session r2"}, {"fromSession": "session r3"} ]
+                    }
+                },
+                "case4": {
+                    "expected": {
+                        "arrayLength": 3,
+                        "fields": [ {"fromSession": "session r1"}, {"fromSession": "session r1"}, {"fromSession": "session r1"} ]
+                    }
+                }
+            },
+
+            "data": [
+                {
+                    "field1": "description 1",
+                    "field2": true,
+                    "field3": 10
+                },
+                {
+                    "field1": "description 2",
+                    "field2": false,
+                    "field3": 20
+                },
+                {
+                    "field1": "description 3",
+                    "field2": false,
+                    "field3": 30
+                }
+            ]
+        }
+    },
+
+    "apiParams": [
+        {
+            "description": "initialize variable through saveMap",
+        
+            "parametersMaps": [
+            ],
+
+            "parameters": {
+                "data": [
+                    {
+                        "param1": "param r1"
+                    },
+                    {
+                        "param1": "param r2"
+                    },
+                    {
+                        "param1": "param r3"
+                    }
+                ]
+             },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg",
+    
+            "saveMaps": [
+                {
+                    "description": "save dataPath test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case1.expected"
+                },
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "selectedData",
+                    "dataPath": "responseBody.data"
+                },
+
+
+                {
+                    "description": "save dataPath with properties apiParam Map test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case2.expected"
+                },
+                {
+                    "description": "select properties",
+                    "sessionName": "selectedData",
+                    "dataPath": "responseBody.data",
+
+                    "properties": [
+                        {
+                            "propertyName": "field1",
+                            "objectPropertyName": "id"
+                        },
+                        {
+                            "propertyName": "field3",
+                            "objectPropertyName": "number"
+                        },
+                        {
+                            "propertyName": "apiParam.parameters.data[x].param1",
+                            "objectPropertyName": "fromParam"
+                        }
+                    ]
+                },
+
+
+                {
+                    "description": "save dataPath with properties sessionData map test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case3.expected"
+                },
+                {
+                    "description": "select properties",
+                    "sessionName": "selectedData",
+                    "dataPath": "responseBody.data",
+
+                    "properties": [
+                        {
+                            "propertyName": "field1",
+                            "objectPropertyName": "id"
+                        },
+                        {
+                            "propertyName": "sessionData.data[x].session1",
+                            "objectPropertyName": "fromSession"
+                        }
+                    ]
+                },
+
+
+                {
+                    "description": "save dataPath with properties sessionData less than record length test",
+                    "sessionName": "expected",
+                    "propertyName": "responseBody.test.case4.expected"
+                },
+                {
+                    "description": "select properties",
+                    "sessionName": "selectedData",
+                    "dataPath": "responseBody.data",
+
+                    "properties": [
+                        {
+                            "propertyName": "field1",
+                            "objectPropertyName": "id"
+                        },
+                        {
+                            "propertyName": "sessionData.dataShort[x].session1",
+                            "objectPropertyName": "fromSession"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

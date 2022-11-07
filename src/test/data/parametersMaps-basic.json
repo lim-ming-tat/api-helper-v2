@@ -1,0 +1,61 @@
+{
+    "description": "parametersMaps Basic Test",
+
+    "sessionData": {
+        "adminSessionName": "adminSession",
+
+        "sessionName": "adminSessionName"
+    },
+
+    "apiParams": [
+        {
+            "description": "basic maps",
+        
+            "parametersMaps": [
+                {
+                    "description": "map from sessionData and auto create target property",
+                    "parameter": "sessionData.adminSessionName",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "map from apiParam and auto create target property",
+                    "parameter": "apiParam.adminSessionName",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "map from apiParam and auto create target property",
+                    "parameter": "apiParam.adminSessionName",
+                    "targetProperty": [ "parameters.sessionName", "parameters.sessionName2" ]
+                },
+                {
+                    "description": "map from sessionData with dynamic name",
+                    "parameter": "sessionData.{{sessionData.sessionName}}",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "map from sessionData with multiple dynamic name",
+                    "parameter": "{{apiParam.dataPrefix}}.{{sessionData.sessionName}}",
+                    "targetProperty": "parameters.sessionName"
+                }
+            ],
+    
+            "adminSessionName": "adminSession",
+            "dataPrefix": "sessionData",
+
+            "parameters": { },
+    
+            "httpMethod": "GET",
+            "url": "{{sessionData.cmServer.baseUrl}}/api/apps/{{sessionData.appId}}/versions",
+        
+            "httpHeaders": {
+                "Accept": "application/json"
+            },
+        
+            "saveMaps": [],
+    
+            "nextHopOnly": false,
+            "nextHopParams": [],
+            "nextHopMaps": []
+        }
+    ]
+}

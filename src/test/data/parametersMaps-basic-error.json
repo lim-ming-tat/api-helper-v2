@@ -1,0 +1,49 @@
+{
+    "description": "ifEmpty",
+
+    "sessionData": {
+        "test": {
+            "case1": {
+                "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"{{invalidCommand}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  command not supported"
+            },
+            "case2": {
+                "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"sessionData.parameters.invalidData\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  parameter source is missing/undefined"
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "command Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "invalid command test",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{invalidCommand}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "invalid data source test",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "sessionData.parameters.invalidData",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+    
+            "parameters": {},
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

@@ -1,0 +1,859 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "test": {
+            "case1": {
+                "expected": "Source:\n{\n    \"paramTemplateName\": \"paramTemplate\",\n    \"dataPath\": \"notExists\",\n    \"parametersMaps\": [\n        {\n            \"description\": \"\",\n            \"parameter\": \"sessionData\",\n            \"targetProperty\": \"parameters.item\"\n        }\n    ]\n}\n\nError Message:\n.dataPath\n  .dataPath is missing/undefined"
+            },
+            "case2": {
+                "expected": "Source:\n{\n    \"paramTemplateName\": \"notExists\",\n    \"dataPath\": \"notExists\",\n    \"parametersMaps\": [\n        {\n            \"description\": \"\",\n            \"parameter\": \"sessionData\",\n            \"targetProperty\": \"parameters\"\n        }\n    ]\n}\n\nError Message:\n.paramTemplateName\n  .paramTemplateName is missing/undefined"
+            },
+            "case3": {
+                "expected": "Source:\n{\n    \"startsWith\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case4": {
+                "expected": "Source:\n{\n    \"startsWith\": \"some data\",\n    \"propertyName\": \"invalidName\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case5": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field3\",\n    \"hasProperty\": \"true\"\n}\n\nError Message:\n.hasProperty\n  .hasProperty must be a boolean"
+            },
+            "case6": {
+                "expected": "Source:\n{\n    \"hasProperty\": false\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case7": {
+                "expected": "Source:\n{\n    \"equal\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case8": {
+                "expected": "Source:\n{\n    \"propertyName\": \"invalidName\",\n    \"equal\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case9": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"equal\": {\n        \"propertyName\": \"invalidName\"\n    }\n}\n\nError Message:\n.propertyName\n  .equal.propertyName is missing/undefined"
+            },
+            "case10": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"equal\": {}\n}\n\nError Message:\n.propertyName|dataValue\n  .equal.propertyName and .equal.dataValue is missing/undefined"
+            },
+            "case11": {
+                "expected": "Source:\n{\n    \"notEqual\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case12": {
+                "expected": "Source:\n{\n    \"propertyName\": \"invalidName\",\n    \"notEqual\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case13": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"notEqual\": {\n        \"propertyName\": \"invalidName\"\n    }\n}\n\nError Message:\n.propertyName\n  .notEqual.propertyName is missing/undefined"
+            },
+            "case14": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"notEqual\": {}\n}\n\nError Message:\n.propertyName|dataValue\n  .notEqual.propertyName and .notEqual.dataValue is missing/undefined"
+            },
+            "case15": {
+                "expected": "Source:\n{\n    \"greaterThan\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case16": {
+                "expected": "Source:\n{\n    \"propertyName\": \"invalidName\",\n    \"greaterThan\": \"some data\"\n}\n\nError Message:\n.propertyName\n  .propertyName is missing/undefined"
+            },
+            "case17": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"greaterThan\": {\n        \"propertyName\": \"invalidName\"\n    }\n}\n\nError Message:\n.propertyName\n  .greaterThan.propertyName is missing/undefined"
+            },
+            "case18": {
+                "expected": "Source:\n{\n    \"propertyName\": \"field1\",\n    \"greaterThan\": {}\n}\n\nError Message:\n.propertyName|dataValue\n  .greaterThan.propertyName and .greaterThan.dataValue is missing/undefined"
+            },
+            "case19": {
+                "expected": "Source:\n{\n    \"conditions\": true,\n    \"filters\": []\n}\n\nError Message:\n.conditions\n  .conditions must be a string"
+            },
+            "case20": {
+                "expected": "Source:\n{\n    \"conditions\": \"invalidCondition\",\n    \"filters\": []\n}\n\nError Message:\n.conditions\n  .conditions must be (and|or)"
+            },
+            "case21": {
+                "expected": "Source:\n{\n    \"conditions\": \"or\",\n    \"filters\": \"\"\n}\n\nError Message:\n.filters\n  .filters must be an array"
+            } 
+        },
+
+        "data": [
+            {
+                "field1": "data 1"
+            }
+        ]
+    },
+
+    "YapiParams": [
+        {
+            "description": "nextHopMaps with missing/undefined .dataPath - not required",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "notExists",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters.item"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        }
+    ],
+    "apiParams": [
+        {
+            "description": "nextHopMaps with missing/undefined .paramTemplateName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "notExists",
+                    "dataPath": "notExists",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter with undefined .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case3.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "startsWith": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter with missing .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case4.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "startsWith": "some data",
+                        "propertyName": "invalidName"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.hasProperty must be boolean",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case5.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field3",
+                        "hasProperty": "true"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.hasProperty with missing .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case6.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "hasProperty": false
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.equal with undefined .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "equal": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.equal with invalid .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case8.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "invalidName",
+                        "equal": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.equal with invalid .equal.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case9.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "equal": {
+                            "propertyName": "invalidName"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.equal with missing .equal.propertyName and .equal.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case10.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "equal": {
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+
+        {
+            "description": "nextHopMaps dataFilter.notEqual with undefined .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case11.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "notEqual": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.notEqual with invalid .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case12.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "invalidName",
+                        "notEqual": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.notEqual with invalid .notEqual.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case13.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "notEqual": {
+                            "propertyName": "invalidName"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.notEqual with missing .notEqual.propertyName and .notEqual.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case14.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "notEqual": {
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+
+        {
+            "description": "nextHopMaps dataFilter.greaterThan with undefined .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case15.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "greaterThan": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.greaterThan with invalid .propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case16.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "invalidName",
+                        "greaterThan": "some data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.greaterThan with invalid .greaterThan.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case17.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "greaterThan": {
+                            "propertyName": "invalidName"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.greaterThan with missing .greaterThan.propertyName and .greaterThan.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case18.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "greaterThan": {
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+
+        {
+            "description": "nextHopMaps dataFilter.conditions must be a string",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case19.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "conditions": true,
+                        "filters": [
+                        ]
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.conditions must be a (and|or))",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case20.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "conditions": "invalidCondition",
+                        "filters": [
+                        ]
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataFilter.filters is missing/undefined",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case21.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.data",
+
+                    "dataFilter": {
+                        "conditions": "or",
+                        "filters": ""
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        }
+    ]
+}

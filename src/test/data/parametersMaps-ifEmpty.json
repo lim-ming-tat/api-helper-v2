@@ -1,0 +1,81 @@
+{
+    "description": "ifEmpty",
+
+    "sessionData": {
+        "test": {
+            "case1a": {
+                "expected": true
+            },
+            "case1b": {
+                "expected": false
+            },
+            "case2a": {
+                "expected": false
+            },
+            "case2b": {
+                "expected": true
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "ifEmpty Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "ifEmpty true test",
+                    "parameter": "sessionData.test.case1a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.emptyString:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifEmpty true expect false test",
+                    "parameter": "sessionData.test.case1b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.emptyString:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifEmpty false test",
+                    "parameter": "sessionData.test.case2a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.notEmptyString:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifEmpty false expected true test",
+                    "parameter": "sessionData.test.case2b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.notEmptyString:false:true}}",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+    
+            "parameters": {
+                "emptyString": "",
+                "notEmptyString": "not-Empty-String",
+                "wrongType": false
+            },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

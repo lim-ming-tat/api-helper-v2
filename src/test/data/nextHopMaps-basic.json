@@ -1,0 +1,1374 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "test": {
+            "case1": {
+                "expected": {
+                    "arrayLength": 2,
+                    "fields": [
+                        {
+                            "description": "nextHop command",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": { "field1": "data 1" }
+                            }
+                        },
+                        {
+                            "description": "nextHop command",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": { "field1": "data 2" }
+                            }
+                        }
+                    ]
+                }
+            },
+
+            "case2": {
+                "expected": {
+                    "arrayLength": 1,
+                    "fields": [
+                        {
+                            "description": "nextHop command",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": { "field1": "data 1" }
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case3": {
+                "expected": {
+                    "arrayLength": 4,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": {
+                                    "field1": "data 1"
+                                }
+                            }
+                        },
+                        {
+                            "description": "nextHop command 2",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": {
+                                    "field1": "data 1"
+                                }
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": {
+                                    "field1": "data 2"
+                                }
+                            }
+                        },
+                        {
+                            "description": "nextHop command 2",
+                            "parameters": {
+                                "parentParam1": "parent param1",
+                                "parentParam2": "parent param2",
+                                "item": {
+                                    "field1": "data 2"
+                                }
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case4": {
+                "expected": {
+                    "arrayLength": 0,
+                    "fields": [ ]
+                }    
+            },
+
+            "case5a": {
+                "expected": {
+                    "arrayLength": 3,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 1"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 2"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 3"
+                            }
+                        }
+                     ]
+                }    
+            },
+
+            "case5b": {
+                "expected": {
+                    "arrayLength": 3,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 3"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 2"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": "data 1"
+                            }
+                        }
+                     ]
+                }    
+            },
+
+            "case6a": {
+                "expected": {
+                    "arrayLength": 3,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 10
+                            }
+                        }
+                     ]
+                }    
+            },
+
+            "case7a": {
+                "expected": {
+                    "arrayLength": 2,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 10,
+                                "field2": "data field 321"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7b": {
+                "expected": {
+                    "arrayLength": 2,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20,
+                                "field2": "sample 888"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 2,
+                                "field2": "sample 999"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7c": {
+                "expected": {
+                    "arrayLength": 1,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 25,
+                                "field2": "has property",
+                                "field3": true
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7d": {
+                "expected": {
+                    "arrayLength": 4,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 10,
+                                "field2": "data field 321"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20,
+                                "field2": "sample 888"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 2,
+                                "field2": "sample 999"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7e": {
+                "expected": {
+                    "arrayLength": 1,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20,
+                                "field2": "sample 888"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7f": {
+                "expected": {
+                    "arrayLength": 0,
+                    "fields": [ ]
+                }    
+            },
+
+            "case7g": {
+                "expected": {
+                    "arrayLength": 4,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 10,
+                                "field2": "data field 321"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 25,
+                                "field2": "has property",
+                                "field3": true
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 2,
+                                "field2": "sample 999"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7h": {
+                "expected": {
+                    "arrayLength": 5,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 10,
+                                "field2": "data field 321"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 25,
+                                "field2": "has property",
+                                "field3": true
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20,
+                                "field2": "sample 888"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 2,
+                                "field2": "sample 999"
+                            }
+                        }
+                    ]
+                }    
+            },
+
+            "case7i": {
+                "expected": {
+                    "arrayLength": 2,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 25,
+                                "field2": "has property",
+                                "field3": true
+                            }
+                        }
+                     ]
+                }    
+            },
+
+            "case7j": {
+                "expected": {
+                    "arrayLength": 3,
+                    "fields": [
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 30,
+                                "field2": "data sample 123"
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 25,
+                                "field2": "has property",
+                                "field3": true
+                            }
+                        },
+                        {
+                            "description": "nextHop command 1",
+                            "parameters": {
+                                "field1": 20,
+                                "field2": "sample 888"
+                            }
+                        }
+                     ]
+                }    
+            }
+        },
+
+        "inputData1": {
+            "data": [
+                {
+                    "field1": "data 1"
+                },
+                {
+                    "field1": "data 2"
+                }
+            ]
+        },
+
+        "inputData2": {
+            "data": {
+                "field1": "data 1"
+            }
+        },
+
+        "inputData3": {
+            "data": [
+                {
+                    "field1": "data 1"
+                },
+                {
+                    "field1": "data 2"
+                }
+            ]
+        },
+
+        "inputData4": {
+            "data": [ ]
+        },
+
+        "inputData5": {
+            "data": [ 
+                {
+                    "field1": "data 3"
+                },
+                {
+                    "field1": "data 1"
+                },
+                {
+                    "field1": "data 2"
+                }
+            ]
+        },
+
+        "inputData6": {
+            "data": [ 
+                {
+                    "field1": 30
+                },
+                {
+                    "field1": 10
+                },
+                {
+                    "field1": 20
+                }
+            ]
+        },
+
+        "dataValue": "sample 888",
+
+        "inputData7": {
+            "data": [ 
+                {
+                    "field1": 30,
+                    "field2": "data sample 123"
+                },
+                {
+                    "field1": 10,
+                    "field2": "data field 321"
+                },
+                {
+                    "field1": 25,
+                    "field2": "has property",
+                    "field3": true
+                },
+                {
+                    "field1": 20,
+                    "field2": "sample 888"
+                },
+                {
+                    "field1": 2,
+                    "field2": "sample 999"
+                }
+            ]
+        }
+    },
+
+    "apiParams": [
+        {
+            "description": "generate nextHopMaps with array",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "parameters": {
+                "parentParam1": "parent param1",
+                "parentParam2": "parent param2"
+            },
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData1.data",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters.item"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": {
+                "description": "nextHop command"
+            }
+        },
+        {
+            "description": "generate nextHopMaps with single item",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "parameters": {
+                "parentParam1": "parent param1",
+                "parentParam2": "parent param2"
+            },
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData2.data",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters.item"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": {
+                "description": "nextHop command"
+            }
+        },
+        {
+            "description": "generate nextHopMaps with array of paramTemplate",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case3.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "parameters": {
+                "parentParam1": "parent param1",
+                "parentParam2": "parent param2"
+            },
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData3.data",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters.item"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                },
+                {
+                    "description": "nextHop command 2"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps dataPath with zero record",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case4.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "parameters": {
+                "parentParam1": "parent param1",
+                "parentParam2": "parent param2"
+            },
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData4.data",
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters.item"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                },
+                {
+                    "description": "nextHop command 2"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps sort input data asc",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case5a.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData5.data",
+
+                    "sortOrder": {
+                        "orderBy": "asc",
+                        "sortBy": "field1"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps sort input data desc",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case5b.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData5.data",
+
+                    "sortOrder": {
+                        "orderBy": "desc",
+                        "sortBy": "field1"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps sort input number desc",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case6a.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData6.data",
+
+                    "sortOrder": {
+                        "orderBy": "desc",
+                        "sortBy": "field1"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - startsWith",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7a.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "startsWith": "data"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - regex",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7b.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "regex": ".+[888|999]$"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - hasProperty",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7c.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field3",
+                        "hasProperty": true
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - not hasProperty",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7d.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field3",
+                        "hasProperty": false
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - equal",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7e.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "equal": "sample 888"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - equal.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7e.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "equal": {
+                            "dataValue": "sample 888"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - equal.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7f.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "equal": {
+                            "propertyName": "field2"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+
+        {
+            "description": "nextHopMaps filter - notEqual",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7g.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "notEqual": "sample 888"
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - notEqual.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7g.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field2",
+                        "notEqual": {
+                            "dataValue": "sample 888"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - notEqual.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7h.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "notEqual": {
+                            "propertyName": "field2"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+
+        {
+            "description": "nextHopMaps filter - greaterThan",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7i.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "greaterThan": 20
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - greaterThan.dataValue",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7i.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "greaterThan": {
+                            "dataValue": 20
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - greaterThan.propertyName",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7f.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "propertyName": "field1",
+                        "greaterThan": {
+                            "propertyName": "field2"
+                        }
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+
+        
+        {
+            "description": "nextHopMaps filter - conditions and",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7c.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "conditions": "and",
+                        "filters": [
+                            {
+                                "propertyName": "field2",
+                                "equal": "has property"
+                            },
+                            {
+                                "propertyName": "field1",
+                                "greaterThan": 10
+                            }
+                        ]
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        },
+        {
+            "description": "nextHopMaps filter - conditions or",
+            "nextHopOnly": true,
+
+            "parametersMaps": [
+                {
+                    "description": "for nextHopMaps only",
+                    "parameter": "sessionData.test.case7j.expected",
+                    "targetProperty": "expected"
+                }
+            ],
+
+            "nextHopMaps": [
+                {
+                    "paramTemplateName": "paramTemplate",
+                    "dataPath": "sessionData.inputData7.data",
+
+                    "dataFilter": {
+                        "conditions": "or",
+                        "filters": [
+                            {
+                                "propertyName": "field2",
+                                "equal": "has property"
+                            },
+                            {
+                                "propertyName": "field1",
+                                "greaterThan": 10
+                            }
+                        ]
+                    },
+
+                    "parametersMaps": [
+                        {
+                            "parameter": "sessionData",
+                            "targetProperty": "parameters"
+                        }
+                    ]
+                }
+            ],
+
+            "paramTemplate": [
+                {
+                    "description": "nextHop command 1"
+                }
+            ]
+        }
+    ],
+    "XapiParams": [
+        
+    ]
+}

@@ -1,0 +1,174 @@
+{
+    "description": "parametersMaps Basic Test",
+
+    "sessionData": {
+        "adminSessionName": "adminSession",
+
+        "sessionName": "adminSessionName",
+
+        "loginSession": {
+            "userFDN": "c0c39b41-df7c-4bae-86be-a23a5a67136d.gcc"
+        },
+
+        "test": {
+            "case1": {
+                "data": "{{sessionData.adminSessionName}}",
+                "expected": "adminSession"
+            },
+            "case2": {
+                "data": "prefix-{{sessionData.adminSessionName}}-suffix",
+                "expected": "prefix-adminSession-suffix"
+            },
+            "case3": {
+                "data": "prefix-{{sessionData.*}}-suffix",
+                "expected": "prefix-adminSession-suffix"
+            },
+            "case4": {
+                "data": "prefix-{{*.*}}-suffix",
+                "expected": "prefix-adminSession-suffix"
+            },
+            "case5": {
+                "data": "{{sessionData.selectedZone[0].zoneId}}",
+                "expected": "c0c39b41-df7c-4bae-86be-a23a5a67136d.gcc"
+            },
+            "case6": {
+                "sessionName": "loginSession",
+                "data": "{{sessionData.*.userFDN}}",
+                "expected": "c0c39b41-df7c-4bae-86be-a23a5a67136d.gcc"
+            }
+        },
+
+        "selectedZone": [
+            {
+                "businessName": "Internal Zone - Intranet",
+                "zoneId": "c0c39b41-df7c-4bae-86be-a23a5a67136d.gcc"
+            }
+        ]
+    },
+
+    "apiParams": [
+        {
+            "description": "simple maps with target property string replacement",
+        
+            "parametersMaps": [
+                {
+                    "description": "simple replace",
+                    "parameter": "sessionData.test.case1.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected reault",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter": "sessionData.adminSessionName",
+                    "targetProperty": "parameters.sessionName"
+                },
+
+
+                {
+                    "description": "replace with prefix and suffix",
+                    "parameter": "sessionData.test.case2.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected data",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter": "sessionData.adminSessionName",
+                    "targetProperty": "parameters.sessionName"
+                },
+
+
+                {
+                    "description": "replace with dynamic parameter",
+                    "parameter": "sessionData.test.case3.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected data",
+                    "parameter": "sessionData.test.case3.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter": "sessionData.{{sessionData.sessionName}}",
+                    "targetProperty": "parameters.sessionName"
+                },
+
+
+                {
+                    "description": "replace with multiple dynamic parameter",
+                    "parameter": "sessionData.test.case4.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected data",
+                    "parameter": "sessionData.test.case4.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "map from sessionData with multiple dynamic name",
+                    "parameter": "{{apiParam.dataPrefix}}.{{sessionData.sessionName}}",
+                    "targetProperty": "parameters.sessionName"
+                },
+
+
+
+
+                {
+                    "description": "sourceData is an array",
+                    "parameter": "sessionData.test.case5.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected data",
+                    "parameter": "sessionData.test.case5.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "sourceData is an array",
+                    "parameter": "sessionData.selectedZone[0].zoneId",
+                    "targetProperty": "parameters.sessionName"
+                },
+
+
+
+
+                {
+                    "description": "sourceData is an array",
+                    "parameter": "sessionData.test.case6.data",
+                    "targetProperty": "parameters.sessionName"
+                },
+                {
+                    "description": "set expected data",
+                    "parameter": "sessionData.test.case6.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter": "sessionData.{{sessionData.test.case6.sessionName}}.userFDN",
+                    "targetProperty": "parameters.sessionName"
+                }
+            ],
+    
+            "adminSessionName": "adminSession",
+            "dataPrefix": "sessionData",
+
+            "parameters": {},
+
+            "jsonData": {
+                "BusinessType": "Company",
+                "Name": "APEX-PVT",
+                "Description": "APEX API Gateway, the central point to manage, monitor and harden security for APIs within the Whole-of-Government.",
+                "PictureID": "1014",
+                "ParentBusinessID": "{{sessionData.selectedZone[0].zoneId}}"
+            }
+        }
+    ]
+}

@@ -1,0 +1,130 @@
+{
+    "description": "ifTrue & ifFalse",
+
+    "sessionData": {
+        "test": {
+            "case1a": {
+                "expected": true
+            },
+            "case1b": {
+                "expected": false
+            },
+            "case2a": {
+                "expected": false
+            },
+            "case2b": {
+                "expected": true
+            },
+            "case3a": {
+                "expected": true
+            },
+            "case3b": {
+                "expected": false
+            },
+            "case4a": {
+                "expected": false
+            },
+            "case4b": {
+                "expected": true
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "ifTrue & ifFalse Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "ifTrue true test",
+                    "parameter": "sessionData.test.case1a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.skipChangePath:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifTrue true expect false test",
+                    "parameter": "sessionData.test.case1b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.skipChangePath:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifTrue false test",
+                    "parameter": "sessionData.test.case2a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.skipCheck:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifTrue false expect false test",
+                    "parameter": "sessionData.test.case2b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.skipCheck:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+
+                {
+                    "description": "ifFalse true test",
+                    "parameter": "sessionData.test.case3a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.skipCheck:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifFalse true expect false test",
+                    "parameter": "sessionData.test.case3b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.skipCheck:false:true}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifFalse false test",
+                    "parameter": "sessionData.test.case4a.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.skipChangePath:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifFalse false expect false test",
+                    "parameter": "sessionData.test.case4b.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.skipChangePath:false:true}}",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+
+            "parameters": {
+                "string": "some string",
+                "skipChangePath": true,
+                "skipCheck": false
+             },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

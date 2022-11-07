@@ -1,0 +1,78 @@
+{
+    "description": "ifTrue & ifFalse",
+
+    "sessionData": {
+        "test": {
+            "case1": {
+                "expected": "Source:\n{\n    \"description\": \"\",\n    \"parameter\": \"{{ifTrue:apiParam.parameters.notBoolean:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a boolean value"
+            },
+            "case2": {
+                "expected": "Source:\n{\n    \"description\": \"\",\n    \"parameter\": \"{{ifTrue:apiParam.parameters.notExists:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a boolean value"
+            },
+            "case3": {
+                "expected": "Source:\n{\n    \"description\": \"\",\n    \"parameter\": \"{{ifFalse:apiParam.parameters.notBoolean:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a boolean value"
+            },
+            "case4": {
+                "expected": "Source:\n{\n    \"description\": \"\",\n    \"parameter\": \"{{ifFalse:apiParam.parameters.notExists:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a boolean value"
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "ifTrue & ifFalse Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "ifTrue operand not boolen test",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.notBoolean:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifTrue operand not exists test",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifTrue:apiParam.parameters.notExists:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+
+
+                {
+                    "description": "ifFalse operand not boolen test",
+                    "parameter": "sessionData.test.case3.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.notBoolean:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifFalse operand not exists test",
+                    "parameter": "sessionData.test.case4.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "parameter" : "{{ifFalse:apiParam.parameters.notExists:true:false}}",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+    
+
+            "parameters": {
+                "notBoolean": "test data"
+             },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

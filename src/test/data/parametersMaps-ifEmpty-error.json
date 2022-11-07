@@ -1,0 +1,53 @@
+{
+    "description": "ifEmpty",
+
+    "sessionData": {
+        "test": {
+            "case1": {
+                "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"{{ifEmpty:apiParam.parameters.wrongType:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a string"
+            },
+            "case2": {
+                "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"{{ifEmpty:apiParam.parameters.notExists:true:false}}\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  if operand must be a string"
+            }
+        }    
+    },
+
+    "apiParams": [
+        {
+            "description": "ifEmpty Case",
+        
+            "parametersMaps": [
+                {
+                    "description": "ifEmpty operand must be string test",
+                    "parameter": "sessionData.test.case1.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.wrongType:true:false}}",
+                    "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "ifEmpty operand not exists test",
+                    "parameter": "sessionData.test.case2.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "{{ifEmpty:apiParam.parameters.notExists:true:false}}",
+                    "targetProperty" : "skipExecute"
+                }
+            ],
+    
+            "parameters": {
+                "emptyString": "",
+                "notEmptyString": "not-Empty-String",
+                "wrongType": false
+            },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg"
+        }
+    ]
+}

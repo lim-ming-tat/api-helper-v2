@@ -1,0 +1,64 @@
+{
+    "description": "Test Template",
+
+    "sessionData": {
+        "targetSessionVariable": "some data or value"
+    },
+
+    "apiParams": [
+        {
+            "description": "initialize variable through saveMap",
+        
+            "parametersMaps": [
+            ],
+
+            "parameters": { },
+    
+            "httpMethod": "GET",
+            "url": "https://portal.apx.gov.sg",
+    
+            "saveMaps": [
+                {
+                    "description": "set sessionData to string",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "string"
+                },
+                {
+                    "description": "set sessionData to number",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "number"
+                },
+                {
+                    "description": "set sessionData to bigint",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "bigint"
+                },
+                {
+                    "description": "set sessionData to boolean true",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "booleanTrue"
+                },
+                {
+                    "description": "set sessionData to boolean false",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "booleanFalse"
+                },
+                {
+                    "description": "set sessionData to undefined",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "undefined"
+                },
+                {
+                    "description": "set sessionData to object",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "object"
+                },
+                {
+                    "description": "set sessionData to array",
+                    "sessionName": "targetSessionVariable",
+                    "dataType": "array"
+                }
+            ]
+        }
+    ]
+}
