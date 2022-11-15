@@ -8,7 +8,7 @@ import { Helper } from './helper';
 import { PluginBase } from './pluginBase';
 import { MapsHelper } from './mapsHelper';
 
-import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase } from './apiLibClass';
+import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase, ParametersMaps } from './apiLibClass';
 
 export abstract class ApiLibBase {
     protected logLabel = Helper.randomString(6);
@@ -64,7 +64,7 @@ export abstract class ApiLibBase {
                         sessionData,
                         apiParam.parametersMaps.filter((item) => {
                             return item.targetProperty === 'skipExecute' || item.targetProperty === 'nextHopOnly' ? item : undefined;
-                        })
+                        }) as ParametersMaps
                     );
                 }
                 // if (apiParam.description === 'Upload X.509 Certificate to API Service') {
@@ -226,6 +226,8 @@ export abstract class ApiLibBase {
                         req.then((res) => {
                             this.logMessage(`Successful...${responseParam.apiTag}`);
                             responseParam.endTime = DateTime.local();
+
+                            responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime!, [ "minutes", "seconds", "milliseconds" ]).toObject()
 
                             responseParam.sessionData = sessionData;
 

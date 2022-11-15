@@ -1,13 +1,14 @@
-import { plainToInstance, plainToClassFromExist, Type, Expose } from 'class-transformer';
+import { plainToInstance, plainToClassFromExist, Type, Expose, ClassConstructor } from 'class-transformer';
 import 'reflect-metadata';
 import fs from 'fs';
 
-import { DateTime } from 'luxon';
+import { DateTime, Duration, DurationObjectUnits } from 'luxon';
 import request from 'superagent';
 
 import { NexthopMap, SaveMap } from './mapsHelper';
 
 import { Helper } from './helper';
+import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, validateSync, ValidationError } from 'class-validator';
 
 export class ApiParam {
     id?: string;
@@ -35,7 +36,8 @@ export class ApiParam {
 
     @Expose()
     @Type(() => ApiParameter)
-    parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();
+    parametersMaps = new ParametersMaps();
+    // parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();
 
     @Expose()
     url = '';
@@ -175,6 +177,7 @@ export class ResponseParam {
 
     startTime?: DateTime;
     endTime?: DateTime;
+    elapsed?: DurationObjectUnits;
 
     httpStatus?: number;
 
@@ -267,58 +270,244 @@ export class ApiCommand {
     }
 }
 
+class ValidationBase<T> {
+    protected validateData(dto: T, obj: unknown) {
+        // tranform the literal object to class object
+        // const objInstance = plainToInstance(dto, obj);
+
+        // validating and check the errors, throw the errors if exist
+        const errors = validateSync(this as object);
+
+        if (errors.length > 0) {
+            throw new TypeError(ValidationBase.formatErrorMessage(errors[0].target, ValidationBase.getErrorMessage(errors)));
+        }
+    }
+
+    protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+        let formatedMsg = message;
+        if (property !== undefined) {
+            formatedMsg = `.${property}\n  ${message}`;
+        }
+
+        return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+    }
+    
+    protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+        const TAB = '  ';
+        return errors
+            .map(({ property, constraints, children }) => {
+                let msg = '';
+                if (children != undefined && children.length > 0) {
+                    msg += `\n${ValidationBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+                } else {
+                    for (const key in constraints) {
+                        msg += `\n${tab}${TAB}${constraints[key]}`;
+                    }
+                }
+                return `${tab}${proprtyName}.${property}:${msg}`;
+            })
+            .join('\n\n');
+    }
+}
+
+// class ValidateDataBase {
+//     public validateData() {
+//         // validating and check the errors, throw the errors if exist
+//         const errors = validateSync(this as object);
+
+//         if (errors.length > 0) {
+//             throw new TypeError(ValidateDataBase.formatErrorMessage(errors[0].target, ValidateDataBase.getErrorMessage(errors)));
+//         }
+//     }
+
+//     protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+//         let formatedMsg = message;
+//         if (property !== undefined) {
+//             formatedMsg = `.${property}\n  ${message}`;
+//         }
+
+//         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+//     }
+    
+//     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+//         const TAB = '  ';
+//         return errors
+//             .map(({ property, constraints, children }) => {
+//                 let msg = '';
+//                 if (children != undefined && children.length > 0) {
+//                     msg += `\n${ValidateDataBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+//                 } else {
+//                     for (const key in constraints) {
+//                         msg += `\n${tab}${TAB}${constraints[key]}`;
+//                     }
+//                 }
+//                 return `${tab}${proprtyName}.${property}:${msg}`;
+//             })
+//             .join('\n\n');
+//     }
+// }
+
+export class ParametersMaps extends Array<ApiParameter> {
+    // public validate() {
+    //     // validating and check the errors, throw the errors if exist
+    //     const errors = validateSync(this as object);
+
+    //     if (errors.length > 0) {
+    //         throw new TypeError(ParametersMaps.formatErrorMessage(errors[0].target, ParametersMaps.getErrorMessage(errors)));
+    //     }
+    // }
+
+    // protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+    //     let formatedMsg = message;
+    //     if (property !== undefined) {
+    //         formatedMsg = `.${property}\n  ${message}`;
+    //     }
+
+    //     return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+    // }
+    
+    // protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+    //     const TAB = '  ';
+    //     return errors
+    //         .map(({ property, constraints, children }) => {
+    //             let msg = '';
+    //             if (children != undefined && children.length > 0) {
+    //                 msg += `\n${ParametersMaps.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+    //             } else {
+    //                 for (const key in constraints) {
+    //                     msg += `\n${tab}${TAB}${constraints[key]}`;
+    //                 }
+    //             }
+    //             return `${tab}${proprtyName}.${property}:${msg}`;
+    //         })
+    //         .join('\n\n');
+    // }
+}
+
+// export class ParametersMapsValidate extends Array<ApiParameter> {
+//     @IsArray()
+//     @ValidateNested({ each: true })
+//     @Type(() => ApiParameter)
+//     parametersMaps: ParametersMaps;
+//     // parametersMaps: ParametersMaps = new ParametersMaps();
+
+//     constructor(parametersMaps: ParametersMaps) {
+//         super()
+//         this.parametersMaps = parametersMaps;
+//     }
+
+//     public validateData() {
+//         // validating and check the errors, throw the errors if exist
+//         const errors = validateSync(this as object);
+
+//         if (errors.length > 0) {
+//             throw new TypeError(ParametersMapsValidate.formatErrorMessage(errors[0].target, ParametersMapsValidate.getErrorMessage(errors)));
+//         }
+//     }
+
+//     protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+//         let formatedMsg = message;
+//         if (property !== undefined) {
+//             formatedMsg = `.${property}\n  ${message}`;
+//         }
+
+//         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+//     }
+    
+//     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+//         const TAB = '  ';
+//         return errors
+//             .map(({ property, constraints, children }) => {
+//                 let msg = '';
+//                 if (children != undefined && children.length > 0) {
+//                     msg += `\n${ParametersMapsValidate.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+//                 } else {
+//                     for (const key in constraints) {
+//                         msg += `\n${tab}${TAB}${constraints[key]}`;
+//                     }
+//                 }
+//                 return `${tab}${proprtyName}.${property}:${msg}`;
+//             })
+//             .join('\n\n');
+//     }
+// }
+
+// export class ArrayValidator<T> extends Array<T> {
+//     @IsArray()
+//     @ValidateNested({ each: true })
+//     array: Array<T>;
+
+//     constructor(inputArray: Array<T>) {
+//         super()
+//         this.array = inputArray;
+//     }
+
+//     public validateData() {
+//         // validating and check the errors, throw the errors if exist
+//         const errors = validateSync(this as object);
+
+//         if (errors.length > 0) {
+//             throw new TypeError(ArrayValidator.formatErrorMessage(errors[0].target, ArrayValidator.getErrorMessage(errors)));
+//         }
+//     }
+
+//     protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+//         let formatedMsg = message;
+//         if (property !== undefined) {
+//             formatedMsg = `.${property}\n  ${message}`;
+//         }
+
+//         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+//     }
+    
+//     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+//         const TAB = '  ';
+//         return errors
+//             .map(({ property, constraints, children }) => {
+//                 let msg = '';
+//                 if (children != undefined && children.length > 0) {
+//                     msg += `\n${ArrayValidator.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+//                 } else {
+//                     for (const key in constraints) {
+//                         msg += `\n${tab}${TAB}${constraints[key]}`;
+//                     }
+//                 }
+//                 return `${tab}${proprtyName}.${property}:${msg}`;
+//             })
+//             .join('\n\n');
+//     }
+// }
+
 export class ApiParameter {
+// export class ApiParameter extends ValidateDataBase {
     description? = '';
 
     @Expose()
+    @IsString()
     parameter = '';
+
     @Expose()
     targetProperty: string | Array<string> = '';
 
-    // @Expose()
-    //     length?: number;
-
-    // @Expose()
-    //     userId?: string;
-    // @Expose()
-    //     password?: string;
-
     @Expose()
+    @IsOptional()
+    @IsString()
     data?: string;
 
     @Expose()
+    @IsOptional()
+    @IsBoolean()
     debug?: boolean;
+
+    // public validate() {
+    //     // validating and check the errors, throw the errors if exist
+    //     const errors = validateSync(this as object);
+
+    //     if (errors.length > 0) {
+    //         throw new TypeError(ValidationBase.formatErrorMessage(errors[0].target, ValidationBase.getErrorMessage(errors)));
+    //     }
+    // }
 }
-
-// export interface InputParam {
-//     showSessionData: boolean;
-//     showResults: boolean;
-//     showApiParam: boolean;
-
-//     debugList: Array<string>;
-
-//     debug?: boolean;
-// }
-
-// export class ApixParam implements InputParam {
-//     showSessionData = false;
-//     showResults = false;
-//     showApiParam = false;
-
-//     debugList: Array<string> = [];
-
-//     debug? = false;
-// }
-
-// export interface IApiParam {
-//     showSessionData: boolean;
-//     showResults: boolean;
-//     showApiParam: boolean;
-
-//     debugList: Array<string>;
-
-//     debug: boolean;
-// }
 
 export class ApiParamBase {
     showSessionData = false;

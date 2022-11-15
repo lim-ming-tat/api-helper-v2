@@ -1,5 +1,5 @@
 import { SessionData } from './sessionData';
-import { ApiCommand, ApiParam, ApiParameter } from '../apiLibClass';
+import { ApiCommand, ApiParam, ApiParameter, ParametersMaps } from '../apiLibClass';
 import { Helper as helper } from '../helper';
 
 import { MapsHelper } from '../mapsHelper';
@@ -12,7 +12,8 @@ import { MapsHelper } from '../mapsHelper';
 // required one input json file as input and each test case will be generated for each ietm of parametersMaps
 // apiParam and sessionData will be clone for each test case
 
-type TestData = { apiParam: ApiParam; sessionData: SessionData; parametersMaps: Array<ApiParameter> };
+// type TestData = { apiParam: ApiParam; sessionData: SessionData; parametersMaps: Array<ApiParameter> };
+type TestData = { apiParam: ApiParam; sessionData: SessionData; parametersMaps: ParametersMaps };
 type TestCases = Array<Array<string | TestData>>;
 
 function getTestCases(fileName: string, chunkSize = 1): TestCases {
@@ -33,7 +34,8 @@ function getTestCases(fileName: string, chunkSize = 1): TestCases {
     apiParams.forEach((apiParam) => {
         const parametersMaps = apiParam.parametersMaps;
 
-        const paramMaps = splitToChunk<ApiParameter>(parametersMaps, chunkSize);
+        const paramMaps = splitToChunk<ApiParameter>(parametersMaps, chunkSize) as Array<ParametersMaps>;
+        // const paramMaps = splitToChunk<ParametersMaps>(parametersMaps, chunkSize);
         // console.log(splitToChunk<ApiParameter>(parametersMaps, 1));
 
         paramMaps.forEach((item) => {

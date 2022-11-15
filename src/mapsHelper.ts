@@ -4,7 +4,9 @@ import { orderBy as sortData } from 'lodash';
 import { Type, Expose } from 'class-transformer';
 import 'reflect-metadata';
 
-import { ApiParameter, ResponseParam, SessionDataBase, ApiParam } from './apiLibClass';
+import { ApiParameter, ResponseParam, SessionDataBase, ApiParam, ParametersMaps } from './apiLibClass';
+
+import { ArrayValidator }  from './dtoBase'
 
 import { Helper as helper } from './helper';
 
@@ -110,7 +112,8 @@ export class NexthopMap {
 
     @Expose()
     @Type(() => ApiParameter)
-    parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();
+    parametersMaps = new ParametersMaps();
+    // parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();
 }
 
 export interface SortOrder {
@@ -564,11 +567,15 @@ export class MapsHelper {
         }
     }
 
-    public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: Array<ApiParameter>): void {
+    public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: ParametersMaps): void {
+    // public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: Array<ApiParameter>): void {
         const dataSource = {
             apiParam: apiParam,
             sessionData: sessionData,
         };
+
+        // validate the parametersMaps
+        (new ArrayValidator(parametersMaps)).validateSync()
 
         // replace property value with value from sessionData
         parametersMaps.forEach((item) => {
