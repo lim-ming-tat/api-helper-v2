@@ -9,6 +9,7 @@ import { PluginBase } from './pluginBase';
 import { MapsHelper } from './mapsHelper';
 
 import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase, ParametersMaps } from './apiLibClass';
+import { ValidationException } from './dtoBase';
 
 export abstract class ApiLibBase {
     protected logLabel = Helper.randomString(6);
@@ -278,7 +279,12 @@ export abstract class ApiLibBase {
                 responseParam.endTime = DateTime.local();
 
                 this.logMessage(`API Failed...${responseParam.apiTag} - ${apiParam.description}`);
-                this.logMessage(`\n---error object---\n${error}\n---error object---\n`);
+                this.logMessage(`\n---error object---\n${error}\n---error object---`);
+                if (error.message === 'Data validation errors') {
+                    const valError = error as ValidationException
+                    valError.showMessage()
+                }
+                console.log();
                 ApiLibBase.displayResult(apiParam, 'apiParam');
 
                 responseParam.error = { name: 'Pre Execution Error', message: error.message };

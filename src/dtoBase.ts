@@ -3,8 +3,10 @@
 import { plainToInstance } from 'class-transformer';
 import fs from 'fs';
 
-import { validateOrReject, IsArray, ValidateNested, validateSync as ValidateSync } from 'class-validator';
+import { validateOrReject, IsArray, ValidateNested, validateSync as ValidateSync, ValidateByOptions } from 'class-validator';
 import { ValidationError } from 'class-validator';
+
+// import { get } from 'stack-trace';
 
 // import path from 'path';
 // import { fileURLToPath } from 'url';
@@ -13,6 +15,8 @@ import { ValidationError } from 'class-validator';
 // const __dirname = path.dirname(__filename);
 
 export declare type ClassName<T> = { new (...args: any[]): T };
+
+// ref: https://bkerr.dev/blog/declarative-validation-for-express-apis-with-class-validator-and-class-transformer/
 
 export class DtoBase {
     public static debug = false;
@@ -23,7 +27,7 @@ export class DtoBase {
         // console.log(`plain2Instance:::\n${JSON.stringify(dtoObject, null, 4)}`)
 
         if (validate) {
-            const dtoError = await this.validateData(dtoObject as object);
+            const dtoError = await this.validateData(dtoObject as object, []);
             if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
 
             // console.log(`object validate:::${JSON.stringify(dtoError, null, 4)}`);
@@ -44,7 +48,7 @@ export class DtoBase {
         if (validate) {
             if (this.debug) console.log('dtoArray:::' + JSON.stringify(dtoArray, null, 4));
 
-            const dtoError = await this.validateData(dtoArray as object);
+            const dtoError = await this.validateData(dtoArray as object, []);
             if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
             // const dtoError = await this.validateData(dtoObject as object);
             // console.log(`array object validate:::${JSON.stringify(dtoError, null, 4)}`);
@@ -74,9 +78,13 @@ export class DtoBase {
     //     }
     // }
 
-    private static async validateData<T extends object>(input: T) {
+    private static async validateData<T extends object>(input: T, groups: Array<string>) {
         try {
-            await validateOrReject(input);
+            if (groups.length > 0) {
+                await validateOrReject(input, { groups: groups });
+            } else {
+                await validateOrReject(input);
+            }
             return { errorCode: 0, errors: [] };
         } catch (err) {
             if (DtoBase.debug) console.warn('new [Validations] error');
@@ -146,14 +154,40 @@ export class DtoBase {
     //     return errorsList;
     // }
 
-    public async validate() {
-        const dtoError = await DtoBase.validateData(this);
+    public async validate(groups: Array<string> = [], parentProprtyName = 'data') {
+        const stackTrace = await import('stack-trace')
+        const trace = stackTrace.get()
+        console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`)
+
+
+        const dtoError = await DtoBase.validateData(this, groups);
+
 
         // if (DtoBase.debug)
-        // console.log(`validate:::${JSON.stringify(dtoError, null, 4)}`);
+        console.log(`validate:::${JSON.stringify(dtoError, null, 4)}`);
         if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
 
         // throw new Error(JSON.stringify(dtoError, null, 4));
+    }
+    
+    public validateSync(groups: Array<string> = [], parentProprtyName = 'data') {
+    // public validateSync() {
+        // const groups: Array<string> = [];
+        // console.log(`validateSync Start...${(new Error()).stack}`)
+        // console.log(`validateSync Start...${JSON.stringify(get(), null, 4)}`)
+        const valError = groups.length > 0 ? ValidateSync(this, { groups: groups }) : ValidateSync(this);
+
+        const dtoError = { errorCode: valError.length > 0 ? 500: 0, errors: DtoBase.getErrorMessage(valError, parentProprtyName) };
+
+        if (dtoError.errorCode !== 0) {
+            throw new ValidationException(dtoError, 'Data validation errors');
+            // console.log(err.showMessage())
+
+            // throw new TypeError(err.getMessage());
+        }
+
+        // throw new Error(JSON.stringify(dtoError, null, 4));
+        return true;
     }
 
     private static getFullPath(folderPath: string): string {
@@ -387,7 +421,8 @@ export class ValidationException extends Error {
     }
 
     public showMessage() {
-        console.log('ValidationException:::');
-        console.log(JSON.stringify(this.details, null, 4));
+        // console.log('ValidationException:::');
+        // console.log(JSON.stringify(this.details, null, 4));
+        console.log(`---ValidationException---\n${JSON.stringify(this.details, null, 4)}\n---ValidationException---`);
     }
 }

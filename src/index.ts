@@ -4,5 +4,6 @@ import { ApiParameter } from './apiLibClass';
 import { PluginBase, DataSource } from './pluginBase';
 import { Helper } from './helper';
 import { ApiLibBase } from './apiLibBase';
+import { DtoBase, ArrayValidator } from './dtoBase'
 
-export { ApiLibBase, ApiResponse, ApiParamBase, ApiParameter, PluginBase, DataSource, SessionDataBase, Helper };
+export { ApiLibBase, DtoBase, ArrayValidator, ApiResponse, ApiParamBase, ApiParameter, PluginBase, DataSource, SessionDataBase, Helper };

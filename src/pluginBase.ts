@@ -20,6 +20,8 @@ export interface DataSource {
     sessionData: unknown | SessionDataBase;
 }
 
+export declare type ClassType<T> = { new (...args: any[]): T };
+
 export abstract class PluginBase implements IPlugin {
     private _name = '';
     private _match = '';
@@ -57,14 +59,17 @@ export abstract class PluginBase implements IPlugin {
         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
     }
 
-    protected static validateParam<T>(item: ApiParameter, dataSource: DataSource) {
+    // protected static validateParam<T>(item: ApiParameter, dataSource: DataSource) {
+    protected static validateParam<T>(targetClass: ClassType<T>, item: ApiParameter, dataSource: DataSource) {
         // validation, must make sure that item.data is provided
         if (item.data === undefined) {
             throw new TypeError(PluginBase.formatErrorMessage(item, '[ApiParameter].data is missing/undefined', 'data'));
         }
 
         // validation, must make sure that item.data map to valid data source
-        const authParam = _.get(dataSource, PluginBase.updatePropertyV2(item.data, dataSource)) as T;
+        let authParam = _.get(dataSource, PluginBase.updatePropertyV2(item.data, dataSource)) as T;
+        authParam = Object.setPrototypeOf(authParam, targetClass.prototype);
+
         if (authParam === undefined) {
             throw new TypeError(PluginBase.formatErrorMessage(item, `${item.data} is missing/undefined`, 'data'));
         }
