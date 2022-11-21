@@ -4,12 +4,12 @@ import request from 'superagent';
 import * as qs from 'querystring';
 import { DateTime } from 'luxon';
 
-import { Helper } from './helper';
-import { PluginBase } from './pluginBase';
-import { MapsHelper } from './mapsHelper';
+import { Helper } from './helper.js';
+import { PluginBase } from './pluginBase.js';
+import { MapsHelper } from './mapsHelper.js';
 
-import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase, ParametersMaps } from './apiLibClass';
-import { ValidationException } from './dtoBase';
+import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase, ParametersMaps } from './apiLibClass.js';
+import { ValidationException } from './dtoBase.js';
 
 export abstract class ApiLibBase {
     protected logLabel = Helper.randomString(6);
@@ -228,7 +228,7 @@ export abstract class ApiLibBase {
                             this.logMessage(`Successful...${responseParam.apiTag}`);
                             responseParam.endTime = DateTime.local();
 
-                            responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime!, [ "minutes", "seconds", "milliseconds" ]).toObject()
+                            responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime!, ['minutes', 'seconds', 'milliseconds']).toObject();
 
                             responseParam.sessionData = sessionData;
 
@@ -281,8 +281,8 @@ export abstract class ApiLibBase {
                 this.logMessage(`API Failed...${responseParam.apiTag} - ${apiParam.description}`);
                 this.logMessage(`\n---error object---\n${error}\n---error object---`);
                 if (error.message === 'Data validation errors') {
-                    const valError = error as ValidationException
-                    valError.showMessage()
+                    const valError = error as ValidationException;
+                    valError.showMessage();
                 }
                 console.log();
                 ApiLibBase.displayResult(apiParam, 'apiParam');

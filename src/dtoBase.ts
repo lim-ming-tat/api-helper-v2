@@ -8,11 +8,10 @@ import { ValidationError } from 'class-validator';
 
 // import { get } from 'stack-trace';
 
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export declare type ClassName<T> = { new (...args: any[]): T };
 
@@ -155,13 +154,19 @@ export class DtoBase {
     // }
 
     public async validate(groups: Array<string> = [], parentProprtyName = 'data') {
-        const stackTrace = await import('stack-trace')
-        const trace = stackTrace.get()
-        console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`)
+        const stackTrace = await import('stack-trace');
+        const trace = stackTrace.get();
+        console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`);
+        console.log(trace[0].getTypeName(), trace[0].getFunctionName());
+        console.log(trace[0].getFileName(), trace[0].getLineNumber(), trace[0].getColumnNumber());
 
+        // console.log(trace[1].getFunctionName());
+        // console.log(trace[1].getTypeName());
+        console.log(trace[1].getFileName(), trace[1].getLineNumber(), trace[1].getColumnNumber());
+        // console.log(trace[1].getMethodName());
+        console.log(`validateSync End...`);
 
         const dtoError = await DtoBase.validateData(this, groups);
-
 
         // if (DtoBase.debug)
         console.log(`validate:::${JSON.stringify(dtoError, null, 4)}`);
@@ -169,15 +174,15 @@ export class DtoBase {
 
         // throw new Error(JSON.stringify(dtoError, null, 4));
     }
-    
+
     public validateSync(groups: Array<string> = [], parentProprtyName = 'data') {
-    // public validateSync() {
+        // public validateSync() {
         // const groups: Array<string> = [];
         // console.log(`validateSync Start...${(new Error()).stack}`)
         // console.log(`validateSync Start...${JSON.stringify(get(), null, 4)}`)
         const valError = groups.length > 0 ? ValidateSync(this, { groups: groups }) : ValidateSync(this);
 
-        const dtoError = { errorCode: valError.length > 0 ? 500: 0, errors: DtoBase.getErrorMessage(valError, parentProprtyName) };
+        const dtoError = { errorCode: valError.length > 0 ? 500 : 0, errors: DtoBase.getErrorMessage(valError, parentProprtyName) };
 
         if (dtoError.errorCode !== 0) {
             throw new ValidationException(dtoError, 'Data validation errors');
@@ -213,9 +218,8 @@ export class DtoBase {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
-            const data = await import(fsFileName);
-            // const loadJSON = (fileName: string) => JSON.parse(fs.readFileSync(new URL(fileName, import.meta.url), 'utf8'));
-            // const data = loadJSON(fsFileName);
+            // const data = await import(fsFileName);
+            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
             return await this.plain2Instance(cls, data, validate);
         } else {
@@ -227,15 +231,23 @@ export class DtoBase {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
-            const data = await import(fsFileName);
-            // const loadJSON = (fileName: string) => JSON.parse(fs.readFileSync(new URL(fileName, import.meta.url), 'utf8'));
-            // const data = loadJSON(fsFileName);
+            // const data = await import(fsFileName);
+            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
             return this.plain2Instances(cls, data, validate);
         } else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
+
+    // TODO: To test
+    public static createInstance<T extends DtoBase>(c: new () => T): T {
+        return new c();
+    }
+
+    public static create<Type>(c: { new (): Type }): Type {
+        return new c();
+      }
 }
 
 export class ArrayValidator<T> extends Array<T> {
@@ -272,15 +284,13 @@ export class ArrayValidator<T> extends Array<T> {
     public validateSync() {
         const valError = ValidateSync(this);
 
-        const dtoError = { errorCode: valError.length > 0 ? 500: 0, errors: ArrayValidator.getErrorMessage(valError) };
-
+        const dtoError = { errorCode: valError.length > 0 ? 500 : 0, errors: ArrayValidator.getErrorMessage(valError) };
 
         if (dtoError.errorCode !== 0) {
             const err = new ValidationException(dtoError, 'Data validation errors');
             // console.log(err.showMessage())
 
             throw new TypeError(err.getMessage());
-
         }
 
         // throw new Error(JSON.stringify(dtoError, null, 4));
@@ -414,6 +424,14 @@ export class ValidationException extends Error {
         Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
 
         this.details = details;
+    }
+
+    get errorCode() {
+        return this.details.errorCode;
+    }
+
+    get errors() {
+        return this.details.errors;
     }
 
     public getMessage() {

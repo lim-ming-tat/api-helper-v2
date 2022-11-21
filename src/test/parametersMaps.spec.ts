@@ -1,8 +1,8 @@
-import { SessionData } from './sessionData';
-import { ApiCommand, ApiParam, ApiParameter, ParametersMaps } from '../apiLibClass';
-import { Helper as helper } from '../helper';
+import { SessionData } from './sessionData.js';
+import { ApiCommand, ApiParam, ApiParameter, ParametersMaps } from '../apiLibClass.js';
+import { Helper as helper } from '../helper.js';
 
-import { MapsHelper } from '../mapsHelper';
+import { MapsHelper } from '../mapsHelper.js';
 
 // TestData data structure design for parametersMaps
 // [

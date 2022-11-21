@@ -1,18 +1,21 @@
 import _ from 'lodash';
-import { orderBy as sortData } from 'lodash';
+
+// import { orderBy as sortData } from 'lodash';
+import pkg from 'lodash';
+const { orderBy: sortData } = pkg;
 
 import { Type, Expose } from 'class-transformer';
 import 'reflect-metadata';
 
-import { ApiParameter, ResponseParam, SessionDataBase, ApiParam, ParametersMaps } from './apiLibClass';
+import { ApiParameter, ResponseParam, SessionDataBase, ApiParam, ParametersMaps } from './apiLibClass.js';
 
-import { ArrayValidator }  from './dtoBase'
+import { ArrayValidator } from './dtoBase.js';
 
-import { Helper as helper } from './helper';
+import { Helper as helper } from './helper.js';
 
-import { IfExists, IfNotExists, IfTrue, IfFalse, IfEmpty } from './plugins';
+import { IfExists, IfNotExists, IfTrue, IfFalse, IfEmpty } from './plugins.js';
 
-import { PluginBase } from './pluginBase';
+import { PluginBase } from './pluginBase.js';
 
 interface DataFilter {
     propertyName: string;
@@ -568,14 +571,14 @@ export class MapsHelper {
     }
 
     public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: ParametersMaps): void {
-    // public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: Array<ApiParameter>): void {
+        // public static applyParametersMaps(apiParam: ApiParam, sessionData: SessionDataBase | unknown, parametersMaps: Array<ApiParameter>): void {
         const dataSource = {
             apiParam: apiParam,
             sessionData: sessionData,
         };
 
         // validate the parametersMaps
-        (new ArrayValidator(parametersMaps)).validateSync()
+        new ArrayValidator(parametersMaps).validateSync();
 
         // replace property value with value from sessionData
         parametersMaps.forEach((item) => {

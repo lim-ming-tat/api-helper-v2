@@ -5,9 +5,9 @@ import fs from 'fs';
 import { DateTime, Duration, DurationObjectUnits } from 'luxon';
 import request from 'superagent';
 
-import { NexthopMap, SaveMap } from './mapsHelper';
+import { NexthopMap, SaveMap } from './mapsHelper.js';
 
-import { Helper } from './helper';
+import { Helper } from './helper.js';
 import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, validateSync, ValidationError } from 'class-validator';
 
 export class ApiParam {
@@ -110,8 +110,10 @@ export class ApiParam {
         const fsFileName = Helper.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
-            const data = await import(fsFileName);
-            const object = plainToInstance(ApiParam, data.default, {
+            // const data = await import(fsFileName);
+            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+
+            const object = plainToInstance(ApiParam, data, {
                 excludeExtraneousValues: false,
             }) as unknown as ApiParam;
 
@@ -240,8 +242,9 @@ export class ApiCommand {
         const fsFileName = Helper.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
-            const data = await import(fsFileName);
-            const object = plainToInstance(ApiCommand, data.default, {
+            // const data = await import(fsFileName);
+            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+            const object = plainToInstance(ApiCommand, data, {
                 excludeExtraneousValues: false,
             }) as unknown as ApiCommand;
 
@@ -291,7 +294,7 @@ class ValidationBase<T> {
 
         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
     }
-    
+
     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
         const TAB = '  ';
         return errors
@@ -328,7 +331,7 @@ class ValidationBase<T> {
 
 //         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
 //     }
-    
+
 //     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
 //         const TAB = '  ';
 //         return errors
@@ -351,21 +354,17 @@ export class ParametersMaps extends Array<ApiParameter> {
     // public validate() {
     //     // validating and check the errors, throw the errors if exist
     //     const errors = validateSync(this as object);
-
     //     if (errors.length > 0) {
     //         throw new TypeError(ParametersMaps.formatErrorMessage(errors[0].target, ParametersMaps.getErrorMessage(errors)));
     //     }
     // }
-
     // protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
     //     let formatedMsg = message;
     //     if (property !== undefined) {
     //         formatedMsg = `.${property}\n  ${message}`;
     //     }
-
     //     return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
     // }
-    
     // protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
     //     const TAB = '  ';
     //     return errors
@@ -413,7 +412,7 @@ export class ParametersMaps extends Array<ApiParameter> {
 
 //         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
 //     }
-    
+
 //     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
 //         const TAB = '  ';
 //         return errors
@@ -459,7 +458,7 @@ export class ParametersMaps extends Array<ApiParameter> {
 
 //         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
 //     }
-    
+
 //     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
 //         const TAB = '  ';
 //         return errors
@@ -479,7 +478,7 @@ export class ParametersMaps extends Array<ApiParameter> {
 // }
 
 export class ApiParameter {
-// export class ApiParameter extends ValidateDataBase {
+    // export class ApiParameter extends ValidateDataBase {
     description? = '';
 
     @Expose()

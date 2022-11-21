@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { ApiParameter } from './apiLibClass';
-import { PluginBase, DataSource } from './pluginBase';
+import { ApiParameter } from './apiLibClass.js';
+import { PluginBase, DataSource } from './pluginBase.js';
 
 export class IfExists extends PluginBase {
     constructor() {

@@ -1,6 +1,6 @@
-import { SessionData } from './sessionData';
-import { ApiCommand, ApiParam, ApiTag, ResponseParam } from '../apiLibClass';
-import { MapsHelper as mapsHelpers, SaveMap } from '../mapsHelper';
+import { SessionData } from './sessionData.js';
+import { ApiCommand, ApiParam, ApiTag, ResponseParam } from '../apiLibClass.js';
+import { MapsHelper as mapsHelpers, SaveMap } from '../mapsHelper.js';
 
 // https://github.com/jest-community/jest-extended#tothrowwithmessagetype-message
 

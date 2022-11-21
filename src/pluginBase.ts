@@ -4,7 +4,7 @@ import 'reflect-metadata';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
 import { validateSync, ValidationError } from 'class-validator';
 
-import { ApiParameter, ApiParam, SessionDataBase } from './apiLibClass';
+import { ApiParameter, ApiParam, SessionDataBase } from './apiLibClass.js';
 
 export interface IPlugin {
     readonly name: string;

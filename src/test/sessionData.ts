@@ -1,4 +1,4 @@
-import { SessionDataBase } from '../apiLibClass';
+import { SessionDataBase } from '../apiLibClass.js';
 
 export class SessionData extends SessionDataBase {
     // baseDomain?: string;
