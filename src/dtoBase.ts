@@ -3,7 +3,7 @@
 import { plainToInstance } from 'class-transformer';
 import fs from 'fs';
 
-import { validateOrReject, IsArray, ValidateNested, validateSync as ValidateSync, ValidateByOptions } from 'class-validator';
+import { validateOrReject, IsArray, ValidateNested, validateSync as ValidateSync } from 'class-validator';
 import { ValidationError } from 'class-validator';
 
 // import { get } from 'stack-trace';
@@ -13,7 +13,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export declare type ClassName<T> = { new (...args: any[]): T };
+export declare type ClassName<T> = { new (...args: unknown[]): T };
 
 // ref: https://bkerr.dev/blog/declarative-validation-for-express-apis-with-class-validator-and-class-transformer/
 
@@ -153,7 +153,7 @@ export class DtoBase {
     //     return errorsList;
     // }
 
-    public async validate(groups: Array<string> = [], parentProprtyName = 'data') {
+    public async validate(groups: Array<string> = []) {
         const stackTrace = await import('stack-trace');
         const trace = stackTrace.get();
         console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`);
@@ -164,7 +164,7 @@ export class DtoBase {
         // console.log(trace[1].getTypeName());
         console.log(trace[1].getFileName(), trace[1].getLineNumber(), trace[1].getColumnNumber());
         // console.log(trace[1].getMethodName());
-        console.log(`validateSync End...`);
+        console.log('validateSync End...');
 
         const dtoError = await DtoBase.validateData(this, groups);
 
@@ -247,7 +247,7 @@ export class DtoBase {
 
     public static create<Type>(c: { new (): Type }): Type {
         return new c();
-      }
+    }
 }
 
 export class ArrayValidator<T> extends Array<T> {
@@ -407,7 +407,7 @@ export class ArrayValidator<T> extends Array<T> {
     // }
 }
 
-export type ValidateExceptionData = Array<string | Record<string, any>>;
+export type ValidateExceptionData = Array<string | Record<string, unknown>>;
 
 export interface ValidationDetails {
     errorCode: number;

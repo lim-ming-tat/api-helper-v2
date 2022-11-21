@@ -1,14 +1,14 @@
-import { plainToInstance, plainToClassFromExist, Type, Expose, ClassConstructor } from 'class-transformer';
+import { plainToInstance, plainToClassFromExist, Type, Expose } from 'class-transformer';
 import 'reflect-metadata';
 import fs from 'fs';
 
-import { DateTime, Duration, DurationObjectUnits } from 'luxon';
+import { DateTime, DurationObjectUnits } from 'luxon';
 import request from 'superagent';
 
 import { NexthopMap, SaveMap } from './mapsHelper.js';
 
 import { Helper } from './helper.js';
-import { IsArray, IsBoolean, IsOptional, IsString, ValidateNested, validateSync, ValidationError } from 'class-validator';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class ApiParam {
     id?: string;
@@ -273,45 +273,45 @@ export class ApiCommand {
     }
 }
 
-class ValidationBase<T> {
-    protected validateData(dto: T, obj: unknown) {
-        // tranform the literal object to class object
-        // const objInstance = plainToInstance(dto, obj);
+// class ValidationBase<T> {
+//     protected validateData(dto: T, obj: unknown) {
+//         // tranform the literal object to class object
+//         // const objInstance = plainToInstance(dto, obj);
 
-        // validating and check the errors, throw the errors if exist
-        const errors = validateSync(this as object);
+//         // validating and check the errors, throw the errors if exist
+//         const errors = validateSync(this as object);
 
-        if (errors.length > 0) {
-            throw new TypeError(ValidationBase.formatErrorMessage(errors[0].target, ValidationBase.getErrorMessage(errors)));
-        }
-    }
+//         if (errors.length > 0) {
+//             throw new TypeError(ValidationBase.formatErrorMessage(errors[0].target, ValidationBase.getErrorMessage(errors)));
+//         }
+//     }
 
-    protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
-        let formatedMsg = message;
-        if (property !== undefined) {
-            formatedMsg = `.${property}\n  ${message}`;
-        }
+//     protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
+//         let formatedMsg = message;
+//         if (property !== undefined) {
+//             formatedMsg = `.${property}\n  ${message}`;
+//         }
 
-        return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
-    }
+//         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
+//     }
 
-    protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
-        const TAB = '  ';
-        return errors
-            .map(({ property, constraints, children }) => {
-                let msg = '';
-                if (children != undefined && children.length > 0) {
-                    msg += `\n${ValidationBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
-                } else {
-                    for (const key in constraints) {
-                        msg += `\n${tab}${TAB}${constraints[key]}`;
-                    }
-                }
-                return `${tab}${proprtyName}.${property}:${msg}`;
-            })
-            .join('\n\n');
-    }
-}
+//     protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+//         const TAB = '  ';
+//         return errors
+//             .map(({ property, constraints, children }) => {
+//                 let msg = '';
+//                 if (children != undefined && children.length > 0) {
+//                     msg += `\n${ValidationBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+//                 } else {
+//                     for (const key in constraints) {
+//                         msg += `\n${tab}${TAB}${constraints[key]}`;
+//                     }
+//                 }
+//                 return `${tab}${proprtyName}.${property}:${msg}`;
+//             })
+//             .join('\n\n');
+//     }
+// }
 
 // class ValidateDataBase {
 //     public validateData() {

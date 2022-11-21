@@ -228,7 +228,7 @@ export abstract class ApiLibBase {
                             this.logMessage(`Successful...${responseParam.apiTag}`);
                             responseParam.endTime = DateTime.local();
 
-                            responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime!, ['minutes', 'seconds', 'milliseconds']).toObject();
+                            if (responseParam.startTime) responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds']).toObject();
 
                             responseParam.sessionData = sessionData;
 
