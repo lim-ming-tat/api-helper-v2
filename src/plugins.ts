@@ -14,7 +14,7 @@ export class IfExists extends PluginBase {
         const newValue = dataValue !== undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
 
         if (item.debug) {
-            IfExists.addDebugData(dataSource, { parameter: parameter, result: newValue });
+            this.addDebugData(dataSource, { parameter: parameter, result: newValue });
         }
 
         return newValue;
@@ -31,6 +31,10 @@ export class IfNotExists extends PluginBase {
         const dataValue = _.get(dataSource, paramData[1]);
 
         const newValue = dataValue === undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
+
+        if (item.debug) {
+            this.addDebugData(dataSource, { parameter: parameter, result: newValue });
+        }
 
         return newValue;
     }

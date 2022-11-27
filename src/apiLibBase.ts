@@ -9,7 +9,7 @@ import { PluginBase } from './pluginBase.js';
 import { MapsHelper } from './mapsHelper.js';
 
 import { ApiParam, ApiTag, SessionDataBase, ResponseParam, ApiResponse, ApiCommand, ApiParamBase, ParametersMaps } from './apiLibClass.js';
-import { ValidationException } from './dtoBase.js';
+import { ValidationException } from './validationException.js';
 
 export abstract class ApiLibBase {
     protected logLabel = Helper.randomString(6);

@@ -17,6 +17,9 @@
     "test:1": "NODE_OPTIONS=--experimental-vm-modules jest --verbose parametersMaps.spec.ts",
     "test:2": "NODE_OPTIONS=--experimental-vm-modules jest --verbose saveMaps.spec.ts",
     "test:3": "NODE_OPTIONS=--experimental-vm-modules jest --verbose nextHopMaps.spec.ts",
+    "test:4": "NODE_OPTIONS=--experimental-vm-modules jest --verbose plugins.spec.ts",
+    "test:5": "NODE_OPTIONS=--experimental-vm-modules jest --verbose pluginBase.spec.ts",
+    "test:6": "NODE_OPTIONS=--experimental-vm-modules jest --verbose dtoBase.spec.ts",
     "coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },

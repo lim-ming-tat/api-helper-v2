@@ -44,7 +44,7 @@ export abstract class PluginBase implements IPlugin {
         return this.match === sourceString;
     }
 
-    protected static addDebugData(dataSource: DataSource, data: Record<string, unknown>) {
+    protected addDebugData(dataSource: DataSource, data: Record<string, unknown>) {
         if (dataSource.apiParam.debugData === undefined) dataSource.apiParam.debugData = [];
 
         dataSource.apiParam.debugData.push({ pluginName: this.name, ...data });
@@ -63,16 +63,16 @@ export abstract class PluginBase implements IPlugin {
     protected static validateParam<T>(targetClass: ClassType<T>, item: ApiParameter, dataSource: DataSource) {
         // validation, must make sure that item.data is provided
         if (item.data === undefined) {
-            throw new TypeError(PluginBase.formatErrorMessage(item, '[ApiParameter].data is missing/undefined', 'data'));
+            throw new SyntaxError(PluginBase.formatErrorMessage(item, '[ApiParameter].data is missing/undefined', 'data'));
         }
 
         // validation, must make sure that item.data map to valid data source
         let authParam = _.get(dataSource, PluginBase.updatePropertyV2(item.data, dataSource)) as T;
-        authParam = Object.setPrototypeOf(authParam, targetClass.prototype);
 
         if (authParam === undefined) {
             throw new TypeError(PluginBase.formatErrorMessage(item, `${item.data} is missing/undefined`, 'data'));
         }
+        authParam = Object.setPrototypeOf(authParam, targetClass.prototype);
 
         return authParam;
     }
@@ -85,7 +85,7 @@ export abstract class PluginBase implements IPlugin {
         const errors = validateSync(objInstance as object);
 
         if (errors.length > 0) {
-            throw new TypeError(PluginBase.formatErrorMessage(errors[0].target, PluginBase.getErrorMessage(errors)));
+            throw new SyntaxError(PluginBase.formatErrorMessage(errors[0].target, PluginBase.getErrorMessage(errors)));
         }
     }
 
@@ -105,6 +105,12 @@ export abstract class PluginBase implements IPlugin {
                 return `${tab}${proprtyName}.${property}:${msg}`;
             })
             .join('\n\n');
+    }
+
+    protected static getValue<T>(propertyName: string, dataSource: DataSource): T {
+        const dataValue = _.get(dataSource, propertyName) as unknown as T;
+
+        return dataValue;
     }
 
     protected static updatePropertyV2(sourcePropertyName: string, dataSource: DataSource): string {

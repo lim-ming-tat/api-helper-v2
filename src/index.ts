@@ -4,7 +4,9 @@ import { ApiParameter } from './apiLibClass.js';
 import { PluginBase, DataSource } from './pluginBase.js';
 import { Helper } from './helper.js';
 import { ApiLibBase } from './apiLibBase.js';
-import { DtoBase, ArrayValidator, ValidationException, ValidateExceptionData, ValidationDetails } from './dtoBase.js';
+import { DtoBase } from './dtoBase.js';
+import { ValidationException, ValidateExceptionData, ValidationDetails } from './validationException.js';
+import { ArrayValidator } from './arrayValidator.js';
 
 export { ApiLibBase, DtoBase, ArrayValidator, ApiParamBase, ApiParameter, PluginBase, SessionDataBase, Helper, ValidationException };
 export type { ApiResponse, DataSource, ValidateExceptionData, ValidationDetails };

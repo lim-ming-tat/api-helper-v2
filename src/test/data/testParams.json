@@ -1,0 +1,10 @@
+[
+    {
+        "apiKey": "the api key1",
+        "keyFile": "key file name1"
+    },
+    {
+        "apiKey": "the api key2",
+        "keyFile": "key file name2"
+    }
+]

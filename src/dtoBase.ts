@@ -10,6 +10,8 @@ import { ValidationError } from 'class-validator';
 
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { ArrayValidator } from './arrayValidator.js';
+import { ValidationException, ValidateExceptionData } from './validationException.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -20,45 +22,45 @@ export declare type ClassName<T> = { new (...args: unknown[]): T };
 export class DtoBase {
     public static debug = false;
 
-    protected static async plain2Instance<T>(cls: ClassName<T>, dto: object, validate: boolean): Promise<T> {
-        // console.log(`plain2Instance:::dto:::\n${JSON.stringify(dto, null, 4)}`)
-        const dtoObject = plainToInstance(cls, dto, { excludeExtraneousValues: true }) as unknown as T;
-        // console.log(`plain2Instance:::\n${JSON.stringify(dtoObject, null, 4)}`)
+    // protected static async plain2Instance<T>(cls: ClassName<T>, dto: object, validate: boolean): Promise<T> {
+    //     // console.log(`plain2Instance:::dto:::\n${JSON.stringify(dto, null, 4)}`)
+    //     const dtoObject = plainToInstance(cls, dto, { excludeExtraneousValues: true }) as unknown as T;
+    //     // console.log(`plain2Instance:::\n${JSON.stringify(dtoObject, null, 4)}`)
 
-        if (validate) {
-            const dtoError = await this.validateData(dtoObject as object, []);
-            if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+    //     if (validate) {
+    //         const dtoError = await this.validateData(dtoObject as object, []);
+    //         if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
 
-            // console.log(`object validate:::${JSON.stringify(dtoError, null, 4)}`);
+    //         // console.log(`object validate:::${JSON.stringify(dtoError, null, 4)}`);
 
-            // if (DtoBase.debug) console.log(JSON.stringify(dtoError, null, 4));
-            // if (DtoBase.debug) console.log(`plain2Instance:::dtoError:::\n${JSON.stringify(dtoError, null, 4)}`)
-        }
+    //         // if (DtoBase.debug) console.log(JSON.stringify(dtoError, null, 4));
+    //         // if (DtoBase.debug) console.log(`plain2Instance:::dtoError:::\n${JSON.stringify(dtoError, null, 4)}`)
+    //     }
 
-        return dtoObject;
-    }
+    //     return dtoObject;
+    // }
 
-    protected static async plain2Instances<T>(cls: ClassName<T>, dto: object, validate: boolean): Promise<ArrayValidator<T>> {
-        const dtoObject = plainToInstance(cls, dto, { excludeExtraneousValues: true }) as unknown as ArrayValidator<T>;
+    // protected static async plain2Instances<T>(cls: ClassName<T>, dto: object, validate: boolean): Promise<ArrayValidator<T>> {
+    //     const dtoObject = plainToInstance(cls, dto, { excludeExtraneousValues: true }) as unknown as ArrayValidator<T>;
 
-        // convert arry of dto to ArrayValidator with generic type
-        const dtoArray = new ArrayValidator(dtoObject);
+    //     // convert arry of dto to ArrayValidator with generic type
+    //     const dtoArray = new ArrayValidator(dtoObject);
 
-        if (validate) {
-            if (this.debug) console.log('dtoArray:::' + JSON.stringify(dtoArray, null, 4));
+    //     if (validate) {
+    //         if (this.debug) console.log('dtoArray:::' + JSON.stringify(dtoArray, null, 4));
 
-            const dtoError = await this.validateData(dtoArray as object, []);
-            if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
-            // const dtoError = await this.validateData(dtoObject as object);
-            // console.log(`array object validate:::${JSON.stringify(dtoError, null, 4)}`);
+    //         const dtoError = await this.validateData(dtoArray as object, []);
+    //         if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+    //         // const dtoError = await this.validateData(dtoObject as object);
+    //         // console.log(`array object validate:::${JSON.stringify(dtoError, null, 4)}`);
 
-            if (this.debug) console.log(JSON.stringify(dtoError, null, 4));
+    //         if (this.debug) console.log(JSON.stringify(dtoError, null, 4));
 
-            // throw new Error(JSON.stringify(dtoError, null, 4));
-        }
+    //         // throw new Error(JSON.stringify(dtoError, null, 4));
+    //     }
 
-        return dtoArray;
-    }
+    //     return dtoArray;
+    // }
 
     // public static async validateDataBackup<T extends object>(input: T) {
     //     try {
@@ -154,22 +156,22 @@ export class DtoBase {
     // }
 
     public async validate(groups: Array<string> = []) {
-        const stackTrace = await import('stack-trace');
-        const trace = stackTrace.get();
-        console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`);
-        console.log(trace[0].getTypeName(), trace[0].getFunctionName());
-        console.log(trace[0].getFileName(), trace[0].getLineNumber(), trace[0].getColumnNumber());
+        // const stackTrace = await import('stack-trace');
+        // const trace = stackTrace.get();
+        // console.log(`validateSync Start...${JSON.stringify(trace, null, 4)}`);
+        // console.log(trace[0].getTypeName(), trace[0].getFunctionName());
+        // console.log(trace[0].getFileName(), trace[0].getLineNumber(), trace[0].getColumnNumber());
 
-        // console.log(trace[1].getFunctionName());
-        // console.log(trace[1].getTypeName());
-        console.log(trace[1].getFileName(), trace[1].getLineNumber(), trace[1].getColumnNumber());
-        // console.log(trace[1].getMethodName());
-        console.log('validateSync End...');
+        // // console.log(trace[1].getFunctionName());
+        // // console.log(trace[1].getTypeName());
+        // console.log(trace[1].getFileName(), trace[1].getLineNumber(), trace[1].getColumnNumber());
+        // // console.log(trace[1].getMethodName());
+        // console.log('validateSync End...');
 
         const dtoError = await DtoBase.validateData(this, groups);
 
         // if (DtoBase.debug)
-        console.log(`validate:::${JSON.stringify(dtoError, null, 4)}`);
+        // console.log(`validate:::${JSON.stringify(dtoError, null, 4)}`);
         if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
 
         // throw new Error(JSON.stringify(dtoError, null, 4));
@@ -214,233 +216,69 @@ export class DtoBase {
         }
     }
 
-    protected static async file2Instance<T>(cls: ClassName<T>, fileName: string, validate: boolean): Promise<T> {
+    public static async file2Instance<T extends typeof DtoBase>(this: T, fileName: string, validate: boolean = true): Promise<InstanceType<T>> {
+    // protected static async file2Instance<T>(cls: ClassName<T>, fileName: string, validate: boolean): Promise<T> {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
             // const data = await import(fsFileName);
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
-            return await this.plain2Instance(cls, data, validate);
+            // return await this.plain2Instance(cls, data, validate);
+            return await this.plain2Instance(data, validate);
         } else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
 
-    protected static async file2Array<T>(cls: ClassName<T>, fileName: string, validate: boolean): Promise<ArrayValidator<T>> {
+    public static async file2Array<T extends typeof DtoBase>(this: T, fileName: string, validate: boolean = true): Promise<ArrayValidator<InstanceType<T>>> {
+    // protected static async file2Array<T>(cls: ClassName<T>, fileName: string, validate: boolean): Promise<ArrayValidator<T>> {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
             // const data = await import(fsFileName);
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
-            return this.plain2Instances(cls, data, validate);
+            return await this.plain2Instances(data, validate);
         } else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
 
-    // TODO: To test
-    public static createInstance<T extends DtoBase>(c: new () => T): T {
-        return new c();
-    }
+    // https://stackoverflow.com/questions/34098023/typescript-self-referencing-return-type-for-static-methods-in-inheriting-classe
+    public static async plain2Instance<T extends typeof DtoBase>(this: T, dto: object, validate: boolean = true): Promise<InstanceType<T>> {
+        // console.log(`plain2Instance:::dto:::\n${JSON.stringify(dto, null, 4)}`)
+        const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: true }) as unknown as T;
 
-    public static create<Type>(c: { new (): Type }): Type {
-        return new c();
-    }
-}
+        if (validate) {
+            // const dtoError = await this.validateData(dtoObject as object, []);
+            // if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
 
-export class ArrayValidator<T> extends Array<T> {
-    @IsArray()
-    @ValidateNested({ each: true })
-    private array: Array<T>;
-
-    constructor(inputArray: Array<T>) {
-        super();
-        inputArray.forEach((item) => this.push(item));
-
-        this.array = this;
-    }
-
-    // public static async validateBackup<T extends object>(array: T) {
-    //     const dtoError = await ArrayValidator.validateData(array);
-
-    //     // if (DtoBase.debug)
-    //     console.log(`array validate:::${JSON.stringify(dtoError, null, 4)}`);
-
-    //     // throw new Error(JSON.stringify(dtoError, null, 4));
-    // }
-
-    public async validate() {
-        const dtoError = await ArrayValidator.validateData(this);
-
-        // if (DtoBase.debug)
-        // console.log(`array validate:::${JSON.stringify(dtoError, null, 4)}`);
-        if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
-
-        // throw new Error(JSON.stringify(dtoError, null, 4));
-    }
-
-    public validateSync() {
-        const valError = ValidateSync(this);
-
-        const dtoError = { errorCode: valError.length > 0 ? 500 : 0, errors: ArrayValidator.getErrorMessage(valError) };
-
-        if (dtoError.errorCode !== 0) {
-            const err = new ValidationException(dtoError, 'Data validation errors');
-            // console.log(err.showMessage())
-
-            throw new TypeError(err.getMessage());
+            await (dtoObject as InstanceType<T>).validate();
         }
 
-        // throw new Error(JSON.stringify(dtoError, null, 4));
+        return dtoObject as InstanceType<T>
     }
 
-    private static async validateData<T extends object>(input: T) {
-        try {
-            await validateOrReject(input);
-            return { errorCode: 0, errors: [] };
-        } catch (err) {
-            if (DtoBase.debug) console.warn('new [Validations] error');
-            if (DtoBase.debug) console.log(JSON.stringify(err, null, 4));
-            const validationErrors = err as ValidationError[];
+    protected static async plain2Instances<T extends typeof DtoBase>(this: T, dto: object, validate: boolean = true): Promise<ArrayValidator<InstanceType<T>>> {
+        const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: true }) as unknown as ArrayValidator<T>;
 
-            return { errorCode: 500, errors: this.getErrorMessage(validationErrors) };
+        // convert arry of dto to ArrayValidator with generic type
+        const dtoArray = new ArrayValidator(dtoObject);
+
+        if (validate) {
+            if (this.debug) console.log('dtoArray:::' + JSON.stringify(dtoArray, null, 4));
+
+            const dtoError = await this.validateData(dtoArray as object, []);
+            if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+            // const dtoError = await this.validateData(dtoObject as object);
+            // console.log(`array object validate:::${JSON.stringify(dtoError, null, 4)}`);
+
+            if (this.debug) console.log(JSON.stringify(dtoError, null, 4));
+
+            // throw new Error(JSON.stringify(dtoError, null, 4));
         }
-    }
-    // private static async validateData<T extends object>(input: T) {
-    //     try {
-    //         await validateOrReject(input);
-    //         return { errors: {} };
-    //     } catch (err) {
-    //         if (DtoBase.debug) console.warn('new [Validations] error');
-    //         if (DtoBase.debug) console.log(JSON.stringify(err, null, 4));
-    //         const validationErrors = err as ValidationError[];
-    //         // const errorsList: Record<string, string> = validationErrors.reduce((prevError, currError) => {
-    //         //     const property = currError.property;
-    //         //     const message = Object.values(currError.constraints!)[0];
-    //         //     return { ...prevError, [property]: message };
-    //         // }, {});
-    //         // return { errors: errorsList };
 
-    //         return ArrayValidator.getErrorMessage(validationErrors);
-    //     }
-    // }
-
-    protected static getErrorMessage(errors: ValidationError[], parentProprtyName = 'sourceData'): { [x: string]: ValidateExceptionData }[] {
-        return errors.map(({ property, constraints, children }) => {
-            const validateExceptionData: ValidateExceptionData = [];
-            if (children != undefined && children.length > 0) {
-                this.getErrorMessage(children, property).forEach((item) => validateExceptionData.push(item));
-            } else {
-                for (const key in constraints) {
-                    validateExceptionData.push(constraints[key]);
-                }
-            }
-            return { [`${parentProprtyName}.${property}`]: validateExceptionData };
-        });
-    }
-    // protected static getErrorMessage(errors: ValidationError[], parentProprtyName = 'sourceData') {
-    //     return errors.map(({ property, constraints, children }) => {
-    //         const msg:
-    //             | Array<string>
-    //             | {
-    //                   [key: string]: any;
-    //               } = [];
-    //         if (children != undefined && children.length > 0) {
-    //             this.getErrorMessage(children, property).forEach((item) => msg.push(item));
-    //         } else {
-    //             for (const key in constraints) {
-    //                 msg.push(constraints[key]);
-    //             }
-    //         }
-    //         return { [`${parentProprtyName}.${property}`]: msg };
-    //     });
-    //     // .join('\n\n');
-    // }
-
-    // private static formatError(err: ValidationError[]): Record<string, string> {
-    //     const validationErrors = err;
-    //     const errorsList: Record<string, string> = validationErrors.reduce((prevError, currError) => {
-    //         const property = currError.property;
-    //         const message = this.getErrorMessage([currError]);
-
-    //         return { ...prevError, [property]: message };
-    //     }, {});
-
-    //     return errorsList;
-    // }
-
-    // public validateData() {
-    //     // validating and check the errors, throw the errors if exist
-    //     const errors = validateSync(this as object);
-
-    //     if (errors.length > 0) {
-    //         throw new TypeError(ArrayValidator.formatErrorMessage(errors[0].target, ArrayValidator.getErrorMessage(errors)));
-    //     }
-    // }
-
-    // protected static formatErrorMessage<T>(data: T, message: string, property?: string) {
-    //     let formatedMsg = message;
-    //     if (property !== undefined) {
-    //         formatedMsg = `.${property}\n  ${message}`;
-    //     }
-
-    //     return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
-    // }
-
-    // protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
-    //     const TAB = '  ';
-    //     return errors
-    //         .map(({ property, constraints, children }) => {
-    //             let msg = '';
-    //             if (children != undefined && children.length > 0) {
-    //                 msg += `\n${ArrayValidator.getErrorMessage(children, property, `${tab}${TAB}`)}`;
-    //             } else {
-    //                 for (const key in constraints) {
-    //                     msg += `\n${tab}${TAB}${constraints[key]}`;
-    //                 }
-    //             }
-    //             return `${tab}${proprtyName}.${property}:${msg}`;
-    //         })
-    //         .join('\n\n');
-    // }
-}
-
-export type ValidateExceptionData = Array<string | Record<string, unknown>>;
-
-export interface ValidationDetails {
-    errorCode: number;
-    errors: {
-        [x: string]: ValidateExceptionData;
-    }[];
-}
-
-export class ValidationException extends Error {
-    private details: ValidationDetails;
-
-    constructor(details: ValidationDetails, message?: string) {
-        super(message); // 'Error' breaks prototype chain here
-        Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
-
-        this.details = details;
-    }
-
-    get errorCode() {
-        return this.details.errorCode;
-    }
-
-    get errors() {
-        return this.details.errors;
-    }
-
-    public getMessage() {
-        return 'ValidationException:::\n' + JSON.stringify(this.details, null, 4);
-    }
-
-    public showMessage() {
-        // console.log('ValidationException:::');
-        // console.log(JSON.stringify(this.details, null, 4));
-        console.log(`---ValidationException---\n${JSON.stringify(this.details, null, 4)}\n---ValidationException---`);
+        return dtoArray as ArrayValidator<InstanceType<T>>;
     }
 }

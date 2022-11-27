@@ -9,7 +9,7 @@ import 'reflect-metadata';
 
 import { ApiParameter, ResponseParam, SessionDataBase, ApiParam, ParametersMaps } from './apiLibClass.js';
 
-import { ArrayValidator } from './dtoBase.js';
+import { ArrayValidator } from './arrayValidator.js';
 
 import { Helper as helper } from './helper.js';
 
