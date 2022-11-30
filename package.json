@@ -20,6 +20,7 @@
     "test:4": "NODE_OPTIONS=--experimental-vm-modules jest --verbose plugins.spec.ts",
     "test:5": "NODE_OPTIONS=--experimental-vm-modules jest --verbose pluginBase.spec.ts",
     "test:6": "NODE_OPTIONS=--experimental-vm-modules jest --verbose dtoBase.spec.ts",
+    "test:7": "NODE_OPTIONS=--experimental-vm-modules jest --verbose helper.spec.ts",
     "coverage": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch"
   },

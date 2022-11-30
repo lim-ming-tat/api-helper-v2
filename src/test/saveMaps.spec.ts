@@ -18,7 +18,7 @@ type TestCases = Array<Array<string | TestData>>;
 function getTestCases(fileName: string, chunkSize = 1): TestCases {
     const testCases: TestCases = [];
 
-    const { apiParams, sessionData } = ApiCommand.getInstanceSync(fileName);
+    const { apiParams, sessionData } = ApiCommand.file2InstanceSync(fileName, false, false);
 
     // split array into multiple chunk with size
     function splitToChunk<T>(arr: T[], chunkSize: number): T[][] {

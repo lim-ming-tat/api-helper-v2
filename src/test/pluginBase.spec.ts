@@ -1,35 +1,23 @@
 import { Exclude, Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { ApiParameter } from '../apiLibClass.js';
+import { ApiParam, ApiParameter } from '../apiLibClass.js';
 import { DtoBase } from '../dtoBase.js';
 import { DataSource, PluginBase } from '../pluginBase.js';
 import { ValidationException } from '../validationException.js';
 
-const DEBUG = false;
+// const DEBUG = false;
 
 @Exclude()
 export class TestParam extends DtoBase {
     @Expose()
     @IsString()
     @IsNotEmpty()
-    apiKey: string = '';
+    apiKey = '';
 
     @Expose()
     @IsString()
     @IsNotEmpty()
-    keyFile: string = '';
-
-    // public static async getInstanceFromPlain(dto: object, validate = false): Promise<TestParam> {
-    //     return await this.plain2Instance(TestParam, dto, validate);
-    // }
-
-    // public static async getInstanceFromFile(fileName: string, validate = false): Promise<TestParam> {
-    //     return await this.file2Instance(TestParam, fileName, validate);
-    // }
-
-    // public static async getArrayFromFile(fileName: string, validate = false): Promise<ArrayValidator<TestParam>> {
-    //     return await this.file2Array(TestParam, fileName, validate);
-    // }
+    keyFile = '';
 }
 
 class TestPlugin extends PluginBase {
@@ -53,7 +41,7 @@ class TestPlugin extends PluginBase {
         // const newValue = dataValue === undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
 
         if (item.debug) {
-            // this.addDebugData(dataSource, { parameter: parameter, result: newValue });
+            this.addDebugData(dataSource, { parameter: parameter, result: dataValue });
         }
 
         return dataValue;
@@ -62,30 +50,66 @@ class TestPlugin extends PluginBase {
 
 describe('PluginBase', () => {
     const classUnderTest_TestPlugin = new TestPlugin();
-
+    
     const dataSource: DataSource = {
-        apiParam: {
-            description: '',
-            parametersMaps: [],
-            url: '',
-            httpMethod: '',
-
-            parameters: {
-                isExists: true,
-                paramPath: 'apiParam.parameters.isExists',
-            },
-
-            nextHopOnly: false,
-            nextHopParams: [],
-            nextHopMaps: [],
-            saveMaps: [],
-
-            debug: true,
-            debugSession: false,
-        },
+        apiParam: new ApiParam(),
         sessionData: {},
     };
+    dataSource.apiParam.debug = true;
+    dataSource.apiParam.parameters = {
+        isExists: true,
+        paramPath: 'apiParam.parameters.isExists',
+        
+        paramData: {
+            apiKey: 'key',
+            keyFile: 'key file'
+        }
+    };
 
+    // const dataSourcex: DataSource = {
+    //     apiParam: {
+    //         description: '',
+    //         parametersMaps: [],
+    //         url: '',
+    //         httpMethod: '',
+
+    //         parameters: {
+    //             isExists: true,
+    //             paramPath: 'apiParam.parameters.isExists',
+                
+    //             paramData: {
+    //                 apiKey: 'key',
+    //                 keyFile: 'key file'
+    //             }
+    //         },
+
+
+    //         nextHopOnly: false,
+    //         nextHopParams: [],
+    //         nextHopMaps: [],
+    //         saveMaps: [],
+
+    //         debug: true,
+    //         debugSession: false,
+    //     },
+    //     sessionData: {},
+    // };
+
+    it('plugin (TestPlugin) happy path', async () => {
+        const apiParam_testPlugin: ApiParameter = {
+            parameter: '{{testPlugin:apiParam.parameters.isExists:true:false}}',
+            targetProperty: 'skipExecute',
+    
+            data: 'apiParam.parameters.paramData',
+
+            debug: dataSource.apiParam.debug,
+        };
+
+        const returnValue = classUnderTest_TestPlugin.execute(apiParam_testPlugin, dataSource, apiParam_testPlugin.parameter);
+
+        expect(returnValue).toBeTruthy();
+
+    });
 
     it('plugin (TestPlugin) apiParameter.data missing', async () => {
         // dataSource.apiParam.debugData = [];

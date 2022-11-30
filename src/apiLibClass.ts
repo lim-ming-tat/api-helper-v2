@@ -1,6 +1,6 @@
-import { plainToInstance, plainToClassFromExist, Type, Expose } from 'class-transformer';
+import { Type, Expose } from 'class-transformer';
 import 'reflect-metadata';
-import fs from 'fs';
+// import fs from 'fs';
 
 import { DateTime, DurationObjectUnits } from 'luxon';
 import request from 'superagent';
@@ -9,8 +9,9 @@ import { NexthopMap, SaveMap } from './mapsHelper.js';
 
 import { Helper } from './helper.js';
 import { IsBoolean, IsOptional, IsString } from 'class-validator';
+import { DtoBase } from './dtoBase.js';
 
-export class ApiParam {
+export class ApiParam extends DtoBase {
     id?: string;
     @Expose()
     description = '';
@@ -106,28 +107,28 @@ export class ApiParam {
 
     // [key: string]: any
 
-    public static async getInstance(fileName: string): Promise<ApiParam> {
-        const fsFileName = Helper.getFullPath(fileName);
+    // public static async getInstance(fileName: string): Promise<ApiParam> {
+    //     const fsFileName = Helper.getFullPath(fileName);
 
-        if (fs.existsSync(fsFileName)) {
-            // const data = await import(fsFileName);
-            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+    //     if (fs.existsSync(fsFileName)) {
+    //         // const data = await import(fsFileName);
+    //         const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
-            const object = plainToInstance(ApiParam, data, {
-                excludeExtraneousValues: false,
-            }) as unknown as ApiParam;
+    //         const object = plainToInstance(ApiParam, data, {
+    //             excludeExtraneousValues: false,
+    //         }) as unknown as ApiParam;
 
-            return object;
-        } else {
-            throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
-        }
-    }
+    //         return object;
+    //     } else {
+    //         throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
+    //     }
+    // }
 
-    public static async getInstanceFromJsObject(jsObject: Record<string, unknown>): Promise<ApiParam> {
-        const defaultEmptyClass = new ApiParam();
+    // public static async getInstanceFromJsObject(jsObject: Record<string, unknown>): Promise<ApiParam> {
+    //     const defaultEmptyClass = new ApiParam();
 
-        return plainToClassFromExist(defaultEmptyClass, jsObject);
-    }
+    //     return plainToClassFromExist(defaultEmptyClass, jsObject);
+    // }
 }
 
 export class ApiTag {
@@ -222,7 +223,7 @@ export interface ApiResponse {
     results: Array<ResponseParam>;
 }
 
-export class ApiCommand {
+export class ApiCommand extends DtoBase {
     @Expose()
     description = '';
 
@@ -238,39 +239,39 @@ export class ApiCommand {
     // @Type(() => ResponseParam)
     apiResults: Array<ResponseParam> = new Array<ResponseParam>();
 
-    public static async getInstance(fileName: string): Promise<ApiCommand> {
-        const fsFileName = Helper.getFullPath(fileName);
+    // public static async getInstance(fileName: string): Promise<ApiCommand> {
+    //     const fsFileName = Helper.getFullPath(fileName);
 
-        if (fs.existsSync(fsFileName)) {
-            // const data = await import(fsFileName);
-            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
-            const object = plainToInstance(ApiCommand, data, {
-                excludeExtraneousValues: false,
-            }) as unknown as ApiCommand;
+    //     if (fs.existsSync(fsFileName)) {
+    //         // const data = await import(fsFileName);
+    //         const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+    //         const object = plainToInstance(ApiCommand, data, {
+    //             excludeExtraneousValues: false,
+    //         }) as unknown as ApiCommand;
 
-            return object;
-        } else {
-            throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
-        }
-    }
+    //         return object;
+    //     } else {
+    //         throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
+    //     }
+    // }
 
     // created for jest test case, do not used in production code
-    public static getInstanceSync(fileName: string): ApiCommand {
-        const fsFileName = Helper.getFullPathV2(fileName);
+    // public static getInstanceSync(fileName: string): ApiCommand {
+    //     const fsFileName = Helper.getFullPathV2(fileName);
 
-        if (fs.existsSync(fsFileName)) {
-            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
-            // console.log('data', data)
-            const object = plainToInstance(ApiCommand, data, {
-                excludeExtraneousValues: false,
-            }) as unknown as ApiCommand;
-            // console.log('object', object)
+    //     if (fs.existsSync(fsFileName)) {
+    //         const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+    //         // console.log('data', data)
+    //         const object = plainToInstance(ApiCommand, data, {
+    //             excludeExtraneousValues: false,
+    //         }) as unknown as ApiCommand;
+    //         // console.log('object', object)
 
-            return object;
-        } else {
-            throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
-        }
-    }
+    //         return object;
+    //     } else {
+    //         throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
+    //     }
+    // }
 }
 
 // class ValidationBase<T> {

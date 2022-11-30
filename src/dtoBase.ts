@@ -80,7 +80,7 @@ export class DtoBase {
         }
     }
 
-    public static async file2Instance<T extends typeof DtoBase>(this: T, fileName: string, validate: boolean = true): Promise<InstanceType<T>> {
+    public static async file2Instance<T extends typeof DtoBase>(this: T, fileName: string, validate = true): Promise<InstanceType<T>> {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
@@ -93,7 +93,20 @@ export class DtoBase {
         }
     }
 
-    public static async file2Array<T extends typeof DtoBase>(this: T, fileName: string, validate: boolean = true): Promise<ArrayValidator<InstanceType<T>>> {
+    public static file2InstanceSync<T extends typeof DtoBase>(this: T, fileName: string, validate = true, excludeExtraneousValues = true): InstanceType<T> {
+        const fsFileName = this.getFullPath(fileName);
+
+        if (fs.existsSync(fsFileName)) {
+            const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
+
+            // return await this.plain2Instance(cls, data, validate);
+            return this.plain2InstanceSync(data, validate, excludeExtraneousValues);
+        } else {
+            throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
+        }
+    }
+
+    public static async file2Array<T extends typeof DtoBase>(this: T, fileName: string, validate = true): Promise<ArrayValidator<InstanceType<T>>> {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
@@ -106,7 +119,7 @@ export class DtoBase {
     }
 
     // https://stackoverflow.com/questions/34098023/typescript-self-referencing-return-type-for-static-methods-in-inheriting-classe
-    public static async plain2Instance<T extends typeof DtoBase>(this: T, dto: object, validate: boolean = true): Promise<InstanceType<T>> {
+    public static async plain2Instance<T extends typeof DtoBase>(this: T, dto: object, validate = true): Promise<InstanceType<T>> {
         const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: true }) as unknown as T;
 
         if (validate) {
@@ -119,7 +132,21 @@ export class DtoBase {
         return dtoObject as InstanceType<T>;
     }
 
-    protected static async plain2Instances<T extends typeof DtoBase>(this: T, dto: object, validate: boolean = true): Promise<ArrayValidator<InstanceType<T>>> {
+    public static plain2InstanceSync<T extends typeof DtoBase>(this: T, dto: object, validate = true, excludeExtraneousValues = true): InstanceType<T> {
+        // set excludeExtraneousValues: false for test case only
+        const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: excludeExtraneousValues }) as unknown as T;
+
+        if (validate) {
+            // const dtoError = await this.validateData(dtoObject as object, []);
+            // if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+
+            (dtoObject as InstanceType<T>).validateSync();
+        }
+
+        return dtoObject as InstanceType<T>;
+    }
+
+    protected static async plain2Instances<T extends typeof DtoBase>(this: T, dto: object, validate = true): Promise<ArrayValidator<InstanceType<T>>> {
         const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: true }) as unknown as ArrayValidator<T>;
 
         // convert arry of dto to ArrayValidator with generic type

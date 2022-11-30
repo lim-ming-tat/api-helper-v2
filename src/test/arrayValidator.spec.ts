@@ -8,14 +8,14 @@ class TestParam {
     @Expose()
     @IsString()
     @IsNotEmpty({ groups: ['key'] })
-    apiKey: string = '';
+    apiKey = '';
 
     @Expose()
     @IsString()
     @IsNotEmpty()
-    keyFile: string = '';
+    keyFile = '';
 
-    constructor(apiKey: string = '', keyFile: string = '') {
+    constructor(apiKey = '', keyFile = '') {
         this.apiKey = apiKey;
         this.keyFile = keyFile;
     }

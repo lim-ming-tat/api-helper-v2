@@ -300,7 +300,7 @@ export abstract class ApiLibBase {
 
         if (apiParams[0].moduleName !== undefined) {
             // load module
-            currentParam = await ApiParam.getInstance(apiParams[0].moduleName);
+            currentParam = await ApiParam.file2Instance(apiParams[0].moduleName);
 
             // transfer module description to currentParam
             // console.log(`\n---module.description---\n${JSON.stringify(apiParams[0].description, null, 4)}\n---apiParams[0]---\n`)
@@ -352,7 +352,7 @@ export abstract class ApiLibBase {
             // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
         } else {
             // clone the apiParam for update
-            currentParam = await ApiParam.getInstanceFromJsObject(JSON.parse(JSON.stringify(apiParams[0])));
+            currentParam = await ApiParam.plain2Instance(JSON.parse(JSON.stringify(apiParams[0])));
         }
 
         // transfer module parameter to currentParam
@@ -518,7 +518,7 @@ export abstract class ApiLibBase {
     protected async executeCommand(apiCommandFileName: string, inputParam: ApiParamBase, callBackSessionData: (sessionData: SessionDataBase) => void): Promise<Array<ApiResponse>> {
         // load the apis commands file
         this.logMessage(`Load api command file: '${apiCommandFileName}'`);
-        const apiCommand = await ApiCommand.getInstance(apiCommandFileName);
+        const apiCommand = await ApiCommand.file2Instance(apiCommandFileName);
 
         if (this.configureSystemConfig) await this.configureSystemConfig(apiCommand.sessionData);
 

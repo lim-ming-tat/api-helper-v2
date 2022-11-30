@@ -2,7 +2,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { DtoBase } from '../dtoBase.js';
 import { ArrayValidator } from '../arrayValidator.js';
-import { ValidationException } from '../validationException.js'
+import { ValidationException } from '../validationException.js';
 
 
 @Exclude()
@@ -10,14 +10,14 @@ class TestParam extends DtoBase {
     @Expose()
     @IsString()
     @IsNotEmpty({ groups: ['key'] })
-    apiKey: string = '';
+    apiKey = '';
 
     @Expose()
     @IsString()
     @IsNotEmpty()
-    keyFile: string = '';
+    keyFile = '';
 
-    constructor(apiKey: string = '', keyFile: string = '') {
+    constructor(apiKey = '', keyFile = '') {
         super();
 
         this.apiKey = apiKey;
@@ -115,7 +115,7 @@ describe('DtoBase', () => {
         };
 
         expect(sut).rejects.toThrow(Error);
-        expect(sut).rejects.toThrow(/^File not found .+/)
+        expect(sut).rejects.toThrow(/^File not found .+/);
     });
 
     it('dtoBase file2Array to throw File not found', async () => {
@@ -126,7 +126,7 @@ describe('DtoBase', () => {
         };
 
         expect(sut).rejects.toThrow(Error);
-        expect(sut).rejects.toThrow(/^File not found .+/)
+        expect(sut).rejects.toThrow(/^File not found .+/);
     });
 
     it('dtoBase file2Instance return instance of derived type (TestParam)', async () => {
@@ -143,14 +143,14 @@ describe('DtoBase', () => {
         const dto = await TestParam.file2Array(fileName);
 
         expect(dto).toBeInstanceOf(ArrayValidator<TestParam>);
-        expect(dto).toHaveLength(2)
+        expect(dto).toHaveLength(2);
     });
 
     it('dtoBase plain2Instance return instance of derived type (TestParam)', async () => {
         const plain = {
             apiKey: 'apikey-value',
             keyFile: 'filename-value'
-        }
+        };
         const dto = await TestParam.plain2Instance(plain);
 
         expect(dto).toBeInstanceOf(TestParam);
@@ -160,7 +160,7 @@ describe('DtoBase', () => {
         const plain = {
             apiKey: 'apikey-value',
             keyFile: undefined
-        }
+        };
 
         const validationError = 'Data validation errors';
         const dve = {
@@ -170,7 +170,7 @@ describe('DtoBase', () => {
                 'data.keyFile': [ 'keyFile should not be empty', 'keyFile must be a string' ]
               }
             ]
-        }
+        };
 
         const sut = async () => {
             await TestParam.plain2Instance(plain);
@@ -182,7 +182,7 @@ describe('DtoBase', () => {
         // expect(sut).rejects.toMatch(dve);
         sut().catch(e => {
             // console.log(e.details)
-            expect(JSON.stringify(e.details)).toBe(JSON.stringify(dve))
-        })
+            expect(JSON.stringify(e.details)).toBe(JSON.stringify(dve));
+        });
     });
 });

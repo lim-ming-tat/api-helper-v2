@@ -1,10 +1,11 @@
 import _ from 'lodash';
 
-import 'reflect-metadata';
-import { plainToInstance, ClassConstructor } from 'class-transformer';
-import { validateSync, ValidationError } from 'class-validator';
+// import 'reflect-metadata';
+// import { plainToInstance, ClassConstructor } from 'class-transformer';
+// import { validateSync, ValidationError } from 'class-validator';
 
 import { ApiParameter, ApiParam, SessionDataBase } from './apiLibClass.js';
+// import { DtoBase } from './dtoBase.js';
 
 export interface IPlugin {
     readonly name: string;
@@ -59,6 +60,23 @@ export abstract class PluginBase implements IPlugin {
         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
     }
 
+    // public static validateParamX<T extends typeof DtoBase>(this: T, item: ApiParameter, dataSource: DataSource): InstanceType<T> {
+    //     // validation, must make sure that item.data is provided
+    //     if (item.data === undefined) {
+    //         throw new SyntaxError(PluginBase.formatErrorMessage(item, '[ApiParameter].data is missing/undefined', 'data'));
+    //     }
+
+    //     // validation, must make sure that item.data map to valid data source
+    //     const authParam = this.plain2InstanceSync(_.get(dataSource, PluginBase.updatePropertyV2(item.data, dataSource)));
+
+    //     if (authParam === undefined) {
+    //         throw new TypeError(PluginBase.formatErrorMessage(item, `${item.data} is missing/undefined`, 'data'));
+    //     }
+    //     // authParam = Object.setPrototypeOf(authParam, targetClass.prototype);
+
+    //     return authParam;
+    // }
+
     // protected static validateParam<T>(item: ApiParameter, dataSource: DataSource) {
     protected static validateParam<T>(targetClass: ClassType<T>, item: ApiParameter, dataSource: DataSource) {
         // validation, must make sure that item.data is provided
@@ -77,35 +95,35 @@ export abstract class PluginBase implements IPlugin {
         return authParam;
     }
 
-    protected static validateData<T extends ClassConstructor<unknown>>(dto: T, obj: unknown) {
-        // tranform the literal object to class object
-        const objInstance = plainToInstance(dto, obj);
+    // protected static validateData<T extends ClassConstructor<unknown>>(dto: T, obj: unknown) {
+    //     // tranform the literal object to class object
+    //     const objInstance = plainToInstance(dto, obj);
 
-        // validating and check the errors, throw the errors if exist
-        const errors = validateSync(objInstance as object);
+    //     // validating and check the errors, throw the errors if exist
+    //     const errors = validateSync(objInstance as object);
 
-        if (errors.length > 0) {
-            throw new SyntaxError(PluginBase.formatErrorMessage(errors[0].target, PluginBase.getErrorMessage(errors)));
-        }
-    }
+    //     if (errors.length > 0) {
+    //         throw new SyntaxError(PluginBase.formatErrorMessage(errors[0].target, PluginBase.getErrorMessage(errors)));
+    //     }
+    // }
 
-    protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
-        // const TAB = '\t'
-        const TAB = '  ';
-        return errors
-            .map(({ property, constraints, children }) => {
-                let msg = '';
-                if (children != undefined && children.length > 0) {
-                    msg += `\n${PluginBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
-                } else {
-                    for (const key in constraints) {
-                        msg += `\n${tab}${TAB}${constraints[key]}`;
-                    }
-                }
-                return `${tab}${proprtyName}.${property}:${msg}`;
-            })
-            .join('\n\n');
-    }
+    // protected static getErrorMessage(errors: ValidationError[], proprtyName = '', tab = '') {
+    //     // const TAB = '\t'
+    //     const TAB = '  ';
+    //     return errors
+    //         .map(({ property, constraints, children }) => {
+    //             let msg = '';
+    //             if (children != undefined && children.length > 0) {
+    //                 msg += `\n${PluginBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+    //             } else {
+    //                 for (const key in constraints) {
+    //                     msg += `\n${tab}${TAB}${constraints[key]}`;
+    //                 }
+    //             }
+    //             return `${tab}${proprtyName}.${property}:${msg}`;
+    //         })
+    //         .join('\n\n');
+    // }
 
     protected static getValue<T>(propertyName: string, dataSource: DataSource): T {
         const dataValue = _.get(dataSource, propertyName) as unknown as T;

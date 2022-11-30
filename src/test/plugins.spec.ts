@@ -1,33 +1,42 @@
-import { ValidationException, ValidationDetails, ApiParameter, DataSource } from 'api-helper-v2';
-import { NexthopMap } from '../mapsHelper.js';
+import { ApiParameter, DataSource } from 'api-helper-v2';
+import { ApiParam } from '../apiLibClass.js';
 import { IfExists, IfNotExists } from '../plugins.js';
 
-const DEBUG = false;
+// const DEBUG = false;
 
 describe('System plugins', () => {
     const classUnderTest_IfExists = new IfExists();
     const classUnderTest_IfNotExists = new IfNotExists();
 
+    // const dataSourcex: DataSource = {
+    //     apiParam: {
+    //         description: '',
+    //         parametersMaps: [],
+    //         url: '',
+    //         httpMethod: '',
+
+    //         parameters: {
+    //             isExists: {},
+    //         },
+
+    //         nextHopOnly: false,
+    //         nextHopParams: [],
+    //         nextHopMaps: [],
+    //         saveMaps: [],
+
+    //         debug: true,
+    //         debugSession: false,
+    //     },
+    //     sessionData: {},
+    // };
+
     const dataSource: DataSource = {
-        apiParam: {
-            description: '',
-            parametersMaps: [],
-            url: '',
-            httpMethod: '',
-
-            parameters: {
-                isExists: {},
-            },
-
-            nextHopOnly: false,
-            nextHopParams: [],
-            nextHopMaps: [],
-            saveMaps: [],
-
-            debug: true,
-            debugSession: false,
-        },
+        apiParam: new ApiParam(),
         sessionData: {},
+    };
+    dataSource.apiParam.debug = true;
+    dataSource.apiParam.parameters = {
+        isExists: {},
     };
 
     const apiParam_ifExists: ApiParameter = {
