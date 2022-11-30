@@ -6,20 +6,129 @@ import { ValidationException } from '../validationException.js'
 
 
 @Exclude()
-export class TestParam extends DtoBase {
+class TestParam extends DtoBase {
     @Expose()
     @IsString()
-    @IsNotEmpty()
+    @IsNotEmpty({ groups: ['key'] })
     apiKey: string = '';
 
     @Expose()
     @IsString()
     @IsNotEmpty()
     keyFile: string = '';
+
+    constructor(apiKey: string = '', keyFile: string = '') {
+        super();
+
+        this.apiKey = apiKey;
+        this.keyFile = keyFile;
+    }
 }
 
+describe('DtoBase error test', () => {
+    const validationError = 'Data validation errors';
+    const expectedError = {
+        errorCode: 500,
+        errors: [
+            {
+                'data.apiKey': ['apiKey should not be empty'],
+            },
+            {
+                'data.keyFile': ['keyFile should not be empty'],
+            },
+        ],
+    };
+    const dtoBase = new TestParam();
+
+    it('validate error', async () => {
+        const sut = async () => {
+            await dtoBase.validate();
+        };
+
+        sut().catch((e) => {
+            expect(e).toBeInstanceOf(ValidationException);
+            expect(e.message).toBe(validationError);
+
+            expect(e.details).toStrictEqual(expectedError);
+        });
+    });
+
+    it('validateSync error', () => {
+        try {
+            dtoBase.validateSync();
+        } catch (err) {
+            const e = err as ValidationException;
+            expect(e).toBeInstanceOf(ValidationException);
+            expect(e.message).toBe(validationError);
+
+            expect(e.errorCode).toBe(expectedError.errorCode);
+            expect(e.errors).toStrictEqual(expectedError.errors);
+
+            expect(e.details).toStrictEqual(expectedError);
+        }
+    });
+
+    const expectedError_groups = {
+        errorCode: 500,
+        errors: [
+            {
+                'data.apiKey': ['apiKey should not be empty'],
+            },
+        ],
+    };
+
+    it('validateSync group error', () => {
+        try {
+            dtoBase.validateSync(['key']);
+        } catch (err) {
+            const e = err as ValidationException;
+            expect(e).toBeInstanceOf(ValidationException);
+            expect(e.message).toBe(validationError);
+
+            expect(e.details).toStrictEqual(expectedError_groups);
+        }
+    });
+});
+
+describe('DtoBase happy path', () => {
+    const dtoBase = new TestParam('key', 'file');
+
+    it('validate', async () => {
+        const result = await dtoBase.validate();
+
+        expect(result).toBeTruthy();
+    });
+
+    it('validateSync', () => {
+        const result = dtoBase.validateSync();
+
+        expect(result).toBeTruthy();
+    });
+});
 
 describe('DtoBase', () => {
+    it('dtoBase file2Instance to throw File not found', async () => {
+        const fileName = './src/test/data/invalid.json';
+
+        const sut = async () => {
+            await TestParam.file2Instance(fileName);
+        };
+
+        expect(sut).rejects.toThrow(Error);
+        expect(sut).rejects.toThrow(/^File not found .+/)
+    });
+
+    it('dtoBase file2Array to throw File not found', async () => {
+        const fileName = './src/test/data/invalid.json';
+
+        const sut = async () => {
+            await TestParam.file2Array(fileName);
+        };
+
+        expect(sut).rejects.toThrow(Error);
+        expect(sut).rejects.toThrow(/^File not found .+/)
+    });
+
     it('dtoBase file2Instance return instance of derived type (TestParam)', async () => {
         const fileName = './src/test/data/testParam.json';
 
@@ -58,7 +167,7 @@ describe('DtoBase', () => {
             errorCode: 500,
             errors: [
               {
-                'sourceData.keyFile': [ 'keyFile should not be empty', 'keyFile must be a string' ]
+                'data.keyFile': [ 'keyFile should not be empty', 'keyFile must be a string' ]
               }
             ]
         }

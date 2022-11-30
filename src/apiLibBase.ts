@@ -282,7 +282,8 @@ export abstract class ApiLibBase {
                 this.logMessage(`\n---error object---\n${error}\n---error object---`);
                 if (error.message === 'Data validation errors') {
                     const valError = error as ValidationException;
-                    valError.showMessage();
+                    // valError.showMessage();
+                    console.log(`---ValidationException---\n${JSON.stringify(valError.details, null, 4)}\n---ValidationException---`);
                 }
                 console.log();
                 ApiLibBase.displayResult(apiParam, 'apiParam');

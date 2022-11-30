@@ -1,5 +1,3 @@
-
-
 export type ValidateExceptionData = Array<string | Record<string, unknown>>;
 
 export interface ValidationDetails {
@@ -10,7 +8,7 @@ export interface ValidationDetails {
 }
 
 export class ValidationException extends Error {
-    private details: ValidationDetails;
+    public details: ValidationDetails;
 
     constructor(details: ValidationDetails, message?: string) {
         super(message); // 'Error' breaks prototype chain here
@@ -27,13 +25,13 @@ export class ValidationException extends Error {
         return this.details.errors;
     }
 
-    public getMessage() {
-        return 'ValidationException:::\n' + JSON.stringify(this.details, null, 4);
-    }
+    // public getMessage() {
+    //     return 'ValidationException:::\n' + JSON.stringify(this.details, null, 4);
+    // }
 
-    public showMessage() {
-        // console.log('ValidationException:::');
-        // console.log(JSON.stringify(this.details, null, 4));
-        console.log(`---ValidationException---\n${JSON.stringify(this.details, null, 4)}\n---ValidationException---`);
-    }
+    // public showMessage() {
+    //     // console.log('ValidationException:::');
+    //     // console.log(JSON.stringify(this.details, null, 4));
+    //     console.log(`---ValidationException---\n${JSON.stringify(this.details, null, 4)}\n---ValidationException---`);
+    // }
 }
