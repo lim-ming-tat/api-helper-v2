@@ -80,14 +80,14 @@ export class DtoBase {
         }
     }
 
-    public static async file2Instance<T extends typeof DtoBase>(this: T, fileName: string, validate = true): Promise<InstanceType<T>> {
+    public static async file2Instance<T extends typeof DtoBase>(this: T, fileName: string, validate = true, excludeExtraneousValues = true): Promise<InstanceType<T>> {
         const fsFileName = this.getFullPath(fileName);
 
         if (fs.existsSync(fsFileName)) {
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
 
             // return await this.plain2Instance(cls, data, validate);
-            return await this.plain2Instance(data, validate);
+            return await this.plain2Instance(data, validate, excludeExtraneousValues);
         } else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
@@ -119,8 +119,8 @@ export class DtoBase {
     }
 
     // https://stackoverflow.com/questions/34098023/typescript-self-referencing-return-type-for-static-methods-in-inheriting-classe
-    public static async plain2Instance<T extends typeof DtoBase>(this: T, dto: object, validate = true): Promise<InstanceType<T>> {
-        const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: true }) as unknown as T;
+    public static async plain2Instance<T extends typeof DtoBase>(this: T, dto: object, validate = true, excludeExtraneousValues = true): Promise<InstanceType<T>> {
+        const dtoObject = plainToInstance(this, dto, { excludeExtraneousValues: excludeExtraneousValues }) as unknown as T;
 
         if (validate) {
             // const dtoError = await this.validateData(dtoObject as object, []);
