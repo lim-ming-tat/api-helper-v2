@@ -48,7 +48,16 @@ describe('System plugins', () => {
 
     it('plugin (IfExists) log debugData when debug flag set to true', async () => {
         dataSource.apiParam.debugData = [];
-        const result = classUnderTest_IfExists.execute(apiParam_ifExists, dataSource, apiParam_ifExists.parameter);
+
+        // remove {{ and }} from apiParam.parameter
+        const match = apiParam_ifExists.parameter.match(/^{{(((?!}}.*{{).)*)}}$/);
+        const parameter = match ? match[1]: '';
+        const commandKeyword = parameter.split(':')[0];
+
+        // apiParam match plugin
+        expect(classUnderTest_IfExists.isMatch(commandKeyword)).toBeTruthy();
+        
+        const result = classUnderTest_IfExists.execute(apiParam_ifExists, dataSource, parameter);
         // console.log(JSON.stringify(dataSource, null, 4))
 
         expect(dataSource.apiParam.debugData).toHaveLength(1);
@@ -64,7 +73,16 @@ describe('System plugins', () => {
 
     it('plugin (IfNotExists) log debugData when debug flag set to true', async () => {
         dataSource.apiParam.debugData = [];
-        const result = classUnderTest_IfNotExists.execute(apiParam_ifNotExists, dataSource, apiParam_ifNotExists.parameter);
+
+        // remove {{ and }} from apiParam.parameter
+        const match = apiParam_ifNotExists.parameter.match(/^{{(((?!}}.*{{).)*)}}$/);
+        const parameter = match ? match[1]: '';
+        const commandKeyword = parameter.split(':')[0];
+
+        // apiParam match plugin
+        expect(classUnderTest_IfNotExists.isMatch(commandKeyword)).toBeTruthy();
+
+        const result = classUnderTest_IfNotExists.execute(apiParam_ifNotExists, dataSource, parameter);
         // console.log(JSON.stringify(dataSource, null, 4));
 
         expect(dataSource.apiParam.debugData).toHaveLength(1);
