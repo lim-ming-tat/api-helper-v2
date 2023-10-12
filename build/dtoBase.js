@@ -52,8 +52,10 @@ export class DtoBase {
     static getFullPath(folderPath) {
         // always assume root path as {projectRoot}
         // convert relative path to absolute path (at process level)
-        // return folderPath.startsWith('/') ? folderPath : `${process.cwd()}/${folderPath}`;
-        return folderPath.startsWith('/') ? folderPath : `${this.getModuleFullPath(__dirname, process.cwd())}/${folderPath.replace('./', '')}`;
+        // for library install through npm/ssh/https
+        return folderPath.startsWith('/') ? folderPath : `${process.cwd()}/${folderPath}`;
+        // for library install as file link
+        // return folderPath.startsWith('/') ? folderPath : `${this.getModuleFullPath(__dirname, process.cwd())}/${folderPath.replace('./', '')}`;
     }
     static getModuleFullPath(dirname, cwd) {
         const folderParts = dirname.replace(`${cwd}/`, '').split('/');
