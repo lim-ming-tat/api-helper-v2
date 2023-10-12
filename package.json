@@ -4,7 +4,9 @@
   "description": "",
   "type": "module",
   "exports": "./build/index.js",
-  "engines": { "node": ">=14.16" },
+  "engines": {
+    "node": ">=14.16"
+  },
   "types": "./build/index.d.ts",
   "scripts": {
     "watch": "tsc --watch",
@@ -29,7 +31,7 @@
   "license": "ISC",
   "dependencies": {
     "class-transformer": "^0.5.1",
-    "class-validator": "^0.13.2",
+    "class-validator": "^0.14.0",
     "lodash": "^4.17.21",
     "luxon": "^3.1.0",
     "reflect-metadata": "^0.1.13",
