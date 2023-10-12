@@ -1,5 +1,5 @@
-import { ApiParameter, DataSource } from 'api-helper-v2';
-import { ApiParam } from '../apiLibClass.js';
+import { DataSource } from '../pluginBase.js';
+import { ApiParam, ApiParameter } from '../apiLibClass.js';
 import { IfExists, IfNotExists } from '../plugins.js';
 
 // const DEBUG = false;
