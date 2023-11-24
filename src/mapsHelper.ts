@@ -285,7 +285,9 @@ export class MapsHelper {
                     rightOperand = dataFilter.equal.dataValue;
                 } else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.equal.propertyName', 'dataFilter.equal.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(this.formatErrorMessage(dataFilter, '.equal.propertyName and .equal.dataValue is missing/undefined', 'propertyName|dataValue'));
+                    throw new TypeError(
+                        this.formatErrorMessage(dataFilter, '.equal.propertyName and .equal.dataValue is missing/undefined', 'propertyName|dataValue')
+                    );
                 }
             }
 
@@ -320,7 +322,13 @@ export class MapsHelper {
                     rightOperand = dataFilter.notEqual.dataValue;
                 } else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.notEqual.propertyName', 'dataFilter.notEqual.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(this.formatErrorMessage(dataFilter, '.notEqual.propertyName and .notEqual.dataValue is missing/undefined', 'propertyName|dataValue'));
+                    throw new TypeError(
+                        this.formatErrorMessage(
+                            dataFilter,
+                            '.notEqual.propertyName and .notEqual.dataValue is missing/undefined',
+                            'propertyName|dataValue'
+                        )
+                    );
                 }
             }
 
@@ -356,7 +364,13 @@ export class MapsHelper {
                     rightOperand = dataFilter.greaterThan.dataValue;
                 } else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.greaterThan.propertyName', 'dataFilter.greaterThan.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(this.formatErrorMessage(dataFilter, '.greaterThan.propertyName and .greaterThan.dataValue is missing/undefined', 'propertyName|dataValue'));
+                    throw new TypeError(
+                        this.formatErrorMessage(
+                            dataFilter,
+                            '.greaterThan.propertyName and .greaterThan.dataValue is missing/undefined',
+                            'propertyName|dataValue'
+                        )
+                    );
                 }
             }
 
@@ -385,7 +399,10 @@ export class MapsHelper {
                     // console.log(JSON.stringify(saveMap, null, 4))
                     // process collection of records
                     if (saveMap.dataPath !== undefined) {
-                        let sourceData: Record<string, unknown> | Array<Record<string, unknown>> = _.get(param.sessionData, saveMap.sessionName ? saveMap.sessionName : '') as Record<string, unknown>;
+                        let sourceData: Record<string, unknown> | Array<Record<string, unknown>> = _.get(
+                            param.sessionData,
+                            saveMap.sessionName ? saveMap.sessionName : ''
+                        ) as Record<string, unknown>;
                         if (sourceData === undefined) {
                             // param.sessionData[saveMap.sessionName] = []
                             _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
@@ -397,6 +414,11 @@ export class MapsHelper {
                             dataRows = param;
                         } else {
                             dataRows = _.get(param, saveMap.dataPath);
+                        }
+
+                        // source data not found, set to empty array
+                        if (dataRows === undefined) {
+                            dataRows = [];
                         }
 
                         if (!Array.isArray(dataRows)) {
@@ -419,7 +441,10 @@ export class MapsHelper {
                                     saveMap.properties.forEach((propertyMap) => {
                                         if (propertyMap.propertyName !== undefined) {
                                             // source data from sessionData or apiParam
-                                            if (propertyMap.propertyName.startsWith('sessionData.') || propertyMap.propertyName.startsWith('apiParam.')) {
+                                            if (
+                                                propertyMap.propertyName.startsWith('sessionData.') ||
+                                                propertyMap.propertyName.startsWith('apiParam.')
+                                            ) {
                                                 // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
                                                 // source and target array must be same length, else it will set to empty
                                                 let propertyName = propertyMap.propertyName;
@@ -458,7 +483,10 @@ export class MapsHelper {
                                             //     console.log('value',  _.get(selectedData, propertyMap.dataFilter.objectPropertyName))
 
                                             if (propertyMap.dataFilter.objectPropertyName !== undefined) {
-                                                dataObject[propertyMap.objectPropertyName] = _.get(selectedData, propertyMap.dataFilter.objectPropertyName);
+                                                dataObject[propertyMap.objectPropertyName] = _.get(
+                                                    selectedData,
+                                                    propertyMap.dataFilter.objectPropertyName
+                                                );
                                             } else {
                                                 dataObject[propertyMap.objectPropertyName] = selectedData;
                                             }
@@ -536,7 +564,10 @@ export class MapsHelper {
                                     // ignoreWhenNotExist is to handle responseBody that is return as '[]' string
                                     // used in api-deletePolicies
                                     // if (!saveMap.ignoreWhenNotExist) throw new PropertyUndefinedError(saveMap.propertyName, param, saveMap);
-                                    if (!saveMap.ignoreWhenNotExist) throw new TypeError(this.formatErrorMessage(saveMap, '.ignoreWhenNotExist set to false and property not found', 'saveMap'));
+                                    if (!saveMap.ignoreWhenNotExist)
+                                        throw new TypeError(
+                                            this.formatErrorMessage(saveMap, '.ignoreWhenNotExist set to false and property not found', 'saveMap')
+                                        );
                                 } else {
                                     let newValue = _.get(param, saveMap.propertyName);
                                     if (saveMap.match !== undefined) {
@@ -608,7 +639,8 @@ export class MapsHelper {
 
                 // expecting to find only 1 plugin per parameter command
                 if (plugins.length === 1) {
-                    if ((dataSource.sessionData as SessionDataBase).debug || item.debug) console.log(`execute plugin::: >>>>>>>> ${commandKeyword} <<<<<<<<`);
+                    if ((dataSource.sessionData as SessionDataBase).debug || item.debug)
+                        console.log(`execute plugin::: >>>>>>>> ${commandKeyword} <<<<<<<<`);
 
                     replace = item.parameter;
                     newValue = plugins[0].execute(item, dataSource, parameter);
