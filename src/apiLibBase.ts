@@ -94,7 +94,8 @@ export abstract class ApiLibBase {
                     } else {
                         // propagate debug flag
                         if (sessionData.debug == true) responseParam.debug = true;
-                        else if (sessionData.debugList !== undefined) responseParam.debug = sessionData.debugList.includes(responseParam.apiTag) ? true : false;
+                        else if (sessionData.debugList !== undefined)
+                            responseParam.debug = sessionData.debugList.includes(responseParam.apiTag) ? true : false;
                         else responseParam.debug = false;
 
                         // overwrite debug flag based on caller debugList
@@ -197,7 +198,10 @@ export abstract class ApiLibBase {
                                             const replace = '{{' + ApiLibBase.regexpEscape(key) + '}}';
                                             const regex = new RegExp(replace, 'g');
 
-                                            jsonData = jsonData.replace(regex, _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key)));
+                                            jsonData = jsonData.replace(
+                                                regex,
+                                                _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key))
+                                            );
                                         }
                                         postData = JSON.parse(jsonData);
                                     }
@@ -224,53 +228,62 @@ export abstract class ApiLibBase {
                         }
 
                         // console.log(responseParam);
-                        req.then((res) => {
-                            this.logMessage(`Successful...${responseParam.apiTag}`);
-                            responseParam.endTime = DateTime.local();
+                        req.redirects(0)
+                            .ok((res) => {
+                                this.logMessage(`Successful...${responseParam.apiTag}`);
+                                responseParam.endTime = DateTime.local();
 
-                            if (responseParam.startTime) responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds']).toObject();
+                                if (responseParam.startTime)
+                                    responseParam.elapsed = responseParam.endTime
+                                        .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
+                                        .toObject();
 
-                            responseParam.sessionData = sessionData;
+                                responseParam.sessionData = sessionData;
 
-                            responseParam.httpStatus = res.status;
-                            // responseParam.response = res
+                                responseParam.httpStatus = res.status;
+                                // responseParam.response = res
 
-                            if (apiParam.parameters !== undefined) responseParam.parameters = apiParam.parameters;
+                                if (apiParam.parameters !== undefined) responseParam.parameters = apiParam.parameters;
 
-                            if (apiParam.baseString !== undefined) responseParam.baseString = apiParam.baseString;
+                                if (apiParam.baseString !== undefined) responseParam.baseString = apiParam.baseString;
 
-                            responseParam.responseHeaders = res.headers;
-                            if (!_.isEmpty(res.body)) {
-                                responseParam.responseBody = res.body;
-                            } else {
-                                responseParam.responseText = res.text;
-                            }
+                                responseParam.responseHeaders = res.headers;
+                                if (!_.isEmpty(res.body)) {
+                                    responseParam.responseBody = res.body;
+                                } else {
+                                    responseParam.responseText = res.text;
+                                }
 
-                            if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
-                                ApiLibBase.displayResult(res, 'response', ['text', 'req']);
-                                // ApiLibBase.displayResult(responseParam, 'responseParam');
-                            }
+                                if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
+                                    ApiLibBase.displayResult(res, 'response', ['text', 'req']);
+                                    // ApiLibBase.displayResult(responseParam, 'responseParam');
+                                }
 
-                            resolve(responseParam);
-                        }).catch((err) => {
-                            responseParam.endTime = DateTime.local();
+                                resolve(responseParam);
 
-                            this.logMessage(`API Failed...${responseParam.apiTag}`);
+                                return true;
+                            })
+                            .catch((err) => {
+                                if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
+                                    responseParam.endTime = DateTime.local();
 
-                            this.logMessage(`>>>>>> ${err.message} <<<<<<`);
-                            ApiLibBase.displayResult(err, 'error object');
+                                    this.logMessage(`API Failed...${responseParam.apiTag}`);
 
-                            ApiLibBase.displayResult(apiParam, 'apiParam');
-                            if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
-                                console.log(err.response.body);
-                            } else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
-                                console.log(err.response.text);
-                            }
+                                    this.logMessage(`>>>>>> ${err.message} <<<<<<`);
+                                    ApiLibBase.displayResult(err, 'error object');
 
-                            responseParam.httpStatus = err.status;
-                            responseParam.error = err;
-                            reject(responseParam);
-                        });
+                                    ApiLibBase.displayResult(apiParam, 'apiParam');
+                                    if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
+                                        console.log(err.response.body);
+                                    } else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
+                                        console.log(err.response.text);
+                                    }
+
+                                    responseParam.httpStatus = err.status;
+                                    responseParam.error = err;
+                                    reject(responseParam);
+                                }
+                            });
                     }
                 }
             } catch (err) {
@@ -294,7 +307,12 @@ export abstract class ApiLibBase {
         });
     }
 
-    private async executeApiInternal(apiParams: ApiParam[], apiResults: ResponseParam[], apiTag: ApiTag, sessionData: SessionDataBase): Promise<ResponseParam> {
+    private async executeApiInternal(
+        apiParams: ApiParam[],
+        apiResults: ResponseParam[],
+        apiTag: ApiTag,
+        sessionData: SessionDataBase
+    ): Promise<ResponseParam> {
         let currentParam: ApiParam;
         // let nextParams: Array<ApiParam>;
 
@@ -515,7 +533,11 @@ export abstract class ApiLibBase {
     //     return apiResponses;
     // }
 
-    protected async executeCommand(apiCommandFileName: string, inputParam: ApiParamBase, callBackSessionData: (sessionData: SessionDataBase) => void): Promise<Array<ApiResponse>> {
+    protected async executeCommand(
+        apiCommandFileName: string,
+        inputParam: ApiParamBase,
+        callBackSessionData: (sessionData: SessionDataBase) => void
+    ): Promise<Array<ApiResponse>> {
         // load the apis commands file
         this.logMessage(`Load api command file: '${apiCommandFileName}'`);
         const apiCommand = await ApiCommand.file2Instance(apiCommandFileName, true, false);
