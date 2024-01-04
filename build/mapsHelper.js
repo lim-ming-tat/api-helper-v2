@@ -349,6 +349,10 @@ export class MapsHelper {
                         else {
                             dataRows = _.get(param, saveMap.dataPath);
                         }
+                        // source data not found, set to empty array
+                        if (dataRows === undefined) {
+                            dataRows = [];
+                        }
                         if (!Array.isArray(dataRows)) {
                             dataRows = [dataRows];
                         }
@@ -366,7 +370,8 @@ export class MapsHelper {
                                 saveMap.properties.forEach((propertyMap) => {
                                     if (propertyMap.propertyName !== undefined) {
                                         // source data from sessionData or apiParam
-                                        if (propertyMap.propertyName.startsWith('sessionData.') || propertyMap.propertyName.startsWith('apiParam.')) {
+                                        if (propertyMap.propertyName.startsWith('sessionData.') ||
+                                            propertyMap.propertyName.startsWith('apiParam.')) {
                                             // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
                                             // source and target array must be same length, else it will set to empty
                                             let propertyName = propertyMap.propertyName;

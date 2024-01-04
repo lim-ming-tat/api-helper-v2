@@ -181,11 +181,14 @@ export class ApiLibBase {
                             }
                         }
                         // console.log(responseParam);
-                        req.then((res) => {
+                        req.redirects(0)
+                            .ok((res) => {
                             this.logMessage(`Successful...${responseParam.apiTag}`);
                             responseParam.endTime = DateTime.local();
                             if (responseParam.startTime)
-                                responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds']).toObject();
+                                responseParam.elapsed = responseParam.endTime
+                                    .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
+                                    .toObject();
                             responseParam.sessionData = sessionData;
                             responseParam.httpStatus = res.status;
                             // responseParam.response = res
@@ -205,21 +208,25 @@ export class ApiLibBase {
                                 // ApiLibBase.displayResult(responseParam, 'responseParam');
                             }
                             resolve(responseParam);
-                        }).catch((err) => {
-                            responseParam.endTime = DateTime.local();
-                            this.logMessage(`API Failed...${responseParam.apiTag}`);
-                            this.logMessage(`>>>>>> ${err.message} <<<<<<`);
-                            ApiLibBase.displayResult(err, 'error object');
-                            ApiLibBase.displayResult(apiParam, 'apiParam');
-                            if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
-                                console.log(err.response.body);
+                            return true;
+                        })
+                            .catch((err) => {
+                            if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
+                                responseParam.endTime = DateTime.local();
+                                this.logMessage(`API Failed...${responseParam.apiTag}`);
+                                this.logMessage(`>>>>>> ${err.message} <<<<<<`);
+                                ApiLibBase.displayResult(err, 'error object');
+                                ApiLibBase.displayResult(apiParam, 'apiParam');
+                                if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
+                                    console.log(err.response.body);
+                                }
+                                else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
+                                    console.log(err.response.text);
+                                }
+                                responseParam.httpStatus = err.status;
+                                responseParam.error = err;
+                                reject(responseParam);
                             }
-                            else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
-                                console.log(err.response.text);
-                            }
-                            responseParam.httpStatus = err.status;
-                            responseParam.error = err;
-                            reject(responseParam);
                         });
                     }
                 }

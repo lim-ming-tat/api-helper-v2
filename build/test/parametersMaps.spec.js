@@ -96,7 +96,6 @@ describe('test parametersMaps function', () => {
             expect(data.apiParam.parameters?.sessionName ?? undefined).toEqual(data.apiParam.parameters?.expected ?? helper.randomString(20));
         });
     });
-
     describe('ifExists & ifNotExists command', () => {
         // test case required 2 parametersMaps per test
         const testCases = getTestCases('./src/test/data/parametersMaps-ifExists.json', 2);
