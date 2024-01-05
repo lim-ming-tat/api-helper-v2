@@ -411,6 +411,7 @@ export class ApiParameter {
         this.description = '';
         this.parameter = '';
         this.targetProperty = '';
+        this.overwrite = false;
         // public validate() {
         //     // validating and check the errors, throw the errors if exist
         //     const errors = validateSync(this as object);
@@ -429,6 +430,10 @@ __decorate([
     Expose(),
     __metadata("design:type", Object)
 ], ApiParameter.prototype, "targetProperty", void 0);
+__decorate([
+    Expose(),
+    __metadata("design:type", Object)
+], ApiParameter.prototype, "overwrite", void 0);
 __decorate([
     Expose(),
     IsOptional(),

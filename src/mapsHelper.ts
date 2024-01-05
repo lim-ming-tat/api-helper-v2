@@ -681,20 +681,24 @@ export class MapsHelper {
                 const targetProperty = this.updatePropertyV2(listItem, apiParam, sessionData);
 
                 if (typeof _.get(apiParam, targetProperty) === 'string') {
-                    // replace = '{{' + item.parameter + '}}'
-                    const regex = new RegExp(helper.regexpEscape(replace), 'g');
+                    if (item.overwrite && item.overwrite === true) {
+                        _.set(apiParam, targetProperty, newValue);
+                    } else {
+                        // replace = '{{' + item.parameter + '}}'
+                        const regex = new RegExp(helper.regexpEscape(replace), 'g');
 
-                    // console.log('targetProperty', targetProperty)
-                    // console.log('replace', replace)
-                    // console.log('targetProperty Value >>', _.get(apiParam, targetProperty))
-                    // console.log('targetProperty New   >>', _.get(apiParam, targetProperty).replace(regex, newValue))
-                    // console.log('newValue', newValue)
+                        // console.log('targetProperty', targetProperty)
+                        // console.log('replace', replace)
+                        // console.log('targetProperty Value >>', _.get(apiParam, targetProperty))
+                        // console.log('targetProperty New   >>', _.get(apiParam, targetProperty).replace(regex, newValue))
+                        // console.log('newValue', newValue)
 
-                    // console.log(`\n---replace---\n${JSON.stringify(replace, null, 4)}\n---replace---\n`)
-                    // console.log(`\n---targetProperty---\n${JSON.stringify(targetProperty, null, 4)}\n---targetProperty---\n`)
+                        // console.log(`\n---replace---\n${JSON.stringify(replace, null, 4)}\n---replace---\n`)
+                        // console.log(`\n---targetProperty---\n${JSON.stringify(targetProperty, null, 4)}\n---targetProperty---\n`)
 
-                    _.set(apiParam, targetProperty, _.get(apiParam, targetProperty).replace(regex, newValue));
-                    // console.log(`\n---apiParam---\n${JSON.stringify(apiParam, null, 4)}\n---apiParam---\n`)
+                        _.set(apiParam, targetProperty, _.get(apiParam, targetProperty).replace(regex, newValue));
+                        // console.log(`\n---apiParam---\n${JSON.stringify(apiParam, null, 4)}\n---apiParam---\n`)
+                    }
                 } else {
                     // TODO: currently, non-string target will be overwritten
                     // need to handle, object type target like a = { ...a, ...newValue } ???

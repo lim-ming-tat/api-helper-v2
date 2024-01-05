@@ -490,6 +490,9 @@ export class ApiParameter {
     targetProperty: string | Array<string> = '';
 
     @Expose()
+    overwrite? = false;
+
+    @Expose()
     @IsOptional()
     @IsString()
     data?: string;
