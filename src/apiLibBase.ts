@@ -220,11 +220,9 @@ export abstract class ApiLibBase {
                             if (sessionData.showApiParam) {
                                 ApiLibBase.displayResult(apiParam, 'apiParam');
                             }
-
-                            // ApiLibBase.displayResult(sessionData, 'sessionData');
-                            if (sessionData.showSessionData) {
-                                ApiLibBase.displayResult(sessionData, 'pre api call sessionData');
-                            }
+                        }
+                        if (sessionData.showSessionData) {
+                            ApiLibBase.displayResult(sessionData, 'pre api call sessionData');
                         }
 
                         // console.log(responseParam);
@@ -400,10 +398,9 @@ export abstract class ApiLibBase {
                         if (sessionData.showResults) {
                             ApiLibBase.displayResult(result, 'responseParam');
                         }
-
-                        if (sessionData.showSessionData === true) {
-                            ApiLibBase.displayResult(sessionData, 'post api call sessionData');
-                        }
+                    }
+                    if (sessionData.showSessionData === true) {
+                        ApiLibBase.displayResult(sessionData, 'post api call sessionData');
                     }
 
                     MapsHelper.applyNextHopMaps(currentParam, sessionData);
