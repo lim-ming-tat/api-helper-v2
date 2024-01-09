@@ -493,6 +493,9 @@ export class ApiParameter {
     overwrite? = false;
 
     @Expose()
+    ignoreWhenNotExist? = false;
+
+    @Expose()
     @IsOptional()
     @IsString()
     data?: string;

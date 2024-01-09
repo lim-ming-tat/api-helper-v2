@@ -675,40 +675,41 @@ export class MapsHelper {
                 // console.log(`\n------\n${ApiLibrary.displayResult([dataSource], '')}\n------\n`);
 
                 // throw new Error(`Parameter missing, input parameter '${JSON.stringify(item)}' not found.`);
-
-                throw new TypeError(this.formatErrorMessage(item, 'parameter source is missing/undefined', 'parameter'));
-                // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
-            }
-
-            targetList.forEach((listItem) => {
-                // resolved target propety name with support for variable injection
-                const targetProperty = this.updatePropertyV2(listItem, apiParam, sessionData);
-
-                if (typeof _.get(apiParam, targetProperty) === 'string') {
-                    if (item.overwrite && item.overwrite === true) {
-                        _.set(apiParam, targetProperty, newValue);
-                    } else {
-                        // replace = '{{' + item.parameter + '}}'
-                        const regex = new RegExp(helper.regexpEscape(replace), 'g');
-
-                        // console.log('targetProperty', targetProperty)
-                        // console.log('replace', replace)
-                        // console.log('targetProperty Value >>', _.get(apiParam, targetProperty))
-                        // console.log('targetProperty New   >>', _.get(apiParam, targetProperty).replace(regex, newValue))
-                        // console.log('newValue', newValue)
-
-                        // console.log(`\n---replace---\n${JSON.stringify(replace, null, 4)}\n---replace---\n`)
-                        // console.log(`\n---targetProperty---\n${JSON.stringify(targetProperty, null, 4)}\n---targetProperty---\n`)
-
-                        _.set(apiParam, targetProperty, _.get(apiParam, targetProperty).replace(regex, newValue));
-                        // console.log(`\n---apiParam---\n${JSON.stringify(apiParam, null, 4)}\n---apiParam---\n`)
-                    }
-                } else {
-                    // TODO: currently, non-string target will be overwritten
-                    // need to handle, object type target like a = { ...a, ...newValue } ???
-                    _.set(apiParam, targetProperty, newValue);
+                if (item.ignoreWhenNotExist === false) {
+                    throw new TypeError(this.formatErrorMessage(item, 'parameter source is missing/undefined', 'parameter'));
+                    // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
                 }
-            });
+            } else {
+                targetList.forEach((listItem) => {
+                    // resolved target propety name with support for variable injection
+                    const targetProperty = this.updatePropertyV2(listItem, apiParam, sessionData);
+
+                    if (typeof _.get(apiParam, targetProperty) === 'string') {
+                        if (item.overwrite && item.overwrite === true) {
+                            _.set(apiParam, targetProperty, newValue);
+                        } else {
+                            // replace = '{{' + item.parameter + '}}'
+                            const regex = new RegExp(helper.regexpEscape(replace), 'g');
+
+                            // console.log('targetProperty', targetProperty)
+                            // console.log('replace', replace)
+                            // console.log('targetProperty Value >>', _.get(apiParam, targetProperty))
+                            // console.log('targetProperty New   >>', _.get(apiParam, targetProperty).replace(regex, newValue))
+                            // console.log('newValue', newValue)
+
+                            // console.log(`\n---replace---\n${JSON.stringify(replace, null, 4)}\n---replace---\n`)
+                            // console.log(`\n---targetProperty---\n${JSON.stringify(targetProperty, null, 4)}\n---targetProperty---\n`)
+
+                            _.set(apiParam, targetProperty, _.get(apiParam, targetProperty).replace(regex, newValue));
+                            // console.log(`\n---apiParam---\n${JSON.stringify(apiParam, null, 4)}\n---apiParam---\n`)
+                        }
+                    } else {
+                        // TODO: currently, non-string target will be overwritten
+                        // need to handle, object type target like a = { ...a, ...newValue } ???
+                        _.set(apiParam, targetProperty, newValue);
+                    }
+                });
+            }
         });
     }
 

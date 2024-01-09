@@ -104,6 +104,7 @@ export declare class ApiParameter {
     parameter: string;
     targetProperty: string | Array<string>;
     overwrite?: boolean | undefined;
+    ignoreWhenNotExist?: boolean | undefined;
     data?: string;
     debug?: boolean;
 }
