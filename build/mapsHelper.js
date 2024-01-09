@@ -458,7 +458,13 @@ export class MapsHelper {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', {});
                             }
                             else if (saveMap.dataType !== undefined && saveMap.dataType === 'array') {
-                                _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
+                                if (saveMap.dataValue !== undefined) {
+                                    if (sourceData === undefined)
+                                        _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
+                                }
+                                else {
+                                    _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
+                                }
                             }
                             else if (saveMap.dataType === undefined) {
                                 // TODO: propertyName must be defined
