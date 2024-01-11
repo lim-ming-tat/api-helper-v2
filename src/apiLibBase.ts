@@ -226,6 +226,8 @@ export abstract class ApiLibBase {
                         }
 
                         // console.log(responseParam);
+
+                        // do not redirect, not required for API interface
                         req.redirects(0)
                             .ok((res) => {
                                 this.logMessage(`Successful...${responseParam.apiTag}`);
@@ -262,7 +264,11 @@ export abstract class ApiLibBase {
                                 return true;
                             })
                             .catch((err) => {
-                                if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
+                                // if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
+                                // 300 series httpstatus is not error, but superagnet raise as error, ignore here...
+                                if (responseParam.httpStatus && responseParam.httpStatus >= 300 && responseParam.httpStatus < 400) {
+                                    // do nothing, 300 series httpstatus
+                                } else {
                                     responseParam.endTime = DateTime.local();
 
                                     this.logMessage(`API Failed...${responseParam.apiTag}`);
@@ -356,7 +362,19 @@ export abstract class ApiLibBase {
             if (apiParams[0].moduleParameters !== undefined) {
                 // console.log(`\n---moduleParameters.sessionData---\n${JSON.stringify(sessionData, null, 4)}\n---sessionData---\n`)
                 apiParams[0].moduleParameters.forEach((item) => {
-                    _.set(currentParam, item.targetProperty, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter));
+                    // _.set(currentParam, item.targetProperty, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter));
+                    const targetProp = _.get(currentParam, item.targetProperty);
+                    // match string with {{ and end with }}
+                    if (typeof targetProp === 'string' && targetProp.match(/{{([^}]+)}}/)) {
+                        const replacePattern = '{{' + item.parameter + '}}';
+                        _.set(
+                            currentParam,
+                            item.targetProperty,
+                            targetProp.replace(replacePattern, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter))
+                        );
+                    } else {
+                        _.set(currentParam, item.targetProperty, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter));
+                    }
                 });
             }
 
