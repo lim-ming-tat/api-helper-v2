@@ -236,6 +236,11 @@ export class ApiLibBase {
                                 responseParam.error = err;
                                 reject(responseParam);
                             }
+                        })
+                            .finally(() => {
+                            if (responseParam.debug === true || sessionData.debug === true) {
+                                this.logMessage(` >>> API Debug End ...${responseParam.apiTag} <<<`);
+                            }
                         });
                     }
                 }
@@ -254,11 +259,6 @@ export class ApiLibBase {
                 ApiLibBase.displayResult(apiParam, 'apiParam');
                 responseParam.error = { name: 'Pre Execution Error', message: error.message };
                 reject(responseParam);
-            }
-            finally {
-                if (responseParam.debug === true || sessionData.debug === true) {
-                    this.logMessage(` >>> API Debug End ...${responseParam.apiTag} <<<`);
-                }
             }
         });
     }
