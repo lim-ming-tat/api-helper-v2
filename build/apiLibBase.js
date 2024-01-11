@@ -255,6 +255,11 @@ export class ApiLibBase {
                 responseParam.error = { name: 'Pre Execution Error', message: error.message };
                 reject(responseParam);
             }
+            finally {
+                if (responseParam.debug === true || sessionData.debug === true) {
+                    this.logMessage(` >>> API Debug End ...${responseParam.apiTag} <<<`);
+                }
+            }
         });
     }
     async executeApiInternal(apiParams, apiResults, apiTag, sessionData) {
@@ -392,9 +397,6 @@ export class ApiLibBase {
         })
             .finally(() => {
             // this.logMessage("Finally...");
-            if (currentParam.debug === true || sessionData.debug === true) {
-                this.logMessage(` >>> API Debug End ...${apiTag.tag} <<<`);
-            }
             if (nextParams.length > 0) {
                 // console.log(nextParams)
                 apiTag.next();
