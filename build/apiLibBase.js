@@ -220,27 +220,20 @@ export class ApiLibBase {
                             }
                         })
                             .catch((err) => {
-                            // if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
-                            // 300 series httpstatus is not error, but superagnet raise as error, ignore here...
-                            if (responseParam.httpStatus && responseParam.httpStatus >= 300 && responseParam.httpStatus < 400) {
-                                // do nothing, 300 series httpstatus
+                            responseParam.endTime = DateTime.local();
+                            this.logMessage(`API Failed...${responseParam.apiTag}`);
+                            this.logMessage(`>>>>>> ${err.message} <<<<<<`);
+                            ApiLibBase.displayResult(err, 'error object');
+                            ApiLibBase.displayResult(apiParam, 'apiParam');
+                            if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
+                                console.log(err.response.body);
                             }
-                            else {
-                                responseParam.endTime = DateTime.local();
-                                this.logMessage(`API Failed...${responseParam.apiTag}`);
-                                this.logMessage(`>>>>>> ${err.message} <<<<<<`);
-                                ApiLibBase.displayResult(err, 'error object');
-                                ApiLibBase.displayResult(apiParam, 'apiParam');
-                                if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
-                                    console.log(err.response.body);
-                                }
-                                else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
-                                    console.log(err.response.text);
-                                }
-                                responseParam.httpStatus = err.status;
-                                responseParam.error = err;
-                                reject(responseParam);
+                            else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
+                                console.log(err.response.text);
                             }
+                            responseParam.httpStatus = err.status;
+                            responseParam.error = err;
+                            reject(responseParam);
                         })
                             .finally(() => {
                             if (responseParam.debug === true || sessionData.debug === true) {
