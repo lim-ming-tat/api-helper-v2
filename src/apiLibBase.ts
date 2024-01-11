@@ -237,36 +237,38 @@ export abstract class ApiLibBase {
                         // do not redirect, not required for API interface
                         req.redirects(0)
                             .ok((res) => {
-                                this.logMessage(`Successful...${responseParam.apiTag}`);
-                                responseParam.endTime = DateTime.local();
+                                if (responseParam.httpStatus && responseParam.httpStatus < 400) {
+                                    this.logMessage(`Successful...${responseParam.apiTag}`);
+                                    responseParam.endTime = DateTime.local();
 
-                                if (responseParam.startTime)
-                                    responseParam.elapsed = responseParam.endTime
-                                        .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
-                                        .toObject();
+                                    if (responseParam.startTime)
+                                        responseParam.elapsed = responseParam.endTime
+                                            .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
+                                            .toObject();
 
-                                responseParam.sessionData = sessionData;
+                                    responseParam.sessionData = sessionData;
 
-                                responseParam.httpStatus = res.status;
-                                // responseParam.response = res
+                                    responseParam.httpStatus = res.status;
+                                    // responseParam.response = res
 
-                                if (apiParam.parameters !== undefined) responseParam.parameters = apiParam.parameters;
+                                    if (apiParam.parameters !== undefined) responseParam.parameters = apiParam.parameters;
 
-                                if (apiParam.baseString !== undefined) responseParam.baseString = apiParam.baseString;
+                                    if (apiParam.baseString !== undefined) responseParam.baseString = apiParam.baseString;
 
-                                responseParam.responseHeaders = res.headers;
-                                if (!_.isEmpty(res.body)) {
-                                    responseParam.responseBody = res.body;
-                                } else {
-                                    responseParam.responseText = res.text;
+                                    responseParam.responseHeaders = res.headers;
+                                    if (!_.isEmpty(res.body)) {
+                                        responseParam.responseBody = res.body;
+                                    } else {
+                                        responseParam.responseText = res.text;
+                                    }
+
+                                    if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
+                                        ApiLibBase.displayResult(res, 'response', ['text', 'req']);
+                                        // ApiLibBase.displayResult(responseParam, 'responseParam');
+                                    }
+
+                                    resolve(responseParam);
                                 }
-
-                                if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
-                                    ApiLibBase.displayResult(res, 'response', ['text', 'req']);
-                                    // ApiLibBase.displayResult(responseParam, 'responseParam');
-                                }
-
-                                resolve(responseParam);
 
                                 return true;
                             })
