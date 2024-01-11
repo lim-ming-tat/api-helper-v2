@@ -322,6 +322,11 @@ export class ApiLibBase {
             currentParam.parameters = apiParams[0].parameters;
         }
         const nextParams = apiParams.splice(1);
+        // inject defaultMaps into parametersMaps
+        if (currentParam.defaultMaps) {
+            const defaultMaps = await ApiParam.file2Instance(currentParam.defaultMaps, true, false);
+            currentParam.parametersMaps.push(...defaultMaps.parametersMaps);
+        }
         // applyParametersMaps(currentParam, sessionData, currentParam.parametersMaps)
         // console.log(JSON.stringify(currentParam, null, 4))
         // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)

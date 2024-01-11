@@ -36,6 +36,9 @@ export class ApiParam extends DtoBase {
     returnParameterName?: string;
 
     @Expose()
+    defaultMaps?: string;
+
+    @Expose()
     @Type(() => ApiParameter)
     parametersMaps = new ParametersMaps();
     // parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();

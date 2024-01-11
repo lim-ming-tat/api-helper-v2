@@ -85,6 +85,10 @@ __decorate([
 ], ApiParam.prototype, "returnParameterName", void 0);
 __decorate([
     Expose(),
+    __metadata("design:type", String)
+], ApiParam.prototype, "defaultMaps", void 0);
+__decorate([
+    Expose(),
     Type(() => ApiParameter),
     __metadata("design:type", Object)
 ], ApiParam.prototype, "parametersMaps", void 0);

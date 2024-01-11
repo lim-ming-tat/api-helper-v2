@@ -13,6 +13,7 @@ export declare class ApiParam extends DtoBase {
     parameters?: Record<string, unknown>;
     moduleParameters?: Array<ApiParameter>;
     returnParameterName?: string;
+    defaultMaps?: string;
     parametersMaps: ParametersMaps;
     url: string;
     httpMethod: string;
