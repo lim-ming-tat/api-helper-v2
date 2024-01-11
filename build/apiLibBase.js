@@ -179,9 +179,9 @@ export class ApiLibBase {
                             if (sessionData.showApiParam) {
                                 ApiLibBase.displayResult(apiParam, 'apiParam');
                             }
-                        }
-                        if (sessionData.showSessionData) {
-                            ApiLibBase.displayResult(sessionData, 'pre api call sessionData');
+                            if (sessionData.showSessionData) {
+                                ApiLibBase.displayResult(sessionData, 'pre api call sessionData');
+                            }
                         }
                         // console.log(responseParam);
                         // do not redirect, not required for API interface
