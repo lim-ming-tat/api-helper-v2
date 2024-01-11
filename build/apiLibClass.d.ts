@@ -114,6 +114,7 @@ export declare class ApiParamBase {
     showResults: boolean;
     showApiParam: boolean;
     debugList: Array<string>;
+    skipList: Array<string>;
     debug: boolean;
     constructor(params?: ApiParamBase);
     setParams(params: ApiParamBase): void;

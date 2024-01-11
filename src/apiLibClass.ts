@@ -524,6 +524,7 @@ export class ApiParamBase {
     showApiParam = false;
 
     debugList: Array<string> = [];
+    skipList: Array<string> = [];
 
     debug = false;
 
@@ -540,5 +541,6 @@ export class ApiParamBase {
 
         this.debug = params.debug;
         this.debugList = params.debugList;
+        this.skipList = params.skipList;
     }
 }

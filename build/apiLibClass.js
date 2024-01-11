@@ -461,6 +461,7 @@ export class ApiParamBase {
         this.showResults = false;
         this.showApiParam = false;
         this.debugList = [];
+        this.skipList = [];
         this.debug = false;
         if (params === undefined)
             return;
@@ -472,6 +473,7 @@ export class ApiParamBase {
         this.showApiParam = params.showApiParam;
         this.debug = params.debug;
         this.debugList = params.debugList;
+        this.skipList = params.skipList;
     }
 }
 //# sourceMappingURL=apiLibClass.js.map
