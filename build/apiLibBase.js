@@ -347,9 +347,9 @@ export class ApiLibBase {
                     if (sessionData.showResults) {
                         ApiLibBase.displayResult(result, 'responseParam');
                     }
-                }
-                if (sessionData.showSessionData === true) {
-                    ApiLibBase.displayResult(sessionData, 'post api call sessionData');
+                    if (sessionData.showSessionData === true) {
+                        ApiLibBase.displayResult(sessionData, 'post api call sessionData');
+                    }
                 }
                 MapsHelper.applyNextHopMaps(currentParam, sessionData);
                 // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
@@ -392,6 +392,9 @@ export class ApiLibBase {
         })
             .finally(() => {
             // this.logMessage("Finally...");
+            if (currentParam.debug === true || sessionData.debug === true) {
+                this.logMessage(` >>> API Debug End ...${apiTag} <<<`);
+            }
             if (nextParams.length > 0) {
                 // console.log(nextParams)
                 apiTag.next();
