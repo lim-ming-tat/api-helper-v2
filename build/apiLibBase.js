@@ -393,7 +393,7 @@ export class ApiLibBase {
             .finally(() => {
             // this.logMessage("Finally...");
             if (currentParam.debug === true || sessionData.debug === true) {
-                this.logMessage(` >>> API Debug End ...${apiTag} <<<`);
+                this.logMessage(` >>> API Debug End ...${apiTag.tag} <<<`);
             }
             if (nextParams.length > 0) {
                 // console.log(nextParams)
