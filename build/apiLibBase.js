@@ -187,7 +187,7 @@ export class ApiLibBase {
                         // do not redirect, not required for API interface
                         req.redirects(0)
                             .ok((res) => {
-                            if (responseParam.httpStatus && responseParam.httpStatus < 400) {
+                            if (res.status < 400) {
                                 this.logMessage(`Successful...${responseParam.apiTag}`);
                                 responseParam.endTime = DateTime.local();
                                 if (responseParam.startTime)
@@ -213,8 +213,11 @@ export class ApiLibBase {
                                     // ApiLibBase.displayResult(responseParam, 'responseParam');
                                 }
                                 resolve(responseParam);
+                                return true;
                             }
-                            return true;
+                            else {
+                                return false;
+                            }
                         })
                             .catch((err) => {
                             // if (responseParam.httpStatus && responseParam.httpStatus >= 400) {
