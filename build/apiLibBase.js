@@ -38,10 +38,10 @@ export class ApiLibBase {
         return new Promise((resolve, reject) => {
             const responseParam = new ResponseParam(apiTag, apiParam.description, sessionData, apiParam.saveMaps, apiParam);
             try {
-                // TODO: require further review on the skipExecute usage
-                if (responseParam.skipExecute === undefined && sessionData.skipList !== undefined && sessionData.skipList.length > 0) {
-                    responseParam.skipExecute = sessionData.skipList.includes(responseParam.apiTag) ? true : false;
-                }
+                // // TODO: require further review on the skipExecute usage
+                // if (responseParam.skipExecute === undefined && sessionData.skipList !== undefined && sessionData.skipList.length > 0) {
+                //     responseParam.skipExecute = sessionData.skipList.includes(responseParam.apiTag) ? true : false;
+                // }
                 // handle skipExecute and nextHopOnly only...
                 // TODO: bug ::: skipExecute targetProperty cause skipList not to work...
                 if (apiParam.parametersMaps !== undefined) {
@@ -55,6 +55,10 @@ export class ApiLibBase {
                 // apiParm.skipExecute setting take precedent...
                 if (apiParam.skipExecute !== undefined) {
                     responseParam.skipExecute = apiParam.skipExecute;
+                }
+                // command line skipList take precednet for skipExecute, elase based on json setting
+                if (sessionData.skipList !== undefined && sessionData.skipList.length > 0) {
+                    responseParam.skipExecute = sessionData.skipList.includes(responseParam.apiTag) ? true : responseParam.skipExecute;
                 }
                 if (apiParam.nextHopOnly !== undefined) {
                     responseParam.nextHopOnly = apiParam.nextHopOnly;
