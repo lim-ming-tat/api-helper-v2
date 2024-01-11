@@ -572,6 +572,7 @@ export abstract class ApiLibBase {
 
         apiCommand.sessionData.debug = inputParam.debug;
         apiCommand.sessionData.debugList = inputParam.debugList;
+        apiCommand.sessionData.skipList = inputParam.skipList;
 
         // allow caller to update the sessionData before proceed...
         callBackSessionData(apiCommand.sessionData);
