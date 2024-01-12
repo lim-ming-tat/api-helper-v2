@@ -468,7 +468,9 @@ export class MapsHelper {
                             }
                             else if (saveMap.dataType === undefined) {
                                 // TODO: propertyName must be defined
-                                _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', '');
+                                // TODO: change the default value from '' to undefined,
+                                // so that when the source(propertyName) is undefined, the sessionData is not created as rmpty string
+                                _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', undefined);
                             }
                             else {
                                 // _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', '');
