@@ -18,18 +18,10 @@ function _interopNamespaceDefault(e) {
         Object.keys(e).forEach(function (k) {
             if (k !== 'default') {
                 var d = Object.getOwnPropertyDescriptor(e, k);
-                Object.defineProperty(
-                    n,
-                    k,
-                    d.get
-                        ? d
-                        : {
-                              enumerable: true,
-                              get: function () {
-                                  return e[k];
-                              },
-                          }
-                );
+                Object.defineProperty(n, k, d.get ? d : {
+                    enumerable: true,
+                    get: function () { return e[k]; }
+                });
             }
         });
     }
@@ -37,7 +29,7 @@ function _interopNamespaceDefault(e) {
     return Object.freeze(n);
 }
 
-var qs__namespace = /*#__PURE__*/ _interopNamespaceDefault(qs);
+var qs__namespace = /*#__PURE__*/_interopNamespaceDefault(qs);
 
 class ValidationException extends Error {
     constructor(details, message) {
@@ -53,23 +45,15 @@ class ValidationException extends Error {
     }
 }
 
-var __decorate$2 =
-    (undefined && undefined.__decorate) ||
-    function (decorators, target, key, desc) {
-        var c = arguments.length,
-            r = c < 3 ? target : desc === null ? (desc = Object.getOwnPropertyDescriptor(target, key)) : desc,
-            d;
-        if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function') r = Reflect.decorate(decorators, target, key, desc);
-        else
-            for (var i = decorators.length - 1; i >= 0; i--)
-                if ((d = decorators[i])) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-var __metadata$2 =
-    (undefined && undefined.__metadata) ||
-    function (k, v) {
-        if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function') return Reflect.metadata(k, v);
-    };
+var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata$2 = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 class ArrayValidator extends Array {
     constructor(inputArray) {
         super();
@@ -80,7 +64,8 @@ class ArrayValidator extends Array {
         const dtoError = await ArrayValidator.validateData(this);
         // for error message validation in test case
         // console.log(`array validate:::\n${JSON.stringify(dtoError, null, 4)}`);
-        if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+        if (dtoError.errorCode !== 0)
+            throw new ValidationException(dtoError, 'Data validation errors');
         return true;
     }
     validateSync() {
@@ -97,7 +82,8 @@ class ArrayValidator extends Array {
         try {
             await classValidator.validateOrReject(input);
             return { errorCode: 0, errors: [] };
-        } catch (err) {
+        }
+        catch (err) {
             const validationErrors = err;
             return { errorCode: 500, errors: this.getErrorMessage(validationErrors) };
         }
@@ -107,7 +93,8 @@ class ArrayValidator extends Array {
             const validateExceptionData = [];
             if (children != undefined && children.length > 0) {
                 this.getErrorMessage(children, property).forEach((item) => validateExceptionData.push(item));
-            } else {
+            }
+            else {
                 for (const key in constraints) {
                     validateExceptionData.push(constraints[key]);
                 }
@@ -116,18 +103,13 @@ class ArrayValidator extends Array {
         });
     }
 }
-__decorate$2(
-    [classValidator.IsArray(), classValidator.ValidateNested({ each: true }), __metadata$2('design:type', Array)],
-    ArrayValidator.prototype,
-    'array',
-    void 0
-);
+__decorate$2([
+    classValidator.IsArray(),
+    classValidator.ValidateNested({ each: true }),
+    __metadata$2("design:type", Array)
+], ArrayValidator.prototype, "array", void 0);
 
-const __filename$2 = url.fileURLToPath(
-    typeof document === 'undefined'
-        ? require('url').pathToFileURL(__filename).href
-        : (_documentCurrentScript && _documentCurrentScript.src) || new URL('api-helper-v2-bundle.cjs', document.baseURI).href
-);
+const __filename$2 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
 const __dirname$1 = path.dirname(__filename$2);
 class Helper {
     static getFullPath(folderPath) {
@@ -141,7 +123,8 @@ class Helper {
         // process path conatin node_modules folder, api-helper-v1 included as reference module
         if (folderParts[0] === 'node_modules') {
             return `${cwd}/node_modules/${folderParts[1]}`;
-        } else {
+        }
+        else {
             return cwd;
         }
     }
@@ -195,7 +178,8 @@ class PluginBase {
         return this.match === sourceString;
     }
     addDebugData(dataSource, data) {
-        if (dataSource.apiParam.debugData === undefined) dataSource.apiParam.debugData = [];
+        if (dataSource.apiParam.debugData === undefined)
+            dataSource.apiParam.debugData = [];
         dataSource.apiParam.debugData.push({ pluginName: this.name, ...data });
     }
     static formatErrorMessage(data, message, property) {
@@ -246,16 +230,17 @@ class PluginBase {
         const TAB = '  ';
         return errors
             .map(({ property, constraints, children }) => {
-                let msg = '';
-                if (children != undefined && children.length > 0) {
-                    msg += `\n${PluginBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
-                } else {
-                    for (const key in constraints) {
-                        msg += `\n${tab}${TAB}${constraints[key]}`;
-                    }
+            let msg = '';
+            if (children != undefined && children.length > 0) {
+                msg += `\n${PluginBase.getErrorMessage(children, property, `${tab}${TAB}`)}`;
+            }
+            else {
+                for (const key in constraints) {
+                    msg += `\n${tab}${TAB}${constraints[key]}`;
                 }
-                return `${tab}${proprtyName}.${property}:${msg}`;
-            })
+            }
+            return `${tab}${proprtyName}.${property}:${msg}`;
+        })
             .join('\n\n');
     }
     static getValue(propertyName, dataSource) {
@@ -286,14 +271,7 @@ class IfExists extends PluginBase {
     execute(item, dataSource, parameter) {
         const paramData = parameter.split(':');
         const dataValue = _.get(dataSource, paramData[1]);
-        const newValue =
-            dataValue !== undefined
-                ? paramData[2].toLocaleLowerCase() === 'true'
-                    ? true
-                    : false
-                : paramData[2].toLocaleLowerCase() === 'true'
-                ? false
-                : true;
+        const newValue = dataValue !== undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
         if (item.debug) {
             this.addDebugData(dataSource, { parameter: parameter, result: newValue });
         }
@@ -307,14 +285,7 @@ class IfNotExists extends PluginBase {
     execute(item, dataSource, parameter) {
         const paramData = parameter.split(':');
         const dataValue = _.get(dataSource, paramData[1]);
-        const newValue =
-            dataValue === undefined
-                ? paramData[2].toLocaleLowerCase() === 'true'
-                    ? true
-                    : false
-                : paramData[2].toLocaleLowerCase() === 'true'
-                ? false
-                : true;
+        const newValue = dataValue === undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
         if (item.debug) {
             this.addDebugData(dataSource, { parameter: parameter, result: newValue });
         }
@@ -332,14 +303,7 @@ class IfTrue extends PluginBase {
         if (typeof dataValue !== 'boolean') {
             throw new TypeError(IfTrue.formatErrorMessage(item, 'if operand must be a boolean value', 'parameter'));
         }
-        const newValue =
-            dataValue === true
-                ? paramData[2].toLocaleLowerCase() === 'true'
-                    ? true
-                    : false
-                : paramData[2].toLocaleLowerCase() === 'true'
-                ? false
-                : true;
+        const newValue = dataValue === true ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
         return newValue;
     }
 }
@@ -354,14 +318,7 @@ class IfFalse extends PluginBase {
         if (typeof dataValue !== 'boolean') {
             throw new TypeError(IfFalse.formatErrorMessage(item, 'if operand must be a boolean value', 'parameter'));
         }
-        const newValue =
-            dataValue === false
-                ? paramData[2].toLocaleLowerCase() === 'true'
-                    ? true
-                    : false
-                : paramData[2].toLocaleLowerCase() === 'true'
-                ? false
-                : true;
+        const newValue = dataValue === false ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
         return newValue;
     }
 }
@@ -376,49 +333,71 @@ class IfEmpty extends PluginBase {
         if (typeof dataValue !== 'string') {
             throw new TypeError(IfEmpty.formatErrorMessage(item, 'if operand must be a string', 'parameter'));
         }
-        const newValue =
-            dataValue === ''
-                ? paramData[2].toLocaleLowerCase() === 'true'
-                    ? true
-                    : false
-                : paramData[2].toLocaleLowerCase() === 'true'
-                ? false
-                : true;
+        const newValue = dataValue === '' ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
         return newValue;
     }
 }
 
-var __decorate$1 =
-    (undefined && undefined.__decorate) ||
-    function (decorators, target, key, desc) {
-        var c = arguments.length,
-            r = c < 3 ? target : desc === null ? (desc = Object.getOwnPropertyDescriptor(target, key)) : desc,
-            d;
-        if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function') r = Reflect.decorate(decorators, target, key, desc);
-        else
-            for (var i = decorators.length - 1; i >= 0; i--)
-                if ((d = decorators[i])) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-var __metadata$1 =
-    (undefined && undefined.__metadata) ||
-    function (k, v) {
-        if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function') return Reflect.metadata(k, v);
-    };
+var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata$1 = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 const { orderBy: sortData } = _;
-class SaveMap {}
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'description', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Boolean)], SaveMap.prototype, 'skip', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'dataPath', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'sessionName', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Array)], SaveMap.prototype, 'properties', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Boolean)], SaveMap.prototype, 'ignoreWhenNotExist', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'match', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'propertyName', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'dataType', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], SaveMap.prototype, 'dataValue', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], SaveMap.prototype, 'objectPropertyName', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], SaveMap.prototype, 'dataFilter', void 0);
+class SaveMap {
+}
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "description", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Boolean)
+], SaveMap.prototype, "skip", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "dataPath", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "sessionName", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Array)
+], SaveMap.prototype, "properties", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Boolean)
+], SaveMap.prototype, "ignoreWhenNotExist", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "match", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "propertyName", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "dataType", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], SaveMap.prototype, "dataValue", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], SaveMap.prototype, "objectPropertyName", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], SaveMap.prototype, "dataFilter", void 0);
 class NexthopMap {
     constructor() {
         this.paramTemplateName = '';
@@ -427,17 +406,31 @@ class NexthopMap {
         // parametersMaps: Array<ApiParameter> = new Array<ApiParameter>();
     }
 }
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', String)], NexthopMap.prototype, 'description', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], NexthopMap.prototype, 'paramTemplateName', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], NexthopMap.prototype, 'dataPath', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], NexthopMap.prototype, 'dataFilter', void 0);
-__decorate$1([classTransformer.Expose(), __metadata$1('design:type', Object)], NexthopMap.prototype, 'sortOrder', void 0);
-__decorate$1(
-    [classTransformer.Expose(), classTransformer.Type(() => ApiParameter), __metadata$1('design:type', Object)],
-    NexthopMap.prototype,
-    'parametersMaps',
-    void 0
-);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", String)
+], NexthopMap.prototype, "description", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], NexthopMap.prototype, "paramTemplateName", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], NexthopMap.prototype, "dataPath", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], NexthopMap.prototype, "dataFilter", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    __metadata$1("design:type", Object)
+], NexthopMap.prototype, "sortOrder", void 0);
+__decorate$1([
+    classTransformer.Expose(),
+    classTransformer.Type(() => ApiParameter),
+    __metadata$1("design:type", Object)
+], NexthopMap.prototype, "parametersMaps", void 0);
 const CONDITION_AND = 'and';
 const CONDITION_OR = 'or';
 // set to true so that the expected error message will be shown on console
@@ -453,7 +446,8 @@ class MapsHelper {
         // console.log(`addPlugin found::: >>>>>>>> ${pluginAny.length} <<<<<<<<`)
         if (pluginAny.length > 0) {
             throw new TypeError(`System Error. Plugin (${plugin.name}) already added.`);
-        } else {
+        }
+        else {
             MapsHelper.plugins.push(plugin);
         }
     }
@@ -464,11 +458,14 @@ class MapsHelper {
             if (dataFilter.propertyName === undefined) {
                 // throw new PropertyUndefinedError('propertyName', dataSource, dataFilter);
                 throw new TypeError(this.formatErrorMessage(dataFilter, '.propertyName is missing/undefined', 'propertyName'));
-            } else {
+            }
+            else {
                 // console.log(JSON.stringify(dataFilter.propertyName, null, 4))
                 // console.log(JSON.stringify(dataSource, null, 4))
-                if (dataFilter.propertyName === '.') rightOperand = dataSource;
-                else rightOperand = _.get(dataSource, dataFilter.propertyName);
+                if (dataFilter.propertyName === '.')
+                    rightOperand = dataSource;
+                else
+                    rightOperand = _.get(dataSource, dataFilter.propertyName);
                 // missing the required property
                 if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(dataFilter.propertyName, dataSource, dataFilter);
@@ -478,7 +475,8 @@ class MapsHelper {
             let replace = '';
             if (dataFilter.startsWith !== undefined) {
                 replace = '^' + Helper.regexpEscape(dataFilter.startsWith);
-            } else {
+            }
+            else {
                 replace = dataFilter.regex !== undefined ? dataFilter.regex : '';
             }
             const regex = new RegExp(replace, 'gi');
@@ -504,7 +502,8 @@ class MapsHelper {
             rightOperand = _.get(dataSource, dataFilter.propertyName);
             if (dataFilter.hasProperty) {
                 return rightOperand !== undefined ? true : false;
-            } else {
+            }
+            else {
                 return rightOperand === undefined ? true : false;
             }
         }
@@ -531,7 +530,8 @@ class MapsHelper {
                     if (!result) {
                         return result;
                     }
-                } else {
+                }
+                else {
                     result = result || MapsHelper.filterDataV2(dataSource, dataFilter.filters[i]);
                     // short circuit return when hit first true
                     // console.log(" or:::" + dataFilter.filters[i].propertyName)
@@ -560,7 +560,8 @@ class MapsHelper {
             }
             if (typeof dataFilter.equal === 'string') {
                 rightOperand = dataFilter.equal;
-            } else {
+            }
+            else {
                 if (dataFilter.equal.propertyName !== undefined) {
                     rightOperand = _.get(dataSource, dataFilter.equal.propertyName);
                     // missing the required property
@@ -568,13 +569,13 @@ class MapsHelper {
                         // throw new PropertyUndefinedError(dataFilter.equal.propertyName, dataSource, dataFilter);
                         throw new TypeError(this.formatErrorMessage(dataFilter, '.equal.propertyName is missing/undefined', 'propertyName'));
                     }
-                } else if (dataFilter.equal.dataValue !== undefined) {
+                }
+                else if (dataFilter.equal.dataValue !== undefined) {
                     rightOperand = dataFilter.equal.dataValue;
-                } else if (rightOperand === undefined) {
+                }
+                else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.equal.propertyName', 'dataFilter.equal.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(
-                        this.formatErrorMessage(dataFilter, '.equal.propertyName and .equal.dataValue is missing/undefined', 'propertyName|dataValue')
-                    );
+                    throw new TypeError(this.formatErrorMessage(dataFilter, '.equal.propertyName and .equal.dataValue is missing/undefined', 'propertyName|dataValue'));
                 }
             }
             // console.log(`${leftOperand} == ${rightOperand} => ${leftOperand == rightOperand}`)
@@ -592,7 +593,8 @@ class MapsHelper {
             }
             if (typeof dataFilter.notEqual === 'string') {
                 rightOperand = dataFilter.notEqual;
-            } else {
+            }
+            else {
                 if (dataFilter.notEqual.propertyName !== undefined) {
                     rightOperand = _.get(dataSource, dataFilter.notEqual.propertyName);
                     // missing the required property
@@ -600,17 +602,13 @@ class MapsHelper {
                         // throw new PropertyUndefinedError(dataFilter.notEqual.propertyName, dataSource, dataFilter);
                         throw new TypeError(this.formatErrorMessage(dataFilter, '.notEqual.propertyName is missing/undefined', 'propertyName'));
                     }
-                } else if (dataFilter.notEqual.dataValue !== undefined) {
+                }
+                else if (dataFilter.notEqual.dataValue !== undefined) {
                     rightOperand = dataFilter.notEqual.dataValue;
-                } else if (rightOperand === undefined) {
+                }
+                else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.notEqual.propertyName', 'dataFilter.notEqual.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(
-                        this.formatErrorMessage(
-                            dataFilter,
-                            '.notEqual.propertyName and .notEqual.dataValue is missing/undefined',
-                            'propertyName|dataValue'
-                        )
-                    );
+                    throw new TypeError(this.formatErrorMessage(dataFilter, '.notEqual.propertyName and .notEqual.dataValue is missing/undefined', 'propertyName|dataValue'));
                 }
             }
             // console.log(`${leftOperand} != ${rightOperand} => ${leftOperand != rightOperand}`)
@@ -629,7 +627,8 @@ class MapsHelper {
             if (typeof dataFilter.greaterThan === 'number') {
                 // TODO: this is not required, can be enhance
                 rightOperand = dataFilter.greaterThan;
-            } else {
+            }
+            else {
                 if (dataFilter.greaterThan.propertyName !== undefined) {
                     rightOperand = _.get(dataSource, dataFilter.greaterThan.propertyName);
                     // missing the required property
@@ -637,17 +636,13 @@ class MapsHelper {
                         // throw new PropertyUndefinedError(dataFilter.greaterThan.propertyName, dataSource, dataSource);
                         throw new TypeError(this.formatErrorMessage(dataFilter, '.greaterThan.propertyName is missing/undefined', 'propertyName'));
                     }
-                } else if (dataFilter.greaterThan.dataValue !== undefined) {
+                }
+                else if (dataFilter.greaterThan.dataValue !== undefined) {
                     rightOperand = dataFilter.greaterThan.dataValue;
-                } else if (rightOperand === undefined) {
+                }
+                else if (rightOperand === undefined) {
                     // throw new PropertyUndefinedError(['dataFilter.greaterThan.propertyName', 'dataFilter.greaterThan.dataValue'].toString(), dataSource, dataFilter);
-                    throw new TypeError(
-                        this.formatErrorMessage(
-                            dataFilter,
-                            '.greaterThan.propertyName and .greaterThan.dataValue is missing/undefined',
-                            'propertyName|dataValue'
-                        )
-                    );
+                    throw new TypeError(this.formatErrorMessage(dataFilter, '.greaterThan.propertyName and .greaterThan.dataValue is missing/undefined', 'propertyName|dataValue'));
                 }
             }
             return this.greaterThan(leftOperand, rightOperand);
@@ -658,8 +653,10 @@ class MapsHelper {
         return a > b;
     }
     static filterData(item, dataFilter) {
-        if (dataFilter !== undefined) return MapsHelper.filterDataV2(item, dataFilter) ? item : null;
-        else return true;
+        if (dataFilter !== undefined)
+            return MapsHelper.filterDataV2(item, dataFilter) ? item : null;
+        else
+            return true;
     }
     static applySaveMaps(param, sessionData, saveMaps) {
         // try {
@@ -679,7 +676,8 @@ class MapsHelper {
                         let dataRows = null;
                         if (saveMap.dataPath === '.') {
                             dataRows = param;
-                        } else {
+                        }
+                        else {
                             dataRows = _.get(param, saveMap.dataPath);
                         }
                         // source data not found, set to empty array
@@ -693,71 +691,71 @@ class MapsHelper {
                         // console.log(JSON.stringify(dataRows, null, 4))
                         dataRows
                             .filter((item) => {
-                                // console.log(JSON.stringify(item, null, 4))
-                                return MapsHelper.filterData(item, saveMap.dataFilter);
-                            })
+                            // console.log(JSON.stringify(item, null, 4))
+                            return MapsHelper.filterData(item, saveMap.dataFilter);
+                        })
                             .forEach((item) => {
-                                let dataObject = {};
-                                if (saveMap.properties !== undefined) {
-                                    // filter by property
-                                    saveMap.properties.forEach((propertyMap) => {
-                                        if (propertyMap.propertyName !== undefined) {
-                                            // source data from sessionData or apiParam
-                                            if (
-                                                propertyMap.propertyName.startsWith('sessionData.') ||
-                                                propertyMap.propertyName.startsWith('apiParam.')
-                                            ) {
-                                                // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
-                                                // source and target array must be same length, else it will set to empty
-                                                let propertyName = propertyMap.propertyName;
-                                                if (propertyMap.propertyName.includes('[x]')) {
-                                                    propertyName = propertyMap.propertyName.replace('[x]', `[${index}]`);
-                                                    // if the sourceItem array is less than targetItem, used the first item from sourceItem
-                                                    if (_.get(param, propertyName) === undefined) {
-                                                        propertyName = propertyMap.propertyName.replace('[x]', '[0]');
-                                                    }
+                            let dataObject = {};
+                            if (saveMap.properties !== undefined) {
+                                // filter by property
+                                saveMap.properties.forEach((propertyMap) => {
+                                    if (propertyMap.propertyName !== undefined) {
+                                        // source data from sessionData or apiParam
+                                        if (propertyMap.propertyName.startsWith('sessionData.') ||
+                                            propertyMap.propertyName.startsWith('apiParam.')) {
+                                            // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
+                                            // source and target array must be same length, else it will set to empty
+                                            let propertyName = propertyMap.propertyName;
+                                            if (propertyMap.propertyName.includes('[x]')) {
+                                                propertyName = propertyMap.propertyName.replace('[x]', `[${index}]`);
+                                                // if the sourceItem array is less than targetItem, used the first item from sourceItem
+                                                if (_.get(param, propertyName) === undefined) {
+                                                    propertyName = propertyMap.propertyName.replace('[x]', '[0]');
                                                 }
-                                                // console.log(`PropertyName:::${propertyName}`)
-                                                dataObject[propertyMap.objectPropertyName] = _.get(param, propertyName);
-                                            } else {
-                                                // source data from current item
-                                                dataObject[propertyMap.objectPropertyName] = _.get(item, propertyMap.propertyName);
                                             }
-                                        } else {
-                                            // console.log('item', item)
-                                            // console.log('propertyMap.dataFilter', propertyMap.dataFilter)
-                                            // console.log('_.get(item, item.dataPath)', _.get(item, propertyMap.dataPath))
-                                            // get the source data
-                                            const dataProp = _.get(item, propertyMap.dataPath);
-                                            // filter the record and select only the first row return
-                                            // when no record found, it will set to undefined
-                                            const selectedData = dataProp.filter((xitem) => {
-                                                // console.log(JSON.stringify(item, null, 4))
-                                                return MapsHelper.filterData(xitem, propertyMap.dataFilter);
-                                            })[0];
-                                            // console.log('propertyMap.dataFilter', propertyMap.dataFilter)
-                                            // console.log('propertyMap.objectPropertyName', propertyMap.objectPropertyName)
-                                            // console.log('selectedData', selectedData)
-                                            // if (propertyMap.dataFilter.objectPropertyName)
-                                            //     console.log('value',  _.get(selectedData, propertyMap.dataFilter.objectPropertyName))
-                                            if (propertyMap.dataFilter.objectPropertyName !== undefined) {
-                                                dataObject[propertyMap.objectPropertyName] = _.get(
-                                                    selectedData,
-                                                    propertyMap.dataFilter.objectPropertyName
-                                                );
-                                            } else {
-                                                dataObject[propertyMap.objectPropertyName] = selectedData;
-                                            }
+                                            // console.log(`PropertyName:::${propertyName}`)
+                                            dataObject[propertyMap.objectPropertyName] = _.get(param, propertyName);
                                         }
-                                    });
-                                } else {
-                                    dataObject = _.cloneDeep(item);
-                                }
-                                // console.log(dataObject)
-                                index++;
-                                sourceData.push(dataObject);
-                            });
-                    } else {
+                                        else {
+                                            // source data from current item
+                                            dataObject[propertyMap.objectPropertyName] = _.get(item, propertyMap.propertyName);
+                                        }
+                                    }
+                                    else {
+                                        // console.log('item', item)
+                                        // console.log('propertyMap.dataFilter', propertyMap.dataFilter)
+                                        // console.log('_.get(item, item.dataPath)', _.get(item, propertyMap.dataPath))
+                                        // get the source data
+                                        const dataProp = _.get(item, propertyMap.dataPath);
+                                        // filter the record and select only the first row return
+                                        // when no record found, it will set to undefined
+                                        const selectedData = dataProp.filter((xitem) => {
+                                            // console.log(JSON.stringify(item, null, 4))
+                                            return MapsHelper.filterData(xitem, propertyMap.dataFilter);
+                                        })[0];
+                                        // console.log('propertyMap.dataFilter', propertyMap.dataFilter)
+                                        // console.log('propertyMap.objectPropertyName', propertyMap.objectPropertyName)
+                                        // console.log('selectedData', selectedData)
+                                        // if (propertyMap.dataFilter.objectPropertyName)
+                                        //     console.log('value',  _.get(selectedData, propertyMap.dataFilter.objectPropertyName))
+                                        if (propertyMap.dataFilter.objectPropertyName !== undefined) {
+                                            dataObject[propertyMap.objectPropertyName] = _.get(selectedData, propertyMap.dataFilter.objectPropertyName);
+                                        }
+                                        else {
+                                            dataObject[propertyMap.objectPropertyName] = selectedData;
+                                        }
+                                    }
+                                });
+                            }
+                            else {
+                                dataObject = _.cloneDeep(item);
+                            }
+                            // console.log(dataObject)
+                            index++;
+                            sourceData.push(dataObject);
+                        });
+                    }
+                    else {
                         // get the sessionData variable
                         let sourceData = _.get(param.sessionData, saveMap.sessionName ? saveMap.sessionName : '');
                         // if (saveMap.sessionName === 'selectedTenant.Themes') {
@@ -771,30 +769,41 @@ class MapsHelper {
                             // typeof values = "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function"
                             if (saveMap.dataType !== undefined && saveMap.dataType === 'string') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', '');
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'number') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'number') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', 0);
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'bigint') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'bigint') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', BigInt(0));
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'booleanTrue') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'booleanTrue') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', true);
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'booleanFalse') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'booleanFalse') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', false);
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'undefined') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'undefined') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', undefined);
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'object') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'object') {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', {});
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'array') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'array') {
                                 if (saveMap.dataValue !== undefined) {
-                                    if (sourceData === undefined) _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
-                                } else {
+                                    if (sourceData === undefined)
+                                        _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
+                                }
+                                else {
                                     _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', []);
                                 }
-                            } else if (saveMap.dataType === undefined) {
+                            }
+                            else if (saveMap.dataType === undefined) {
                                 // TODO: propertyName must be defined
                                 // TODO: change the default value from '' to undefined,
                                 // so that when the source(propertyName) is undefined, the sessionData is not created as rmpty string
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', undefined);
-                            } else {
+                            }
+                            else {
                                 // _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', '');
                                 throw new TypeError(this.formatErrorMessage(saveMap, '.dataType not supported', 'saveMap'));
                             }
@@ -808,13 +817,15 @@ class MapsHelper {
                                 // console.log(`\n---saveMap.dataType---\n${JSON.stringify(_.get(param, saveMap.propertyName), null, 4)}\n---saveMap.dataType---\n`)
                                 sourceData.push(_.cloneDeep(_.get(param, saveMap.propertyName)));
                                 // console.log(`\n---saveMap.dataType---\n${JSON.stringify(sessionData, null, 4)}\n---saveMap.dataType---\n`)
-                            } else if (saveMap.dataType !== undefined && saveMap.dataType === 'object') {
+                            }
+                            else if (saveMap.dataType !== undefined && saveMap.dataType === 'object') {
                                 if (saveMap.objectPropertyName === undefined) {
                                     // throw new PropertyUndefinedError('objectPropertyName', saveMap, saveMap);
                                     throw new TypeError(this.formatErrorMessage(saveMap, 'required .objectPropertyName is missing', 'saveMap'));
                                 }
                                 _.set(sourceData, saveMap.objectPropertyName, _.get(param, saveMap.propertyName));
-                            } else {
+                            }
+                            else {
                                 // console.log(JSON.stringify(saveMap, null, 4))
                                 // console.log(JSON.stringify(param.sessionData, null, 4))
                                 // console.log(`setValue:::${saveMap.propertyName}`)
@@ -824,10 +835,9 @@ class MapsHelper {
                                     // used in api-deletePolicies
                                     // if (!saveMap.ignoreWhenNotExist) throw new PropertyUndefinedError(saveMap.propertyName, param, saveMap);
                                     if (!saveMap.ignoreWhenNotExist)
-                                        throw new TypeError(
-                                            this.formatErrorMessage(saveMap, '.ignoreWhenNotExist set to false and property not found', 'saveMap')
-                                        );
-                                } else {
+                                        throw new TypeError(this.formatErrorMessage(saveMap, '.ignoreWhenNotExist set to false and property not found', 'saveMap'));
+                                }
+                                else {
                                     let newValue = _.get(param, saveMap.propertyName);
                                     if (saveMap.match !== undefined) {
                                         newValue = newValue.toString().match(saveMap.match);
@@ -837,18 +847,21 @@ class MapsHelper {
                                     // console.log(JSON.stringify(param.sessionData, null, 4))
                                 }
                             }
-                        } else if (saveMap.dataValue !== undefined) {
+                        }
+                        else if (saveMap.dataValue !== undefined) {
                             // sourceData = saveMap.dataValue
                             if (saveMap.dataType === 'array') {
                                 // sourceData.push(saveMap.dataValue);
                                 sourceData.push(saveMap.dataValue);
-                            } else if (saveMap.dataType === 'object') {
+                            }
+                            else if (saveMap.dataType === 'object') {
                                 if (saveMap.objectPropertyName === undefined) {
                                     // throw new PropertyUndefinedError('objectPropertyName', saveMap, saveMap);
                                     throw new TypeError(this.formatErrorMessage(saveMap, 'required .objectPropertyName is missing', 'saveMap'));
                                 }
                                 _.set(sourceData, saveMap.objectPropertyName, saveMap.dataValue);
-                            } else {
+                            }
+                            else {
                                 _.set(sessionData, saveMap.sessionName ? saveMap.sessionName : '', saveMap.dataValue);
                             }
                             // console.log(_.get(param.sessionData, saveMap.sessionName))
@@ -872,8 +885,10 @@ class MapsHelper {
             item.debug = apiParam.debug;
             // make sure that is an array
             let targetList;
-            if (Array.isArray(item.targetProperty)) targetList = item.targetProperty;
-            else targetList = [item.targetProperty];
+            if (Array.isArray(item.targetProperty))
+                targetList = item.targetProperty;
+            else
+                targetList = [item.targetProperty];
             // default parameter replace mapper
             let replace = '{{' + Helper.regexpEscape(item.parameter) + '}}';
             let newValue = '';
@@ -889,11 +904,14 @@ class MapsHelper {
                 });
                 // expecting to find only 1 plugin per parameter command
                 if (plugins.length === 1) {
-                    if (dataSource.sessionData.debug || item.debug) console.log(`execute plugin::: >>>>>>>> ${commandKeyword} <<<<<<<<`);
+                    if (dataSource.sessionData.debug || item.debug)
+                        console.log(`execute plugin::: >>>>>>>> ${commandKeyword} <<<<<<<<`);
                     replace = item.parameter;
                     newValue = plugins[0].execute(item, dataSource, parameter);
-                    if (dataSource.sessionData.debug || item.debug) console.log(`>>>>>>>> ${parameter}\n${newValue}\n<<<<<<<<`);
-                } else {
+                    if (dataSource.sessionData.debug || item.debug)
+                        console.log(`>>>>>>>> ${parameter}\n${newValue}\n<<<<<<<<`);
+                }
+                else {
                     throw new TypeError(this.formatErrorMessage(item, 'command not supported', 'parameter'));
                 }
                 ////TODO: shlould throw error here...
@@ -902,7 +920,8 @@ class MapsHelper {
                     // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
                 }
                 // console.log(`commandKeyword replace:::${replace}`)
-            } else {
+            }
+            else {
                 // replace paremeter variable name with *
                 replace = '{{' + item.parameter.replace(/{{([^}]+)}}/g, '*') + '}}';
                 newValue = _.get(dataSource, this.updatePropertyV2(item.parameter, apiParam, sessionData));
@@ -918,14 +937,16 @@ class MapsHelper {
                     throw new TypeError(this.formatErrorMessage(item, 'parameter source is missing/undefined', 'parameter'));
                     // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
                 }
-            } else {
+            }
+            else {
                 targetList.forEach((listItem) => {
                     // resolved target propety name with support for variable injection
                     const targetProperty = this.updatePropertyV2(listItem, apiParam, sessionData);
                     if (typeof _.get(apiParam, targetProperty) === 'string') {
                         if (item.overwrite && item.overwrite === true) {
                             _.set(apiParam, targetProperty, newValue);
-                        } else {
+                        }
+                        else {
                             // replace = '{{' + item.parameter + '}}'
                             const regex = new RegExp(Helper.regexpEscape(replace), 'g');
                             // console.log('targetProperty', targetProperty)
@@ -938,7 +959,8 @@ class MapsHelper {
                             _.set(apiParam, targetProperty, _.get(apiParam, targetProperty).replace(regex, newValue));
                             // console.log(`\n---apiParam---\n${JSON.stringify(apiParam, null, 4)}\n---apiParam---\n`)
                         }
-                    } else {
+                    }
+                    else {
                         // TODO: currently, non-string target will be overwritten
                         // need to handle, object type target like a = { ...a, ...newValue } ???
                         _.set(apiParam, targetProperty, newValue);
@@ -961,12 +983,9 @@ class MapsHelper {
         // }
         return `Source:\n${JSON.stringify(data, null, 4)}\n\nError Message:\n${formatedMsg}`;
     }
-    static updatePropertyV2(
-        sourcePropertyName,
-        apiParam,
-        // sessionData: SessionDataBase | object
-        sessionData
-    ) {
+    static updatePropertyV2(sourcePropertyName, apiParam, 
+    // sessionData: SessionDataBase | object
+    sessionData) {
         const dataSource = {
             apiParam: apiParam,
             sessionData: sessionData,
@@ -990,7 +1009,8 @@ class MapsHelper {
             // default assending order
             let orderBy = 'asc';
             const sortBy = outputMap.sortOrder.sortBy;
-            if (outputMap.sortOrder.orderBy === 'asc' || outputMap.sortOrder.orderBy === 'desc') orderBy = outputMap.sortOrder.orderBy;
+            if (outputMap.sortOrder.orderBy === 'asc' || outputMap.sortOrder.orderBy === 'desc')
+                orderBy = outputMap.sortOrder.orderBy;
             // dataRows = dataRows.sort(MapsHelper.compareValues(sortBy, orderBy));
             dataRows = sortData(dataRows, sortBy, orderBy === 'asc' ? 'asc' : 'desc');
         }
@@ -1023,7 +1043,8 @@ class MapsHelper {
                 if (nextHopMap.dataPath === '.') {
                     //TODO: required review, this condition most likely not required, no test case created
                     dataRows = param;
-                } else {
+                }
+                else {
                     dataRows = _.get(dataSource, nextHopMap.dataPath);
                 }
                 // console.log(`\n---nextHopMap.dataPath---\n${JSON.stringify(nextHopMap.dataPath, null, 4)}\n---nextHopMap.dataPath---\n`)
@@ -1068,44 +1089,45 @@ class MapsHelper {
                 dataRows = MapsHelper.sortData(nextHopMap, dataRows);
                 dataRows
                     .filter((item) => {
-                        return MapsHelper.filterData(item, nextHopMap.dataFilter);
-                    })
+                    return MapsHelper.filterData(item, nextHopMap.dataFilter);
+                })
                     .forEach((item) => {
-                        // ++index;
-                        // ++count;
-                        // console.log(`\n---item---\n${JSON.stringify(item, null, 4)}\n---item---\n`)
-                        // // create param from template
-                        // return json2ClassFactory.getApiParamFromJsObject(JSON.parse(templateSting))
-                        //     .then(template => {
-                        //         // replace the template property with item property
-                        //         MapsHelper.applyParametersMaps(template, item, nextHopMap.parametersMaps)
-                        //         // add the parameters for subsequence execution...
-                        //         param.nextHopParams.push(template)
-                        //         // console.log(`\n---nextHopParams---\n${JSON.stringify(param.nextHopParams, null, 4)}\n---nextHopParams---\n`)
-                        //     })
-                        // nextHopParam can be an array of ApiParam
-                        let templates;
-                        if (templateSting.startsWith('[')) {
-                            templates = JSON.parse(templateSting);
-                        } else {
-                            templates = JSON.parse(`[${templateSting}]`);
-                        }
-                        templates.forEach((template) => {
-                            if (nextHopMap.parametersMaps !== undefined) {
-                                // transfer parameters to next level automatically
-                                if (dataSource.apiParam.parameters !== undefined) {
-                                    template.parameters = _.cloneDeep(dataSource.apiParam.parameters);
-                                }
-                                // replace the template property with item property
-                                // console.log(`\n---item---\n${JSON.stringify(item, null, 4)}\n---item---\n`)
-                                // console.log(`\n---template---\n${JSON.stringify(template, null, 4)}\n---template---\n`)
-                                MapsHelper.applyParametersMaps(template, item, nextHopMap.parametersMaps);
-                                // console.log(`\n---nextHopMap.applyParametersMaps---\n${JSON.stringify(template, null, 4)}\n---nextHopMap.applyParametersMaps---\n`)
+                    // ++index;
+                    // ++count;
+                    // console.log(`\n---item---\n${JSON.stringify(item, null, 4)}\n---item---\n`)
+                    // // create param from template
+                    // return json2ClassFactory.getApiParamFromJsObject(JSON.parse(templateSting))
+                    //     .then(template => {
+                    //         // replace the template property with item property
+                    //         MapsHelper.applyParametersMaps(template, item, nextHopMap.parametersMaps)
+                    //         // add the parameters for subsequence execution...
+                    //         param.nextHopParams.push(template)
+                    //         // console.log(`\n---nextHopParams---\n${JSON.stringify(param.nextHopParams, null, 4)}\n---nextHopParams---\n`)
+                    //     })
+                    // nextHopParam can be an array of ApiParam
+                    let templates;
+                    if (templateSting.startsWith('[')) {
+                        templates = JSON.parse(templateSting);
+                    }
+                    else {
+                        templates = JSON.parse(`[${templateSting}]`);
+                    }
+                    templates.forEach((template) => {
+                        if (nextHopMap.parametersMaps !== undefined) {
+                            // transfer parameters to next level automatically
+                            if (dataSource.apiParam.parameters !== undefined) {
+                                template.parameters = _.cloneDeep(dataSource.apiParam.parameters);
                             }
-                            // add the parameters for subsequence execution...
-                            param.nextHopParams.push(template);
-                        });
+                            // replace the template property with item property
+                            // console.log(`\n---item---\n${JSON.stringify(item, null, 4)}\n---item---\n`)
+                            // console.log(`\n---template---\n${JSON.stringify(template, null, 4)}\n---template---\n`)
+                            MapsHelper.applyParametersMaps(template, item, nextHopMap.parametersMaps);
+                            // console.log(`\n---nextHopMap.applyParametersMaps---\n${JSON.stringify(template, null, 4)}\n---nextHopMap.applyParametersMaps---\n`)
+                        }
+                        // add the parameters for subsequence execution...
+                        param.nextHopParams.push(template);
                     });
+                });
                 //   if (index === 0 && nextHopMap.notFoundMessage !== undefined) {
                 //     message += nextHopMap.notFoundMessage
                 //   }
@@ -1119,18 +1141,15 @@ MapsHelper.plugins = [new IfExists(), new IfNotExists(), new IfTrue(), new IfFal
 
 // https://devdojo.com/discoverlance/snippet/form-validation-with-class-validator-1
 // ref: https://bkerr.dev/blog/declarative-validation-for-express-apis-with-class-validator-and-class-transformer/
-const __filename$1 = url.fileURLToPath(
-    typeof document === 'undefined'
-        ? require('url').pathToFileURL(__filename).href
-        : (_documentCurrentScript && _documentCurrentScript.src) || new URL('api-helper-v2-bundle.cjs', document.baseURI).href
-);
+const __filename$1 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
 path.dirname(__filename$1);
 class DtoBase {
     static async validateData(input, groups) {
         try {
             groups.length > 0 ? await classValidator.validateOrReject(input, { groups: groups }) : await classValidator.validateOrReject(input);
             return { errorCode: 0, errors: [] };
-        } catch (err) {
+        }
+        catch (err) {
             const validationErrors = err;
             return { errorCode: 500, errors: this.getErrorMessage(validationErrors) };
         }
@@ -1140,7 +1159,8 @@ class DtoBase {
             const validateExceptionData = [];
             if (children != undefined && children.length > 0) {
                 this.getErrorMessage(children, property).forEach((item) => validateExceptionData.push(item));
-            } else {
+            }
+            else {
                 for (const key in constraints) {
                     validateExceptionData.push(constraints[key]);
                 }
@@ -1151,14 +1171,16 @@ class DtoBase {
     async validate(groups = []) {
         const dtoError = await DtoBase.validateData(this, groups);
         // console.log(`validate:::\n${JSON.stringify(dtoError, null, 4)}`);
-        if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+        if (dtoError.errorCode !== 0)
+            throw new ValidationException(dtoError, 'Data validation errors');
         return true;
     }
     validateSync(groups = [], parentProprtyName = 'data') {
         const valError = groups.length > 0 ? classValidator.validateSync(this, { groups: groups }) : classValidator.validateSync(this);
         const dtoError = { errorCode: valError.length > 0 ? 500 : 0, errors: DtoBase.getErrorMessage(valError, parentProprtyName) };
         // console.log(`validateSync:::\n${JSON.stringify(dtoError, null, 4)}`);
-        if (dtoError.errorCode !== 0) throw new ValidationException(dtoError, 'Data validation errors');
+        if (dtoError.errorCode !== 0)
+            throw new ValidationException(dtoError, 'Data validation errors');
         return true;
     }
     static getFullPath(folderPath) {
@@ -1174,7 +1196,8 @@ class DtoBase {
         // process path conatin node_modules folder, api-helper-v1 included as reference module
         if (folderParts[0] === 'node_modules') {
             return `${cwd}/node_modules/${folderParts[1]}`;
-        } else {
+        }
+        else {
             return cwd;
         }
     }
@@ -1184,7 +1207,8 @@ class DtoBase {
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
             // return await this.plain2Instance(cls, data, validate);
             return await this.plain2Instance(data, validate, excludeExtraneousValues);
-        } else {
+        }
+        else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
@@ -1194,7 +1218,8 @@ class DtoBase {
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
             // return await this.plain2Instance(cls, data, validate);
             return this.plain2InstanceSync(data, validate, excludeExtraneousValues);
-        } else {
+        }
+        else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
@@ -1203,7 +1228,8 @@ class DtoBase {
         if (fs.existsSync(fsFileName)) {
             const data = JSON.parse(fs.readFileSync(fsFileName, 'utf8'));
             return await this.plain2Instances(data, validate);
-        } else {
+        }
+        else {
             throw new Error(`File not found '${fsFileName}'\nCurrent Folder '${process.cwd()}'`);
         }
     }
@@ -1240,23 +1266,15 @@ class DtoBase {
     }
 }
 
-var __decorate =
-    (undefined && undefined.__decorate) ||
-    function (decorators, target, key, desc) {
-        var c = arguments.length,
-            r = c < 3 ? target : desc === null ? (desc = Object.getOwnPropertyDescriptor(target, key)) : desc,
-            d;
-        if (typeof Reflect === 'object' && typeof Reflect.decorate === 'function') r = Reflect.decorate(decorators, target, key, desc);
-        else
-            for (var i = decorators.length - 1; i >= 0; i--)
-                if ((d = decorators[i])) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
-    };
-var __metadata =
-    (undefined && undefined.__metadata) ||
-    function (k, v) {
-        if (typeof Reflect === 'object' && typeof Reflect.metadata === 'function') return Reflect.metadata(k, v);
-    };
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 class ApiParam extends DtoBase {
     constructor() {
         super(...arguments);
@@ -1292,66 +1310,117 @@ class ApiParam extends DtoBase {
         // }
     }
 }
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'description', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'debug', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'debugSession', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Boolean)], ApiParam.prototype, 'skipExecute', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', String)], ApiParam.prototype, 'moduleName', void 0);
-__decorate(
-    [
-        classTransformer.Expose(),
-        // parameters?: object;
-        __metadata('design:type', Object),
-    ],
-    ApiParam.prototype,
-    'parameters',
-    void 0
-);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => ApiParameter), __metadata('design:type', Array)],
-    ApiParam.prototype,
-    'moduleParameters',
-    void 0
-);
-__decorate([classTransformer.Expose(), __metadata('design:type', String)], ApiParam.prototype, 'returnParameterName', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', String)], ApiParam.prototype, 'defaultMaps', void 0);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => ApiParameter), __metadata('design:type', Object)],
-    ApiParam.prototype,
-    'parametersMaps',
-    void 0
-);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'url', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'httpMethod', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'httpHeaders', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'queryString', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'jsonData', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'multiPartData', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'textData', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'base64Data', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'formData', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'nextHopOnly', void 0);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => ApiParam), __metadata('design:type', Array)],
-    ApiParam.prototype,
-    'nextHopParams',
-    void 0
-);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => NexthopMap), __metadata('design:type', Array)],
-    ApiParam.prototype,
-    'nextHopMaps',
-    void 0
-);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => SaveMap), __metadata('design:type', Array)],
-    ApiParam.prototype,
-    'saveMaps',
-    void 0
-);
-__decorate([classTransformer.Expose(), __metadata('design:type', Array)], ApiParam.prototype, 'baseString', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Array)], ApiParam.prototype, 'debugData', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParam.prototype, 'expected', void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "description", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "debug", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "debugSession", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Boolean)
+], ApiParam.prototype, "skipExecute", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", String)
+], ApiParam.prototype, "moduleName", void 0);
+__decorate([
+    classTransformer.Expose()
+    // parameters?: object;
+    ,
+    __metadata("design:type", Object)
+], ApiParam.prototype, "parameters", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => ApiParameter),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "moduleParameters", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", String)
+], ApiParam.prototype, "returnParameterName", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", String)
+], ApiParam.prototype, "defaultMaps", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => ApiParameter),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "parametersMaps", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "url", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "httpMethod", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "httpHeaders", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "queryString", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "jsonData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "multiPartData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "textData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "base64Data", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "formData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "nextHopOnly", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => ApiParam),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "nextHopParams", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => NexthopMap),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "nextHopMaps", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => SaveMap),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "saveMaps", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "baseString", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Array)
+], ApiParam.prototype, "debugData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParam.prototype, "expected", void 0);
 class ApiTag {
     constructor(parentTag) {
         this._logLabel = '';
@@ -1360,7 +1429,8 @@ class ApiTag {
         if (parentTag !== undefined) {
             this.level = parentTag.tag();
             this._logLabel = parentTag.logLabel();
-        } else {
+        }
+        else {
             this._logLabel = Helper.randomString(6);
         }
     }
@@ -1371,11 +1441,14 @@ class ApiTag {
         this.count += 1;
     }
     tag() {
-        if (this.level === '') return this.count.toString();
-        else return `${this.level}.${this.count.toString()}`;
+        if (this.level === '')
+            return this.count.toString();
+        else
+            return `${this.level}.${this.count.toString()}`;
     }
 }
-class AnyUnknown {}
+class AnyUnknown {
+}
 class SessionDataBase extends AnyUnknown {
     constructor() {
         super(...arguments);
@@ -1436,19 +1509,20 @@ class ApiCommand extends DtoBase {
         // }
     }
 }
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiCommand.prototype, 'description', void 0);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => SessionDataBase), __metadata('design:type', SessionDataBase)],
-    ApiCommand.prototype,
-    'sessionData',
-    void 0
-);
-__decorate(
-    [classTransformer.Expose(), classTransformer.Type(() => ApiParam), __metadata('design:type', Array)],
-    ApiCommand.prototype,
-    'apiParams',
-    void 0
-);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiCommand.prototype, "description", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => SessionDataBase),
+    __metadata("design:type", SessionDataBase)
+], ApiCommand.prototype, "sessionData", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classTransformer.Type(() => ApiParam),
+    __metadata("design:type", Array)
+], ApiCommand.prototype, "apiParams", void 0);
 // class ValidationBase<T> {
 //     protected validateData(dto: T, obj: unknown) {
 //         // tranform the literal object to class object
@@ -1515,7 +1589,8 @@ __decorate(
 //             .join('\n\n');
 //     }
 // }
-class ParametersMaps extends Array {}
+class ParametersMaps extends Array {
+}
 // export class ParametersMapsValidate extends Array<ApiParameter> {
 //     @IsArray()
 //     @ValidateNested({ each: true })
@@ -1613,22 +1688,35 @@ class ApiParameter {
         // }
     }
 }
-__decorate([classTransformer.Expose(), classValidator.IsString(), __metadata('design:type', Object)], ApiParameter.prototype, 'parameter', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParameter.prototype, 'targetProperty', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParameter.prototype, 'overwrite', void 0);
-__decorate([classTransformer.Expose(), __metadata('design:type', Object)], ApiParameter.prototype, 'ignoreWhenNotExist', void 0);
-__decorate(
-    [classTransformer.Expose(), classValidator.IsOptional(), classValidator.IsString(), __metadata('design:type', String)],
-    ApiParameter.prototype,
-    'data',
-    void 0
-);
-__decorate(
-    [classTransformer.Expose(), classValidator.IsOptional(), classValidator.IsBoolean(), __metadata('design:type', Boolean)],
-    ApiParameter.prototype,
-    'debug',
-    void 0
-);
+__decorate([
+    classTransformer.Expose(),
+    classValidator.IsString(),
+    __metadata("design:type", Object)
+], ApiParameter.prototype, "parameter", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParameter.prototype, "targetProperty", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParameter.prototype, "overwrite", void 0);
+__decorate([
+    classTransformer.Expose(),
+    __metadata("design:type", Object)
+], ApiParameter.prototype, "ignoreWhenNotExist", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classValidator.IsOptional(),
+    classValidator.IsString(),
+    __metadata("design:type", String)
+], ApiParameter.prototype, "data", void 0);
+__decorate([
+    classTransformer.Expose(),
+    classValidator.IsOptional(),
+    classValidator.IsBoolean(),
+    __metadata("design:type", Boolean)
+], ApiParameter.prototype, "debug", void 0);
 class ApiParamBase {
     constructor(params) {
         this.showSessionData = false;
@@ -1637,7 +1725,8 @@ class ApiParamBase {
         this.debugList = [];
         this.skipList = [];
         this.debug = false;
-        if (params === undefined) return;
+        if (params === undefined)
+            return;
         this.setParams(params);
     }
     setParams(params) {
@@ -1654,7 +1743,8 @@ class ApiLibBase {
     constructor(cluster) {
         this.logLabel = Helper.randomString(6);
         this.cluster = '';
-        if (cluster) this.cluster = cluster;
+        if (cluster)
+            this.cluster = cluster;
     }
     static addPlugin(plugin) {
         MapsHelper.addPlugin(plugin);
@@ -1688,13 +1778,9 @@ class ApiLibBase {
                 // handle skipExecute and nextHopOnly only...
                 // TODO: bug ::: skipExecute targetProperty cause skipList not to work...
                 if (apiParam.parametersMaps !== undefined) {
-                    MapsHelper.applyParametersMaps(
-                        apiParam,
-                        sessionData,
-                        apiParam.parametersMaps.filter((item) => {
-                            return item.targetProperty === 'skipExecute' || item.targetProperty === 'nextHopOnly' ? item : undefined;
-                        })
-                    );
+                    MapsHelper.applyParametersMaps(apiParam, sessionData, apiParam.parametersMaps.filter((item) => {
+                        return item.targetProperty === 'skipExecute' || item.targetProperty === 'nextHopOnly' ? item : undefined;
+                    }));
                 }
                 // if (apiParam.description === 'Upload X.509 Certificate to API Service') {
                 //     console.log(`\n---b4-applyParametersMaps---\n${JSON.stringify(apiParam, null, 4)}\n---b4-applyParametersMaps---\n`)
@@ -1714,17 +1800,21 @@ class ApiLibBase {
                     this.logMessage(`Skip Execute API...${responseParam.apiTag} - ${responseParam.description}`);
                     // console.log(`\n---b4-applyParametersMaps---\n${JSON.stringify(apiParam, null, 4)}\n---b4-applyParametersMaps---\n`)
                     resolve(responseParam);
-                } else {
+                }
+                else {
                     if (apiParam.nextHopOnly) {
                         responseParam.skipExecute = true;
                         responseParam.nextHopOnly = true;
                         resolve(responseParam);
-                    } else {
+                    }
+                    else {
                         // propagate debug flag
-                        if (sessionData.debug == true) responseParam.debug = true;
+                        if (sessionData.debug == true)
+                            responseParam.debug = true;
                         else if (sessionData.debugList !== undefined)
                             responseParam.debug = sessionData.debugList.includes(responseParam.apiTag) ? true : false;
-                        else responseParam.debug = false;
+                        else
+                            responseParam.debug = false;
                         // overwrite debug flag based on caller debugList
                         if (responseParam.debug) {
                             this.logMessage(` >>> API Debug Start ...${responseParam.apiTag} <<<`);
@@ -1776,7 +1866,8 @@ class ApiLibBase {
                                                 fs.readFileSync(Helper.getFullPath(paramValue));
                                                 req = req.attach('files', Helper.getFullPath(paramValue));
                                             });
-                                        } else {
+                                        }
+                                        else {
                                             // trigger error if file not found...
                                             // req.attach does not propagate error
                                             fs.readFileSync(Helper.getFullPath(apiParam.multiPartData.attachments[key]));
@@ -1806,10 +1897,7 @@ class ApiLibBase {
                                         for (const key in apiParam.textData.replaceMapper) {
                                             const replace = '{{' + ApiLibBase.regexpEscape(key) + '}}';
                                             const regex = new RegExp(replace, 'g');
-                                            jsonData = jsonData.replace(
-                                                regex,
-                                                _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key))
-                                            );
+                                            jsonData = jsonData.replace(regex, _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key)));
                                         }
                                         postData = JSON.parse(jsonData);
                                     }
@@ -1832,57 +1920,63 @@ class ApiLibBase {
                         // do not redirect, not required for API interface
                         req.redirects(0)
                             .ok((res) => {
-                                if (res.status < 400) {
-                                    this.logMessage(`Successful...${responseParam.apiTag}`);
-                                    responseParam.endTime = luxon.DateTime.local();
-                                    if (responseParam.startTime)
-                                        responseParam.elapsed = responseParam.endTime
-                                            .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
-                                            .toObject();
-                                    responseParam.sessionData = sessionData;
-                                    responseParam.httpStatus = res.status;
-                                    // responseParam.response = res
-                                    if (apiParam.parameters !== undefined) responseParam.parameters = apiParam.parameters;
-                                    if (apiParam.baseString !== undefined) responseParam.baseString = apiParam.baseString;
-                                    responseParam.responseHeaders = res.headers;
-                                    if (!_.isEmpty(res.body)) {
-                                        responseParam.responseBody = res.body;
-                                    } else {
-                                        responseParam.responseText = res.text;
-                                    }
-                                    if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
-                                        ApiLibBase.displayResult(res, 'response', ['text', 'req']);
-                                        // ApiLibBase.displayResult(responseParam, 'responseParam');
-                                    }
-                                    resolve(responseParam);
-                                    return true;
-                                } else {
-                                    return false;
-                                }
-                            })
-                            .catch((err) => {
+                            if (res.status < 400) {
+                                this.logMessage(`Successful...${responseParam.apiTag}`);
                                 responseParam.endTime = luxon.DateTime.local();
-                                this.logMessage(`API Failed...${responseParam.apiTag}`);
-                                this.logMessage(`>>>>>> ${err.message} <<<<<<`);
-                                ApiLibBase.displayResult(err, 'error object');
-                                ApiLibBase.displayResult(apiParam, 'apiParam');
-                                if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
-                                    console.log(err.response.body);
-                                } else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
-                                    console.log(err.response.text);
+                                if (responseParam.startTime)
+                                    responseParam.elapsed = responseParam.endTime
+                                        .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
+                                        .toObject();
+                                responseParam.sessionData = sessionData;
+                                responseParam.httpStatus = res.status;
+                                // responseParam.response = res
+                                if (apiParam.parameters !== undefined)
+                                    responseParam.parameters = apiParam.parameters;
+                                if (apiParam.baseString !== undefined)
+                                    responseParam.baseString = apiParam.baseString;
+                                responseParam.responseHeaders = res.headers;
+                                if (!_.isEmpty(res.body)) {
+                                    responseParam.responseBody = res.body;
                                 }
-                                responseParam.httpStatus = err.status;
-                                responseParam.error = err;
-                                reject(responseParam);
-                            })
+                                else {
+                                    responseParam.responseText = res.text;
+                                }
+                                if (responseParam.debug === true || apiParam.debug === true || sessionData.debug === true) {
+                                    ApiLibBase.displayResult(res, 'response', ['text', 'req']);
+                                    // ApiLibBase.displayResult(responseParam, 'responseParam');
+                                }
+                                resolve(responseParam);
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        })
+                            .catch((err) => {
+                            responseParam.endTime = luxon.DateTime.local();
+                            this.logMessage(`API Failed...${responseParam.apiTag}`);
+                            this.logMessage(`>>>>>> ${err.message} <<<<<<`);
+                            ApiLibBase.displayResult(err, 'error object');
+                            ApiLibBase.displayResult(apiParam, 'apiParam');
+                            if (!_.isEmpty(err.response) && !_.isEmpty(err.response.body)) {
+                                console.log(err.response.body);
+                            }
+                            else if (!_.isEmpty(err.response) && !_.isEmpty(err.response.text)) {
+                                console.log(err.response.text);
+                            }
+                            responseParam.httpStatus = err.status;
+                            responseParam.error = err;
+                            reject(responseParam);
+                        })
                             .finally(() => {
-                                if (responseParam.debug === true || sessionData.debug === true) {
-                                    this.logMessage(` >>> API Debug End ...${responseParam.apiTag} <<<`);
-                                }
-                            });
+                            if (responseParam.debug === true || sessionData.debug === true) {
+                                this.logMessage(` >>> API Debug End ...${responseParam.apiTag} <<<`);
+                            }
+                        });
                     }
                 }
-            } catch (err) {
+            }
+            catch (err) {
                 const error = err;
                 responseParam.endTime = luxon.DateTime.local();
                 this.logMessage(`API Failed...${responseParam.apiTag} - ${apiParam.description}`);
@@ -1920,7 +2014,8 @@ class ApiLibBase {
                 if (currentParam.nextHopMaps !== undefined && currentParam.nextHopMaps.length > 0) {
                     // merge 2 array
                     currentParam.nextHopMaps = [...currentParam.nextHopMaps, ...apiParams[0].nextHopMaps];
-                } else {
+                }
+                else {
                     currentParam.nextHopMaps = apiParams[0].nextHopMaps;
                 }
                 // bring in the nextHopParam
@@ -1943,23 +2038,22 @@ class ApiLibBase {
                     // match string with {{ and end with }}
                     if (typeof targetProp === 'string' && targetProp.match(/{{([^}]+)}}/)) {
                         const replacePattern = '{{' + item.parameter + '}}';
-                        _.set(
-                            currentParam,
-                            item.targetProperty,
-                            targetProp.replace(replacePattern, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter))
-                        );
-                    } else {
+                        _.set(currentParam, item.targetProperty, targetProp.replace(replacePattern, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter)));
+                    }
+                    else {
                         _.set(currentParam, item.targetProperty, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter));
                     }
                 });
             }
             if (apiParams[0].returnParameterName !== undefined) {
                 currentParam.returnParameterName = apiParams[0].returnParameterName;
-            } else {
+            }
+            else {
                 currentParam.returnParameterName = 'returnParameter';
             }
             // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
-        } else {
+        }
+        else {
             // clone the apiParam for update
             currentParam = await ApiParam.plain2Instance(JSON.parse(JSON.stringify(apiParams[0])), true, false);
         }
@@ -1978,66 +2072,68 @@ class ApiLibBase {
         // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
         return this.invokeRequest(currentParam, apiTag, sessionData)
             .then((result) => {
-                // console.log(`\n---invokeRequest-result---\n${JSON.stringify(result, null, 4)}\n---result---\n`)
-                apiResults.push(result);
-                if (!result.skipExecute) {
-                    MapsHelper.applySaveMaps(result, sessionData, currentParam.saveMaps);
-                    // clear sessionData to save memory
-                    delete result.sessionData;
-                    delete result.apiParam;
-                    if (result.debug === true || currentParam.debug === true || sessionData.debug === true) {
-                        if (sessionData.showResults) {
-                            ApiLibBase.displayResult(result, 'responseParam');
-                        }
-                        if (sessionData.showSessionData === true) {
-                            ApiLibBase.displayResult(sessionData, 'post api call sessionData');
-                        }
-                    }
-                    MapsHelper.applyNextHopMaps(currentParam, sessionData);
-                    // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
-                    if (currentParam.nextHopParams !== undefined && currentParam.nextHopParams.length > 0) {
-                        const nextApiTag = new ApiTag(apiTag);
-                        result.apiResults = [];
-                        return this.executeApiInternal(currentParam.nextHopParams, result.apiResults, nextApiTag, sessionData);
-                    }
-                } else if (result.skipExecute && result.nextHopOnly) {
-                    // clear sessionData to save memory
-                    delete result.sessionData;
-                    delete result.apiParam;
-                    MapsHelper.applyNextHopMaps(currentParam, sessionData);
-                    // console.log(`\n---applyNextHopMaps---\n${JSON.stringify(currentParam, null, 4)}\n---applyNextHopMaps---\n`)
-                    if (currentParam.nextHopParams !== undefined && currentParam.nextHopParams.length > 0) {
-                        // console.log(`\n---nextHopParams---\n${JSON.stringify(currentParam.nextHopParams, null, 4)}\n---nextHopParams---\n`)
-                        const nextApiTag = new ApiTag(apiTag);
-                        result.apiResults = [];
-                        return this.executeApiInternal(currentParam.nextHopParams, result.apiResults, nextApiTag, sessionData);
-                    }
-                }
+            // console.log(`\n---invokeRequest-result---\n${JSON.stringify(result, null, 4)}\n---result---\n`)
+            apiResults.push(result);
+            if (!result.skipExecute) {
+                MapsHelper.applySaveMaps(result, sessionData, currentParam.saveMaps);
                 // clear sessionData to save memory
                 delete result.sessionData;
                 delete result.apiParam;
-                return result;
-            })
+                if (result.debug === true || currentParam.debug === true || sessionData.debug === true) {
+                    if (sessionData.showResults) {
+                        ApiLibBase.displayResult(result, 'responseParam');
+                    }
+                    if (sessionData.showSessionData === true) {
+                        ApiLibBase.displayResult(sessionData, 'post api call sessionData');
+                    }
+                }
+                MapsHelper.applyNextHopMaps(currentParam, sessionData);
+                // console.log(`\n---currentParam---\n${JSON.stringify(currentParam, null, 4)}\n---currentParam---\n`)
+                if (currentParam.nextHopParams !== undefined && currentParam.nextHopParams.length > 0) {
+                    const nextApiTag = new ApiTag(apiTag);
+                    result.apiResults = [];
+                    return this.executeApiInternal(currentParam.nextHopParams, result.apiResults, nextApiTag, sessionData);
+                }
+            }
+            else if (result.skipExecute && result.nextHopOnly) {
+                // clear sessionData to save memory
+                delete result.sessionData;
+                delete result.apiParam;
+                MapsHelper.applyNextHopMaps(currentParam, sessionData);
+                // console.log(`\n---applyNextHopMaps---\n${JSON.stringify(currentParam, null, 4)}\n---applyNextHopMaps---\n`)
+                if (currentParam.nextHopParams !== undefined && currentParam.nextHopParams.length > 0) {
+                    // console.log(`\n---nextHopParams---\n${JSON.stringify(currentParam.nextHopParams, null, 4)}\n---nextHopParams---\n`)
+                    const nextApiTag = new ApiTag(apiTag);
+                    result.apiResults = [];
+                    return this.executeApiInternal(currentParam.nextHopParams, result.apiResults, nextApiTag, sessionData);
+                }
+            }
+            // clear sessionData to save memory
+            delete result.sessionData;
+            delete result.apiParam;
+            return result;
+        })
             .catch((result) => {
-                this.logMessage('Failed...');
-                if (result.httpStatus === undefined) {
-                    result.httpStatus = 601;
-                    // result.errorMessage = result.message || result.error;
-                    // result.errorStack = result.stack
-                    if (result.stack) console.log(result.stack);
-                }
-                // console.log(JSON.stringify(result, null, 4))
-                apiResults.push(result);
-                return result;
-            })
+            this.logMessage('Failed...');
+            if (result.httpStatus === undefined) {
+                result.httpStatus = 601;
+                // result.errorMessage = result.message || result.error;
+                // result.errorStack = result.stack
+                if (result.stack)
+                    console.log(result.stack);
+            }
+            // console.log(JSON.stringify(result, null, 4))
+            apiResults.push(result);
+            return result;
+        })
             .finally(() => {
-                // this.logMessage("Finally...");
-                if (nextParams.length > 0) {
-                    // console.log(nextParams)
-                    apiTag.next();
-                    return this.executeApiInternal(nextParams, apiResults, apiTag, sessionData);
-                }
-            });
+            // this.logMessage("Finally...");
+            if (nextParams.length > 0) {
+                // console.log(nextParams)
+                apiTag.next();
+                return this.executeApiInternal(nextParams, apiResults, apiTag, sessionData);
+            }
+        });
     }
     async executeApi(apiCommand) {
         const apiTag = new ApiTag();
@@ -2055,17 +2151,13 @@ class ApiLibBase {
         const propsList = [...ApiLibBase.maskList, ...props];
         console.log(`----${tag}----Start----`);
         dataArray.forEach((item) => {
-            console.log(
-                JSON.stringify(
-                    item,
-                    function (key, value) {
-                        // if (RES.CONFIG.PROPERTY_EXCLUDED.includes(key)) return '***';
-                        if (propsList.includes(key)) return '***';
-                        else return value;
-                    },
-                    4
-                )
-            );
+            console.log(JSON.stringify(item, function (key, value) {
+                // if (RES.CONFIG.PROPERTY_EXCLUDED.includes(key)) return '***';
+                if (propsList.includes(key))
+                    return '***';
+                else
+                    return value;
+            }, 4));
         });
         console.log(`----${tag}------End----`);
     }
@@ -2095,7 +2187,8 @@ class ApiLibBase {
         // load the apis commands file
         this.logMessage(`Load api command file: '${apiCommandFileName}'`);
         const apiCommand = await ApiCommand.file2Instance(apiCommandFileName, true, false);
-        if (this.configureSystemConfig) await this.configureSystemConfig(apiCommand.sessionData);
+        if (this.configureSystemConfig)
+            await this.configureSystemConfig(apiCommand.sessionData);
         // transfer the default flags from inputParam to sessionData
         apiCommand.sessionData.showSessionData = inputParam.showSessionData;
         apiCommand.sessionData.showResults = inputParam.showResults;
