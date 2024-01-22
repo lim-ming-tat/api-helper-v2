@@ -1,3 +1,5 @@
+#!/bin/sh
+
 # https://rollupjs.org/troubleshooting/#warning-treating-module-as-external-dependency
 
 # Workaround: remove "type": "module" so node does not complain about require in cjs
