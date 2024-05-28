@@ -51,12 +51,12 @@ describe('System plugins', () => {
 
         // remove {{ and }} from apiParam.parameter
         const match = apiParam_ifExists.parameter.match(/^{{(((?!}}.*{{).)*)}}$/);
-        const parameter = match ? match[1]: '';
+        const parameter = match ? match[1] : '';
         const commandKeyword = parameter.split(':')[0];
 
         // apiParam match plugin
         expect(classUnderTest_IfExists.isMatch(commandKeyword)).toBeTruthy();
-        
+
         const result = classUnderTest_IfExists.execute(apiParam_ifExists, dataSource, parameter);
         // console.log(JSON.stringify(dataSource, null, 4))
 
@@ -76,7 +76,7 @@ describe('System plugins', () => {
 
         // remove {{ and }} from apiParam.parameter
         const match = apiParam_ifNotExists.parameter.match(/^{{(((?!}}.*{{).)*)}}$/);
-        const parameter = match ? match[1]: '';
+        const parameter = match ? match[1] : '';
         const commandKeyword = parameter.split(':')[0];
 
         // apiParam match plugin

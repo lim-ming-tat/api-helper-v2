@@ -100,8 +100,7 @@ export abstract class ApiLibBase {
                     } else {
                         // propagate debug flag
                         if (sessionData.debug == true) responseParam.debug = true;
-                        else if (sessionData.debugList !== undefined)
-                            responseParam.debug = sessionData.debugList.includes(responseParam.apiTag) ? true : false;
+                        else if (sessionData.debugList !== undefined) responseParam.debug = sessionData.debugList.includes(responseParam.apiTag) ? true : false;
                         else responseParam.debug = false;
 
                         // overwrite debug flag based on caller debugList
@@ -204,10 +203,7 @@ export abstract class ApiLibBase {
                                             const replace = '{{' + ApiLibBase.regexpEscape(key) + '}}';
                                             const regex = new RegExp(replace, 'g');
 
-                                            jsonData = jsonData.replace(
-                                                regex,
-                                                _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key))
-                                            );
+                                            jsonData = jsonData.replace(regex, _.get({ apiParam: apiParam, sessionData: sessionData }, _.get(apiParam.textData.replaceMapper, key)));
                                         }
                                         postData = JSON.parse(jsonData);
                                     }
@@ -241,10 +237,7 @@ export abstract class ApiLibBase {
                                     this.logMessage(`Successful...${responseParam.apiTag}`);
                                     responseParam.endTime = DateTime.local();
 
-                                    if (responseParam.startTime)
-                                        responseParam.elapsed = responseParam.endTime
-                                            .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
-                                            .toObject();
+                                    if (responseParam.startTime) responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds']).toObject();
 
                                     responseParam.sessionData = sessionData;
 
@@ -320,12 +313,7 @@ export abstract class ApiLibBase {
         });
     }
 
-    private async executeApiInternal(
-        apiParams: ApiParam[],
-        apiResults: ResponseParam[],
-        apiTag: ApiTag,
-        sessionData: SessionDataBase
-    ): Promise<ResponseParam> {
+    private async executeApiInternal(apiParams: ApiParam[], apiResults: ResponseParam[], apiTag: ApiTag, sessionData: SessionDataBase): Promise<ResponseParam> {
         let currentParam: ApiParam;
         // let nextParams: Array<ApiParam>;
 
@@ -376,11 +364,7 @@ export abstract class ApiLibBase {
                     // match string with {{ and end with }}
                     if (typeof targetProp === 'string' && targetProp.match(/{{([^}]+)}}/)) {
                         const replacePattern = '{{' + item.parameter + '}}';
-                        _.set(
-                            currentParam,
-                            item.targetProperty,
-                            targetProp.replace(replacePattern, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter))
-                        );
+                        _.set(currentParam, item.targetProperty, targetProp.replace(replacePattern, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter)));
                     } else {
                         _.set(currentParam, item.targetProperty, _.get({ sessionData: sessionData, apiParam: currentParam }, item.parameter));
                     }
@@ -564,11 +548,7 @@ export abstract class ApiLibBase {
     //     return apiResponses;
     // }
 
-    protected async executeCommand(
-        apiCommandFileName: string,
-        inputParam: ApiParamBase,
-        callBackSessionData: (sessionData: SessionDataBase) => void
-    ): Promise<Array<ApiResponse>> {
+    protected async executeCommand(apiCommandFileName: string, inputParam: ApiParamBase, callBackSessionData: (sessionData: SessionDataBase) => void): Promise<Array<ApiResponse>> {
         // load the apis commands file
         this.logMessage(`Load api command file: '${apiCommandFileName}'`);
         const apiCommand = await ApiCommand.file2Instance(apiCommandFileName, true, false);

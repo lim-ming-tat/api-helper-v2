@@ -36,7 +36,7 @@ class TestPlugin extends PluginBase {
         // validate data and raise error if any
         // ApexJwt.validateData(ApexJwtParam, authParam);
         // console.log('validateSync Before...')
-        testParam.validateSync( [], item.data);
+        testParam.validateSync([], item.data);
 
         // const newValue = dataValue === undefined ? (paramData[2].toLocaleLowerCase() === 'true' ? true : false) : paramData[2].toLocaleLowerCase() === 'true' ? false : true;
 
@@ -50,7 +50,7 @@ class TestPlugin extends PluginBase {
 
 describe('PluginBase', () => {
     const classUnderTest_TestPlugin = new TestPlugin();
-    
+
     const dataSource: DataSource = {
         apiParam: new ApiParam(),
         sessionData: {},
@@ -59,11 +59,11 @@ describe('PluginBase', () => {
     dataSource.apiParam.parameters = {
         isExists: true,
         paramPath: 'apiParam.parameters.isExists',
-        
+
         paramData: {
             apiKey: 'key',
-            keyFile: 'key file'
-        }
+            keyFile: 'key file',
+        },
     };
 
     // const dataSourcex: DataSource = {
@@ -76,13 +76,12 @@ describe('PluginBase', () => {
     //         parameters: {
     //             isExists: true,
     //             paramPath: 'apiParam.parameters.isExists',
-                
+
     //             paramData: {
     //                 apiKey: 'key',
     //                 keyFile: 'key file'
     //             }
     //         },
-
 
     //         nextHopOnly: false,
     //         nextHopParams: [],
@@ -99,7 +98,7 @@ describe('PluginBase', () => {
         const apiParam_testPlugin: ApiParameter = {
             parameter: '{{testPlugin:apiParam.parameters.isExists:true:false}}',
             targetProperty: 'skipExecute',
-    
+
             data: 'apiParam.parameters.paramData',
 
             debug: dataSource.apiParam.debug,
@@ -108,7 +107,6 @@ describe('PluginBase', () => {
         const returnValue = classUnderTest_TestPlugin.execute(apiParam_testPlugin, dataSource, apiParam_testPlugin.parameter);
 
         expect(returnValue).toBeTruthy();
-
     });
 
     it('plugin (TestPlugin) apiParameter.data missing', async () => {
@@ -116,7 +114,7 @@ describe('PluginBase', () => {
         const apiParam_testPlugin: ApiParameter = {
             parameter: '{{testPlugin:{{apiParam.parameters.paramPath}}:true:false}}',
             targetProperty: 'skipExecute',
-    
+
             debug: dataSource.apiParam.debug,
         };
 
@@ -130,7 +128,7 @@ describe('PluginBase', () => {
         expect(sut).toThrow(SyntaxError);
         expect(sut).toThrow(syntaxError);
     });
-    
+
     it('plugin (TestPlugin) apiParameter.data refernce missing', async () => {
         // dataSource.apiParam.debugData = [];
         const apiParam_testPlugin: ApiParameter = {
@@ -160,7 +158,7 @@ describe('PluginBase', () => {
             targetProperty: 'skipExecute',
 
             data: 'apiParam.parameters',
-    
+
             debug: dataSource.apiParam.debug,
         };
 
