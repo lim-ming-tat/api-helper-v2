@@ -8,6 +8,9 @@
             },
             "case2": {
                 "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"sessionData.parameters.invalidData\",\n    \"targetProperty\": \"skipExecute\"\n}\n\nError Message:\n.parameter\n  parameter source is missing/undefined"
+            },
+            "case3": {
+                "expected": "Source:\n{\n    \"description\": \"execute test\",\n    \"parameter\": \"sessionData.parameters.invalidData\",\n    \"targetProperty\": \"skipExecute\",\n    \"ignoreWhenNotExist\": false\n}\n\nError Message:\n.parameter\n  parameter source is missing/undefined"
             }
         }    
     },
@@ -18,7 +21,7 @@
         
             "parametersMaps": [
                 {
-                    "description": "invalid command test",
+                    "description": "case1 - invalid command test",
                     "parameter": "sessionData.test.case1.expected",
                     "targetProperty": "parameters.expected"
                 },
@@ -29,7 +32,7 @@
                 },
 
                 {
-                    "description": "invalid data source test",
+                    "description": "case2 - invalid data source test",
                     "parameter": "sessionData.test.case2.expected",
                     "targetProperty": "parameters.expected"
                 },
@@ -37,6 +40,18 @@
                     "description": "execute test",
                     "parameter" : "sessionData.parameters.invalidData",
                     "targetProperty" : "skipExecute"
+                },
+
+                {
+                    "description": "case3 - invalid data source test with ignoreWhenNotExist set to false",
+                    "parameter": "sessionData.test.case3.expected",
+                    "targetProperty": "parameters.expected"
+                },
+                {
+                    "description": "execute test",
+                    "parameter" : "sessionData.parameters.invalidData",
+                    "targetProperty" : "skipExecute",
+                    "ignoreWhenNotExist": false
                 }
             ],
     
