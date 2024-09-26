@@ -109,7 +109,7 @@ __decorate$2([
     __metadata$2("design:type", Array)
 ], ArrayValidator.prototype, "array", void 0);
 
-const __filename$2 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
+const __filename$2 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
 const __dirname$1 = path.dirname(__filename$2);
 class Helper {
     static getFullPath(folderPath) {
@@ -701,8 +701,7 @@ class MapsHelper {
                                 saveMap.properties.forEach((propertyMap) => {
                                     if (propertyMap.propertyName !== undefined) {
                                         // source data from sessionData or apiParam
-                                        if (propertyMap.propertyName.startsWith('sessionData.') ||
-                                            propertyMap.propertyName.startsWith('apiParam.')) {
+                                        if (propertyMap.propertyName.startsWith('sessionData.') || propertyMap.propertyName.startsWith('apiParam.')) {
                                             // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
                                             // source and target array must be same length, else it will set to empty
                                             let propertyName = propertyMap.propertyName;
@@ -931,9 +930,10 @@ class MapsHelper {
             // TODO: original design does not throw error when input parameter is missing
             if (newValue === undefined) {
                 // console.log(`Parameter missing, input parameter '${item.parameter}' not found.`);
+                // console.log(`Parameter missing, input parameter '${JSON.stringify(item, null, 4)}' not found.`);
                 // console.log(`\n------\n${ApiLibrary.displayResult([dataSource], '')}\n------\n`);
                 // throw new Error(`Parameter missing, input parameter '${JSON.stringify(item)}' not found.`);
-                if (item.ignoreWhenNotExist === false) {
+                if (item.ignoreWhenNotExist !== true) {
                     throw new TypeError(this.formatErrorMessage(item, 'parameter source is missing/undefined', 'parameter'));
                     // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
                 }
@@ -1141,7 +1141,7 @@ MapsHelper.plugins = [new IfExists(), new IfNotExists(), new IfTrue(), new IfFal
 
 // https://devdojo.com/discoverlance/snippet/form-validation-with-class-validator-1
 // ref: https://bkerr.dev/blog/declarative-validation-for-express-apis-with-class-validator-and-class-transformer/
-const __filename$1 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
+const __filename$1 = url.fileURLToPath((typeof document === 'undefined' ? require('url').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('api-helper-v2-bundle.cjs', document.baseURI).href)));
 path.dirname(__filename$1);
 class DtoBase {
     static async validateData(input, groups) {
@@ -1924,9 +1924,7 @@ class ApiLibBase {
                                 this.logMessage(`Successful...${responseParam.apiTag}`);
                                 responseParam.endTime = luxon.DateTime.local();
                                 if (responseParam.startTime)
-                                    responseParam.elapsed = responseParam.endTime
-                                        .diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds'])
-                                        .toObject();
+                                    responseParam.elapsed = responseParam.endTime.diff(responseParam.startTime, ['minutes', 'seconds', 'milliseconds']).toObject();
                                 responseParam.sessionData = sessionData;
                                 responseParam.httpStatus = res.status;
                                 // responseParam.response = res

@@ -136,7 +136,7 @@ describe('DtoBase', () => {
     it('dtoBase plain2Instance return instance of derived type (TestParam)', async () => {
         const plain = {
             apiKey: 'apikey-value',
-            keyFile: 'filename-value'
+            keyFile: 'filename-value',
         };
         const dto = await TestParam.plain2Instance(plain);
         expect(dto).toBeInstanceOf(TestParam);
@@ -144,16 +144,16 @@ describe('DtoBase', () => {
     it('dtoBase plain2Instance throw data validatio errors', async () => {
         const plain = {
             apiKey: 'apikey-value',
-            keyFile: undefined
+            keyFile: undefined,
         };
         const validationError = 'Data validation errors';
         const dve = {
             errorCode: 500,
             errors: [
                 {
-                    'data.keyFile': ['keyFile should not be empty', 'keyFile must be a string']
-                }
-            ]
+                    'data.keyFile': ['keyFile should not be empty', 'keyFile must be a string'],
+                },
+            ],
         };
         const sut = async () => {
             await TestParam.plain2Instance(plain);
@@ -161,7 +161,7 @@ describe('DtoBase', () => {
         expect(sut).rejects.toThrow(ValidationException);
         expect(sut).rejects.toThrow(validationError);
         // expect(sut).rejects.toMatch(dve);
-        sut().catch(e => {
+        sut().catch((e) => {
             // console.log(e.details)
             expect(JSON.stringify(e.details)).toBe(JSON.stringify(dve));
         });
