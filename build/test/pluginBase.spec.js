@@ -70,8 +70,8 @@ describe('PluginBase', () => {
         paramPath: 'apiParam.parameters.isExists',
         paramData: {
             apiKey: 'key',
-            keyFile: 'key file'
-        }
+            keyFile: 'key file',
+        },
     };
     // const dataSourcex: DataSource = {
     //     apiParam: {

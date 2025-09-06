@@ -370,8 +370,7 @@ export class MapsHelper {
                                 saveMap.properties.forEach((propertyMap) => {
                                     if (propertyMap.propertyName !== undefined) {
                                         // source data from sessionData or apiParam
-                                        if (propertyMap.propertyName.startsWith('sessionData.') ||
-                                            propertyMap.propertyName.startsWith('apiParam.')) {
+                                        if (propertyMap.propertyName.startsWith('sessionData.') || propertyMap.propertyName.startsWith('apiParam.')) {
                                             // assign each value in source array to each target array item, i.e. sourceItem 1 map to targetItem 1
                                             // source and target array must be same length, else it will set to empty
                                             let propertyName = propertyMap.propertyName;
@@ -600,9 +599,10 @@ export class MapsHelper {
             // TODO: original design does not throw error when input parameter is missing
             if (newValue === undefined) {
                 // console.log(`Parameter missing, input parameter '${item.parameter}' not found.`);
+                // console.log(`Parameter missing, input parameter '${JSON.stringify(item, null, 4)}' not found.`);
                 // console.log(`\n------\n${ApiLibrary.displayResult([dataSource], '')}\n------\n`);
                 // throw new Error(`Parameter missing, input parameter '${JSON.stringify(item)}' not found.`);
-                if (item.ignoreWhenNotExist === false) {
+                if (item.ignoreWhenNotExist !== true) {
                     throw new TypeError(this.formatErrorMessage(item, 'parameter source is missing/undefined', 'parameter'));
                     // throw new TypeError(this.formatErrorMessage({ item: item, dataSource: dataSource }, 'parameter source is missing/undefined', 'parameter'));
                 }
